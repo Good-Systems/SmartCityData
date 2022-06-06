@@ -1,0 +1,36 @@
+﻿City,State-Abbr.,API-site,Working
+Austin,TX,data.austintexas.gov,Yes
+Austin,MN,bronx.lehman.cuny.edu,Yes
+Seattle,WA,data.seattle.gov,Yes
+Chicago,IL,data.cityofchicago.org,Yes
+Honolulu,HI,data.honolulu.gov,No
+Montgomery,AL,data.montgomerycountymd.gov,
+Colorado,CO,data.colorado.gov,
+Connecticut,CT,data.ct.gov,
+Hartford,CT,hartstat.hartford.gov,
+Wellington,FL,data.wellingtonfl.gov,
+Miami,FL,opendata.miamidade.gov,
+Iowa,IA,data.iowa.gov,
+Illinois,IL,data.illinois.gov,
+Olathe,KA,data.olatheks.org,
+New Orleans,LA,data.nola.gov,
+Cook County,IL,datacatalog.cookcountyil.gov,
+Boston,MA,data.cityofboston.gov,
+Cambridge,MA,data.cambridgema.gov,
+Somerville,MA,data.somervillema.gov,
+Baltimore,MD,data.baltimorecity.gov,
+Maryland,MD,data.maryland.gov,
+Howard County,MD,opendata.howardcountymd.gov,
+Prince George County,MD,data.princegeorgescountymd.gov,
+Detroit,MI,data.detroitmi.gov,
+Michigan,MI,data.michigan.gov,
+Missouri,MO,data.mo.gov,
+Raleigh,NC,data.raleighnc.gov,
+Las Vegas,NV,opendata.lasvegasnevada.gov,
+New York City,NY,data.cityofnewyork.us,
+Cincinnati,OH,data.cincinnati-oh.gov,
+Oklahoma,OK,data.ok.gov,
+Oregon,OR,data.oregon.gov,
+Philadephia,PA,phila.gov,
+Los Angeles,CA,data.lacity.org,
+Dallas,TX,dallasopendata.com,

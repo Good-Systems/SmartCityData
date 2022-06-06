@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>State: {{ state }}, City: {{ city }}, Topic: {{ topic }}</h1> 
+    <body> 
+        {% for table in tables %}
+            {{titles[loop.index]}}
+            {{ table|safe }}
+        {% endfor %}
+    </body>
+    Download: <input type='text' name='selectdata' id ='content'> <input type = "submit"> <input type="button" value="Go back!" onclick="history.back()"> <form> </form>
+    
+    <br></br>
+    
+    <iframe class="map", src="/map" width="600" height="600"></iframe>
+    
+</body>
+</html>

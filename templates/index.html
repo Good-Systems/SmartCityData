@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Data Collection</title>
+{% endblock %}
+
+{% block body %}
+<div class = "content">
+    <h1> Data Collection </h1>
+    {% if tasks|length < 1%}
+    <h4>There is no data selected.</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Added</th>
+            <th>Actions</th>
+        </tr>
+        {%for task in tasks %}
+            <tr>
+                <td>{{task.content}}</td>
+                <td>{{task.date_created.date()}}</td>
+                <td>
+                    <a href = "/delete/{{task.id}}">Delete</a>
+                    <br>
+                    <a href = "/update/{{task.id}}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}  
+    </table>
+    {% endif %}  
+
+    <form method = 'POST'>
+        {{ form.csrf_token }}
+        <p>State: {{ form.state }} City: {{ form.city }} Topic: <input type='text' name='content_topic' id ='content'> <input type = "submit"></p>
+    </form>
+    <script>
+        let state_select = document.getElementById('state');
+        let city_select = document.getElementById('city');
+        let content_topic = document.getElementById('topic');
+        state_select.onchange = function() {
+            state = state_select.value;
+            
+            fetch('/city/'+state).then(function(response){
+                response.json().then(function(data){
+                    let optionHTML = '';
+
+                    for (let city of data.cities){
+                        optionHTML += '<option value="' + city.id + '">' + city.name + '</option>';
+                    }
+                    city_select.innerHTML = optionHTML;
+                });
+            });
+        }
+    </script>
+    <!---<iframe class="map", src="/map" width="600" height="600"></iframe>--->
+
+</div>
+{% endblock %}
