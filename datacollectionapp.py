@@ -11,6 +11,7 @@ from sodapy import Socrata
 from sys import exit
 import pandas as pd
 import numpy as np
+from sqlalchemy import null
 import urllib3
 import json
 
@@ -58,9 +59,10 @@ def mainprogram(a,b,c):
     stoprg = 0
     
     city_domain = str(search(a,b,c))
-
-    #TODO: return back to the search site
-
+    if city_domain == '':
+        # empty_df = pd.DataFrame(None, None)
+        # return empty_df
+        return None
     http = urllib3.PoolManager()
 
     #?domains=data.austintexas.gov'
@@ -68,27 +70,21 @@ def mainprogram(a,b,c):
 
 
     request_site = 'https://api.us.socrata.com/api/catalog/v1'+ city_domain
-    print(request_site)
     
     request = http.request('GET',request_site)
 
     #response_body = urlopen(request).read()
     data = json.loads(request.data)
-    if city_domain == '':
-        print("No result found.")
-        return
-    else: 
-        results_df = pd.json_normalize(data['results'])
 
-    #print(data)
-    # while True: 
-    #     try:
-    #         results_df = pd.json_normalize(data['results'])
-    #         break
-    #     except KeyError:
-    #         print("No result found.")
-    #         print()
-    #         # main()
+
+    # results_df = pd.json_normalize(data['results'])
+
+    # print(data)
+    while True: 
+        results_df = pd.json_normalize(data['results'])
+        if results_df.size == 0:
+            return results_df
+        break
             
     #DataFrame.from_records(str(request.data))
     
@@ -103,7 +99,7 @@ def mainprogram(a,b,c):
     #print(a[['Index','Name']].to_string(index=False))
     return a
     #results_df.to_csv('results_test.csv')
-    print()
+    # print()
     
     '''
     #download the datasets process into a csv (need to move to a function)

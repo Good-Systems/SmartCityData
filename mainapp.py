@@ -19,7 +19,7 @@ db = SQLAlchemy(app)
 
 #Creating the SQL database from CSV file if TRUE (Unfinished)
 citycsv = pd.read_csv('city_api_list.csv', index_col=False)
-# citycsv = citycsv.drop(citycsv[(citycsv.Working != "Yes")].index)
+citycsv = citycsv.drop(citycsv[(citycsv.Working != "Yes")].index)
 
 
 
@@ -39,7 +39,7 @@ def choice_query():
 
 class Form(FlaskForm):
     #state = QuerySelectField(query_factory=choice_query,allow_blank=True)
-    state = SelectField('state', choices=[('CA','California'),('TX','Texas'), ('NV', 'Nevada')])
+    state = SelectField('state', choices=[('CA','California'),('TX','Texas'), ('MN', 'Minnesota'), ('WA','Washington')])
     city = SelectField('city',choices=[])
 
 
@@ -55,7 +55,8 @@ def index():
         m = folium.Map(location=[30.2672,-97.7431],zoom_start=14)
         m.save('templates/map.html')
         returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
-        
+        if returnlist is None or returnlist.size == 0:
+             return render_template('index.html',form=form)
         return render_template('dataresults.html', form = form, city = city.name, state = form.state.data, topic = request.form['content_topic'], tables=[returnlist.to_html(classes='data', index = False, header = True, justify='center', render_links=True)], titles=returnlist.columns.values)
                                                                                                                                                     
     #tables=[returnlist.to_html(classes='data')], titles=returnlist.columns.values

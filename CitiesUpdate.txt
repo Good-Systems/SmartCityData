@@ -1,0 +1,105 @@
+INSERT INTO city (id, state, name)
+VALUES (1, 'TX', 'Austin');
+
+INSERT INTO city (id, state, name)
+VALUES (2, 'MN', 'Austin');
+
+INSERT INTO city (id, state, name)
+VALUES (3, 'WA', 'Seattle');
+
+INSERT INTO city (id, state, name)
+VALUES (4, 'IL', 'Chicago');
+
+INSERT INTO city (id, state, name)
+VALUES (5, 'HI', 'Honolulu');
+
+INSERT INTO city (id, state, name)
+VALUES (6, 'AL', 'Montgomery');
+
+INSERT INTO city (id, state, name)
+VALUES (7, 'CO', 'Colorado');
+
+INSERT INTO city (id, state, name)
+VALUES (8, 'CT', 'Connecticut');
+
+INSERT INTO city (id, state, name)
+VALUES (9, 'CT', 'Hartford');
+
+INSERT INTO city (id, state, name)
+VALUES (10, 'FL', 'Wellington');
+
+INSERT INTO city (id, state, name)
+VALUES (11, 'FL', 'Miami');
+
+INSERT INTO city (id, state, name)
+VALUES (12, 'IA', 'Iowa');
+
+INSERT INTO city (id, state, name)
+VALUES (13, 'IL', 'Illinois');
+
+INSERT INTO city (id, state, name)
+VALUES (14, 'KA', 'Olathe');
+
+INSERT INTO city (id, state, name)
+VALUES (15, 'LA', 'New Orleans');
+
+INSERT INTO city (id, state, name)
+VALUES (16, 'IL', 'Cook County');
+
+INSERT INTO city (id, state, name)
+VALUES (17, 'MA', 'Boston');
+
+INSERT INTO city (id, state, name)
+VALUES (18, 'MA', 'Cambridge');
+
+INSERT INTO city (id, state, name)
+VALUES (19, 'MA', 'Somerville');
+
+INSERT INTO city (id, state, name)
+VALUES (20, 'MD', 'Baltimore');
+
+INSERT INTO city (id, state, name)
+VALUES (21, 'MD', 'Maryland');
+
+INSERT INTO city (id, state, name)
+VALUES (22, 'MD', 'Howard County');
+
+INSERT INTO city (id, state, name)
+VALUES (23, 'MD', 'Prince George County');
+
+INSERT INTO city (id, state, name)
+VALUES (24, 'MI', 'Detroit');
+
+INSERT INTO city (id, state, name)
+VALUES (25, 'MI', 'Michigan');
+
+INSERT INTO city (id, state, name)
+VALUES (26, 'MO', 'Missouri');
+
+INSERT INTO city (id, state, name)
+VALUES (27, 'NC', 'Raleigh');
+
+INSERT INTO city (id, state, name)
+VALUES (28, 'NV', 'Las Vegas');
+
+INSERT INTO city (id, state, name)
+VALUES (29, 'NY', 'New York City');
+
+INSERT INTO city (id, state, name)
+VALUES (30, 'OH', 'Cincinnati');
+
+INSERT INTO city (id, state, name)
+VALUES (31, 'OK', 'Oklahoma');
+
+INSERT INTO city (id, state, name)
+VALUES (32, 'OR', 'Oregon');
+
+INSERT INTO city (id, state, name)
+VALUES (33, 'PA', 'Philadephia');
+
+INSERT INTO city (id, state, name)
+VALUES (34, 'CA', 'Los Angeles');
+
+INSERT INTO city (id, state, name)
+VALUES (35, 'TX', 'Dallas');
+
