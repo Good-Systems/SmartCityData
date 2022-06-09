@@ -67,8 +67,6 @@ def mainprogram(a,b,c):
 
     #?domains=data.austintexas.gov'
    
-
-
     request_site = 'https://api.us.socrata.com/api/catalog/v1'+ city_domain
     
     request = http.request('GET',request_site)

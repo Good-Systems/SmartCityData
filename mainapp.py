@@ -35,13 +35,12 @@ class City(db.Model):
         return '{}'.format(self.state)
 
 def choice_query():
-    return City.query
+    return City.query.distinct()
 
 class Form(FlaskForm):
-    #state = QuerySelectField(query_factory=choice_query,allow_blank=True)
-    state = SelectField('state', choices=[('CA','California'),('TX','Texas'), ('MN', 'Minnesota'), ('WA','Washington')])
+    # state = QuerySelectField(query_factory=choice_query,allow_blank=True)
+    state = SelectField('state', choices=[('AL', 'Alabama'),('AK', 'Alaska'),('AZ', 'Arizona'),('AR', 'Arkansas'),('CA', 'California'),('CZ', 'Canal Zone'),('CO', 'Colorado'),('CT', 'Connecticut'),('DE', 'Delaware'),('DC', 'District of Columbia'),('FL', 'Florida'),('GA', 'Georgia'),('GU', 'Guam'),('HI', 'Hawaii'),('ID', 'Idaho'),('IL', 'Illinois'),('IN', 'Indiana'),('IA', 'Iowa'),('KS', 'Kansas'),('KY', 'Kentucky'),('LA', 'Louisiana'),('ME', 'Maine'),('MD', 'Maryland'),('MA', 'Massachusetts'),('MI', 'Michigan'),('MN', 'Minnesota'),('MS', 'Mississippi'),('MO', 'Missouri'),('MT', 'Montana'),('NE', 'Nebraska'),('NV', 'Nevada'),('NH', 'New Hampshire'),('NJ', 'New Jersey'),('NM', 'New Mexico'),('NY', 'New York'),('NC', 'North Carolina'),('ND', 'North Dakota'),('OH', 'Ohio'),('OK', 'Oklahoma'),('OR', 'Oregon'),('PA', 'Pennsylvania'),('PR', 'Puerto Rico'),('RI', 'Rhode Island'),('SC', 'South Carolina'),('SD', 'South Dakota'),('TN', 'Tennessee'),('TX', 'Texas'),('UT', 'Utah'),('VT', 'Vermont'),('VI', 'Virgin Islands'),('VA', 'Virginia'),('WA', 'Washington'),('WV', 'West Virginia'),('WI', 'Wisconsin'),('WY', 'Wyoming')])
     city = SelectField('city',choices=[])
-
 
 @app.route('/', methods = ['POST','GET'])
 
@@ -56,8 +55,8 @@ def index():
         m.save('templates/map.html')
         returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
         if returnlist is None or returnlist.size == 0:
-             return render_template('index.html',form=form)
-        return render_template('dataresults.html', form = form, city = city.name, state = form.state.data, topic = request.form['content_topic'], tables=[returnlist.to_html(classes='data', index = False, header = True, justify='center', render_links=True)], titles=returnlist.columns.values)
+            return render_template('index.html',form=form)
+        return render_template('dataresults.html', form = form, city = city.name, state = form.state.name, topic = request.form['content_topic'], tables=[returnlist.to_html(classes='data', index = False, header = True, justify='center', render_links=True)], titles=returnlist.columns.values)
                                                                                                                                                     
     #tables=[returnlist.to_html(classes='data')], titles=returnlist.columns.values
 
