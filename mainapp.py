@@ -46,7 +46,7 @@ class Form(FlaskForm):
 
 def index():
     form = Form()
-    form.city.choices = [(city.id, city.name) for city in City.query.filter_by(state = 'CA').all()]
+    form.city.choices = [(city.id, city.name) for city in City.query.filter_by(state = 'AL').all()]
 
     if request.method == 'POST':
         city = City.query.filter_by(id=form.city.data).first()
