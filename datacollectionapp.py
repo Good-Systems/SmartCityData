@@ -22,7 +22,7 @@ def search(a,b,c):
     print("If searching a state government type state name in city and state feilds")
     city = a
     state = b
-    category_name = c
+    topic_name = c
     
     city_api_list = pd.read_csv("city_api_list.csv", index_col = False)
         
@@ -39,9 +39,9 @@ def search(a,b,c):
         x = str(x).split()
         # x = austintx
         x = x[1]
-        # var = ?search_contextaustintexastransport
+        # var = ?search_context=austintexastransport
         var = '?search_context=' + str(x)
-        var = var + '&q=' + str(category_name)
+        var = var + '&q=' + str(topic_name)
         print(var)
 
     

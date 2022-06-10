@@ -1,0 +1,1000 @@
+[{"id":"0100000US","name":"United States","type":"nation","population":"311536594"}
+,{"id":"0200000US1","name":"Northeast Region","type":"region","population":"55564549"}
+,{"id":"0200000US2","name":"Midwest Region","type":"region","population":"67148157"}
+,{"id":"0200000US3","name":"South Region","type":"region","population":"116015264"}
+,{"id":"0200000US4","name":"West Region","type":"region","population":"72808624"}
+,{"id":"0300000US1","name":"New England Division","type":"division","population":"14513709"}
+,{"id":"0300000US2","name":"Middle Atlantic Division","type":"division","population":"41050840"}
+,{"id":"0300000US3","name":"East North Central Division","type":"division","population":"46505971"}
+,{"id":"0300000US4","name":"West North Central Division","type":"division","population":"20642186"}
+,{"id":"0300000US5","name":"South Atlantic Division","type":"division","population":"60548943"}
+,{"id":"0300000US6","name":"East South Central Division","type":"division","population":"18539869"}
+,{"id":"0300000US7","name":"West South Central Division","type":"division","population":"36926452"}
+,{"id":"0300000US8","name":"Mountain Division","type":"division","population":"22364529"}
+,{"id":"0300000US9","name":"Pacific Division","type":"division","population":"50444095"}
+,{"id":"0400000US01","name":"Alabama","type":"state","population":"4799277"}
+,{"id":"0400000US02","name":"Alaska","type":"state","population":"720316"}
+,{"id":"0400000US04","name":"Arizona","type":"state","population":"6479703"}
+,{"id":"0400000US05","name":"Arkansas","type":"state","population":"2933369"}
+,{"id":"0400000US06","name":"California","type":"state","population":"37659181"}
+,{"id":"0400000US08","name":"Colorado","type":"state","population":"5119329"}
+,{"id":"0400000US09","name":"Connecticut","type":"state","population":"3583561"}
+,{"id":"0400000US10","name":"Delaware","type":"state","population":"908446"}
+,{"id":"0400000US11","name":"District of Columbia","type":"state","population":"619371"}
+,{"id":"0400000US12","name":"Florida","type":"state","population":"19091156"}
+,{"id":"0400000US13","name":"Georgia","type":"state","population":"9810417"}
+,{"id":"0400000US15","name":"Hawaii","type":"state","population":"1376298"}
+,{"id":"0400000US16","name":"Idaho","type":"state","population":"1583364"}
+,{"id":"0400000US17","name":"Illinois","type":"state","population":"12848554"}
+,{"id":"0400000US18","name":"Indiana","type":"state","population":"6514861"}
+,{"id":"0400000US19","name":"Iowa","type":"state","population":"3062553"}
+,{"id":"0400000US20","name":"Kansas","type":"state","population":"2868107"}
+,{"id":"0400000US21","name":"Kentucky","type":"state","population":"4361333"}
+,{"id":"0400000US22","name":"Louisiana","type":"state","population":"4567968"}
+,{"id":"0400000US23","name":"Maine","type":"state","population":"1328320"}
+,{"id":"0400000US24","name":"Maryland","type":"state","population":"5834299"}
+,{"id":"0400000US25","name":"Massachusetts","type":"state","population":"6605058"}
+,{"id":"0400000US26","name":"Michigan","type":"state","population":"9886095"}
+,{"id":"0400000US27","name":"Minnesota","type":"state","population":"5347740"}
+,{"id":"0400000US28","name":"Mississippi","type":"state","population":"2976872"}
+,{"id":"0400000US29","name":"Missouri","type":"state","population":"6007182"}
+,{"id":"0400000US30","name":"Montana","type":"state","population":"998554"}
+,{"id":"0400000US31","name":"Nebraska","type":"state","population":"1841625"}
+,{"id":"0400000US32","name":"Nevada","type":"state","population":"2730066"}
+,{"id":"0400000US33","name":"New Hampshire","type":"state","population":"1319171"}
+,{"id":"0400000US34","name":"New Jersey","type":"state","population":"8832406"}
+,{"id":"0400000US35","name":"New Mexico","type":"state","population":"2069706"}
+,{"id":"0400000US36","name":"New York","type":"state","population":"19487053"}
+,{"id":"0400000US37","name":"North Carolina","type":"state","population":"9651380"}
+,{"id":"0400000US38","name":"North Dakota","type":"state","population":"689781"}
+,{"id":"0400000US39","name":"Ohio","type":"state","population":"11549590"}
+,{"id":"0400000US40","name":"Oklahoma","type":"state","population":"3785742"}
+,{"id":"0400000US41","name":"Oregon","type":"state","population":"3868721"}
+,{"id":"0400000US42","name":"Pennsylvania","type":"state","population":"12731381"}
+,{"id":"0400000US44","name":"Rhode Island","type":"state","population":"1051695"}
+,{"id":"0400000US45","name":"South Carolina","type":"state","population":"4679602"}
+,{"id":"0400000US46","name":"South Dakota","type":"state","population":"825198"}
+,{"id":"0400000US47","name":"Tennessee","type":"state","population":"6402387"}
+,{"id":"0400000US48","name":"Texas","type":"state","population":"25639373"}
+,{"id":"0400000US49","name":"Utah","type":"state","population":"2813673"}
+,{"id":"0400000US50","name":"Vermont","type":"state","population":"625904"}
+,{"id":"0400000US51","name":"Virginia","type":"state","population":"8100653"}
+,{"id":"0400000US53","name":"Washington","type":"state","population":"6819579"}
+,{"id":"0400000US54","name":"West Virginia","type":"state","population":"1853619"}
+,{"id":"0400000US55","name":"Wisconsin","type":"state","population":"5706871"}
+,{"id":"0400000US56","name":"Wyoming","type":"state","population":"570134"}
+,{"id":"0400000US72","name":"Puerto Rico","type":"state","population":"3682966"}
+,{"id":"0500000US01001","name":"Autauga County, AL","type":"county","population":"54907"}
+,{"id":"0500000US01003","name":"Baldwin County, AL","type":"county","population":"187114"}
+,{"id":"0500000US01005","name":"Barbour County, AL","type":"county","population":"27321"}
+,{"id":"0500000US01007","name":"Bibb County, AL","type":"county","population":"22754"}
+,{"id":"0500000US01009","name":"Blount County, AL","type":"county","population":"57623"}
+,{"id":"0500000US01011","name":"Bullock County, AL","type":"county","population":"10746"}
+,{"id":"0500000US01013","name":"Butler County, AL","type":"county","population":"20624"}
+,{"id":"0500000US01015","name":"Calhoun County, AL","type":"county","population":"117714"}
+,{"id":"0500000US01017","name":"Chambers County, AL","type":"county","population":"34145"}
+,{"id":"0500000US01019","name":"Cherokee County, AL","type":"county","population":"26034"}
+,{"id":"0500000US01021","name":"Chilton County, AL","type":"county","population":"43744"}
+,{"id":"0500000US01023","name":"Choctaw County, AL","type":"county","population":"13687"}
+,{"id":"0500000US01025","name":"Clarke County, AL","type":"county","population":"25573"}
+,{"id":"1600000US0115640","name":"Clio, AL","type":"place","population":"1633"}
+,{"id":"0500000US01027","name":"Clay County, AL","type":"county","population":"13703"}
+,{"id":"0500000US01029","name":"Cleburne County, AL","type":"county","population":"14945"}
+,{"id":"0500000US01031","name":"Coffee County, AL","type":"county","population":"50468"}
+,{"id":"0500000US01033","name":"Colbert County, AL","type":"county","population":"54456"}
+,{"id":"0500000US01035","name":"Conecuh County, AL","type":"county","population":"13104"}
+,{"id":"0500000US01037","name":"Coosa County, AL","type":"county","population":"11198"}
+,{"id":"0500000US01039","name":"Covington County, AL","type":"county","population":"37847"}
+,{"id":"0500000US01041","name":"Crenshaw County, AL","type":"county","population":"13955"}
+,{"id":"0500000US01043","name":"Cullman County, AL","type":"county","population":"80499"}
+,{"id":"0500000US01045","name":"Dale County, AL","type":"county","population":"50102"}
+,{"id":"0500000US01047","name":"Dallas County, AL","type":"county","population":"43091"}
+,{"id":"0500000US01049","name":"DeKalb County, AL","type":"county","population":"71076"}
+,{"id":"0500000US01051","name":"Elmore County, AL","type":"county","population":"79895"}
+,{"id":"0500000US01053","name":"Escambia County, AL","type":"county","population":"38169"}
+,{"id":"0500000US01055","name":"Etowah County, AL","type":"county","population":"104260"}
+,{"id":"0500000US01057","name":"Fayette County, AL","type":"county","population":"17110"}
+,{"id":"0500000US01059","name":"Franklin County, AL","type":"county","population":"31666"}
+,{"id":"0500000US01061","name":"Geneva County, AL","type":"county","population":"26791"}
+,{"id":"0500000US01063","name":"Greene County, AL","type":"county","population":"8934"}
+,{"id":"0500000US01065","name":"Hale County, AL","type":"county","population":"15594"}
+,{"id":"0500000US01067","name":"Henry County, AL","type":"county","population":"17308"}
+,{"id":"0500000US01069","name":"Houston County, AL","type":"county","population":"102326"}
+,{"id":"0500000US01071","name":"Jackson County, AL","type":"county","population":"53171"}
+,{"id":"0500000US01073","name":"Jefferson County, AL","type":"county","population":"658552"}
+,{"id":"0500000US01075","name":"Lamar County, AL","type":"county","population":"14396"}
+,{"id":"0500000US01077","name":"Lauderdale County, AL","type":"county","population":"92666"}
+,{"id":"0500000US01079","name":"Lawrence County, AL","type":"county","population":"34009"}
+,{"id":"0500000US01081","name":"Lee County, AL","type":"county","population":"144405"}
+,{"id":"0500000US01083","name":"Limestone County, AL","type":"county","population":"85264"}
+,{"id":"0500000US01085","name":"Lowndes County, AL","type":"county","population":"11086"}
+,{"id":"0500000US01087","name":"Macon County, AL","type":"county","population":"20803"}
+,{"id":"0500000US01089","name":"Madison County, AL","type":"county","population":"339279"}
+,{"id":"0500000US01091","name":"Marengo County, AL","type":"county","population":"20669"}
+,{"id":"0500000US01093","name":"Marion County, AL","type":"county","population":"30615"}
+,{"id":"0500000US01095","name":"Marshall County, AL","type":"county","population":"93699"}
+,{"id":"0500000US01097","name":"Mobile County, AL","type":"county","population":"413188"}
+,{"id":"0500000US01099","name":"Monroe County, AL","type":"county","population":"22778"}
+,{"id":"0500000US01101","name":"Montgomery County, AL","type":"county","population":"228980"}
+,{"id":"0500000US01103","name":"Morgan County, AL","type":"county","population":"119673"}
+,{"id":"0500000US01105","name":"Perry County, AL","type":"county","population":"10390"}
+,{"id":"0500000US01107","name":"Pickens County, AL","type":"county","population":"19516"}
+,{"id":"0500000US01109","name":"Pike County, AL","type":"county","population":"32977"}
+,{"id":"0500000US01111","name":"Randolph County, AL","type":"county","population":"22819"}
+,{"id":"0500000US01113","name":"Russell County, AL","type":"county","population":"55544"}
+,{"id":"0500000US01115","name":"St. Clair County, AL","type":"county","population":"84521"}
+,{"id":"0500000US01117","name":"Shelby County, AL","type":"county","population":"198366"}
+,{"id":"0500000US01119","name":"Sumter County, AL","type":"county","population":"13552"}
+,{"id":"0500000US01121","name":"Talladega County, AL","type":"county","population":"81845"}
+,{"id":"0500000US01123","name":"Tallapoosa County, AL","type":"county","population":"41428"}
+,{"id":"0500000US01125","name":"Tuscaloosa County, AL","type":"county","population":"196824"}
+,{"id":"0500000US01127","name":"Walker County, AL","type":"county","population":"66622"}
+,{"id":"0500000US01129","name":"Washington County, AL","type":"county","population":"17284"}
+,{"id":"0500000US01131","name":"Wilcox County, AL","type":"county","population":"11531"}
+,{"id":"0500000US01133","name":"Winston County, AL","type":"county","population":"24342"}
+,{"id":"0500000US02013","name":"Aleutians East Borough, AK","type":"county","population":"3141"}
+,{"id":"0500000US02016","name":"Aleutians West Census Area, AK","type":"county","population":"5538"}
+,{"id":"0500000US02020","name":"Anchorage Municipality, AK","type":"county","population":"295237"}
+,{"id":"0500000US02050","name":"Bethel Census Area, AK","type":"county","population":"17356"}
+,{"id":"0500000US02060","name":"Bristol Bay Borough, AK","type":"county","population":"933"}
+,{"id":"0500000US02068","name":"Denali Borough, AK","type":"county","population":"2020"}
+,{"id":"0500000US02070","name":"Dillingham Census Area, AK","type":"county","population":"4923"}
+,{"id":"0500000US02090","name":"Fairbanks North Star Borough, AK","type":"county","population":"98656"}
+,{"id":"0500000US02100","name":"Haines Borough, AK","type":"county","population":"2546"}
+,{"id":"0500000US02105","name":"Hoonah-Angoon Census Area, AK","type":"county","population":"2141"}
+,{"id":"0500000US02110","name":"Juneau City and Borough, AK","type":"county","population":"31897"}
+,{"id":"0500000US02122","name":"Kenai Peninsula Borough, AK","type":"county","population":"56163"}
+,{"id":"0500000US02130","name":"Ketchikan Gateway Borough, AK","type":"county","population":"13595"}
+,{"id":"0500000US02150","name":"Kodiak Island Borough, AK","type":"county","population":"13850"}
+,{"id":"0500000US02164","name":"Lake and Peninsula Borough, AK","type":"county","population":"1454"}
+,{"id":"0500000US02170","name":"Matanuska-Susitna Borough, AK","type":"county","population":"91519"}
+,{"id":"0500000US02180","name":"Nome Census Area, AK","type":"county","population":"9695"}
+,{"id":"0500000US02185","name":"North Slope Borough, AK","type":"county","population":"9484"}
+,{"id":"0500000US02188","name":"Northwest Arctic Borough, AK","type":"county","population":"7624"}
+,{"id":"0500000US02195","name":"Petersburg Census Area, AK","type":"county","population":"3806"}
+,{"id":"0500000US02198","name":"Prince of Wales-Hyder Census Area, AK","type":"county","population":"5672"}
+,{"id":"0500000US02220","name":"Sitka City and Borough, AK","type":"county","population":"8945"}
+,{"id":"0500000US02230","name":"Skagway Municipality, AK","type":"county","population":"1080"}
+,{"id":"0500000US02240","name":"Southeast Fairbanks Census Area, AK","type":"county","population":"7047"}
+,{"id":"0500000US02261","name":"Valdez-Cordova Census Area, AK","type":"county","population":"9682"}
+,{"id":"0500000US02270","name":"Wade Hampton Census Area, AK","type":"county","population":"7678"}
+,{"id":"0500000US02275","name":"Wrangell City and Borough, AK","type":"county","population":"2371"}
+,{"id":"0500000US02282","name":"Yakutat City and Borough, AK","type":"county","population":"607"}
+,{"id":"0500000US02290","name":"Yukon-Koyukuk Census Area, AK","type":"county","population":"5656"}
+,{"id":"0500000US04001","name":"Apache County, AZ","type":"county","population":"71978"}
+,{"id":"0500000US04003","name":"Cochise County, AZ","type":"county","population":"131038"}
+,{"id":"0500000US04005","name":"Coconino County, AZ","type":"county","population":"134795"}
+,{"id":"0500000US04007","name":"Gila County, AZ","type":"county","population":"53335"}
+,{"id":"0500000US04009","name":"Graham County, AZ","type":"county","population":"37168"}
+,{"id":"0500000US04011","name":"Greenlee County, AZ","type":"county","population":"8679"}
+,{"id":"0500000US04012","name":"La Paz County, AZ","type":"county","population":"20408"}
+,{"id":"0500000US04013","name":"Maricopa County, AZ","type":"county","population":"3889161"}
+,{"id":"0500000US04015","name":"Mohave County, AZ","type":"county","population":"201680"}
+,{"id":"0500000US04017","name":"Navajo County, AZ","type":"county","population":"107326"}
+,{"id":"0500000US04019","name":"Pima County, AZ","type":"county","population":"986891"}
+,{"id":"0500000US04021","name":"Pinal County, AZ","type":"county","population":"379128"}
+,{"id":"0500000US04023","name":"Santa Cruz County, AZ","type":"county","population":"47122"}
+,{"id":"0500000US04025","name":"Yavapai County, AZ","type":"county","population":"211968"}
+,{"id":"0500000US04027","name":"Yuma County, AZ","type":"county","population":"199026"}
+,{"id":"0500000US05001","name":"Arkansas County, AR","type":"county","population":"18957"}
+,{"id":"0500000US05003","name":"Ashley County, AR","type":"county","population":"21645"}
+,{"id":"0500000US05005","name":"Baxter County, AR","type":"county","population":"41281"}
+,{"id":"0500000US05007","name":"Benton County, AR","type":"county","population":"227439"}
+,{"id":"0500000US05009","name":"Boone County, AR","type":"county","population":"37099"}
+,{"id":"0500000US05011","name":"Bradley County, AR","type":"county","population":"11418"}
+,{"id":"0500000US05013","name":"Calhoun County, AR","type":"county","population":"5319"}
+,{"id":"0500000US05015","name":"Carroll County, AR","type":"county","population":"27531"}
+,{"id":"0500000US05017","name":"Chicot County, AR","type":"county","population":"11621"}
+,{"id":"0500000US05019","name":"Clark County, AR","type":"county","population":"22912"}
+,{"id":"0500000US05021","name":"Clay County, AR","type":"county","population":"15790"}
+,{"id":"0500000US05023","name":"Cleburne County, AR","type":"county","population":"25856"}
+,{"id":"0500000US05025","name":"Cleveland County, AR","type":"county","population":"8648"}
+,{"id":"0500000US05027","name":"Columbia County, AR","type":"county","population":"24512"}
+,{"id":"0500000US05029","name":"Conway County, AR","type":"county","population":"21235"}
+,{"id":"0500000US05031","name":"Craighead County, AR","type":"county","population":"98398"}
+,{"id":"0500000US05033","name":"Crawford County, AR","type":"county","population":"61796"}
+,{"id":"0500000US05035","name":"Crittenden County, AR","type":"county","population":"50447"}
+,{"id":"0500000US05037","name":"Cross County, AR","type":"county","population":"17760"}
+,{"id":"0500000US05039","name":"Dallas County, AR","type":"county","population":"8045"}
+,{"id":"0500000US05041","name":"Desha County, AR","type":"county","population":"12774"}
+,{"id":"0500000US05043","name":"Drew County, AR","type":"county","population":"18686"}
+,{"id":"0500000US05045","name":"Faulkner County, AR","type":"county","population":"115928"}
+,{"id":"0500000US05047","name":"Franklin County, AR","type":"county","population":"18063"}
+,{"id":"0500000US05049","name":"Fulton County, AR","type":"county","population":"12266"}
+,{"id":"0500000US05051","name":"Garland County, AR","type":"county","population":"96547"}
+,{"id":"0500000US05053","name":"Grant County, AR","type":"county","population":"17922"}
+,{"id":"0500000US05055","name":"Greene County, AR","type":"county","population":"42580"}
+,{"id":"0500000US05057","name":"Hempstead County, AR","type":"county","population":"22509"}
+,{"id":"0500000US05059","name":"Hot Spring County, AR","type":"county","population":"33182"}
+,{"id":"0500000US05061","name":"Howard County, AR","type":"county","population":"13748"}
+,{"id":"0500000US05063","name":"Independence County, AR","type":"county","population":"36786"}
+,{"id":"0500000US05065","name":"Izard County, AR","type":"county","population":"13560"}
+,{"id":"0500000US05067","name":"Jackson County, AR","type":"county","population":"17809"}
+,{"id":"0500000US05069","name":"Jefferson County, AR","type":"county","population":"75782"}
+,{"id":"0500000US05071","name":"Johnson County, AR","type":"county","population":"25655"}
+,{"id":"0500000US05073","name":"Lafayette County, AR","type":"county","population":"7501"}
+,{"id":"0500000US05075","name":"Lawrence County, AR","type":"county","population":"17227"}
+,{"id":"0500000US05077","name":"Lee County, AR","type":"county","population":"10267"}
+,{"id":"0500000US05079","name":"Lincoln County, AR","type":"county","population":"14148"}
+,{"id":"0500000US05081","name":"Little River County, AR","type":"county","population":"12992"}
+,{"id":"0500000US05083","name":"Logan County, AR","type":"county","population":"22221"}
+,{"id":"0500000US05085","name":"Lonoke County, AR","type":"county","population":"69266"}
+,{"id":"0500000US05087","name":"Madison County, AR","type":"county","population":"15671"}
+,{"id":"0500000US05089","name":"Marion County, AR","type":"county","population":"16605"}
+,{"id":"0500000US05091","name":"Miller County, AR","type":"county","population":"43515"}
+,{"id":"0500000US05093","name":"Mississippi County, AR","type":"county","population":"45912"}
+,{"id":"0500000US05095","name":"Monroe County, AR","type":"county","population":"8002"}
+,{"id":"0500000US05097","name":"Montgomery County, AR","type":"county","population":"9387"}
+,{"id":"0500000US05099","name":"Nevada County, AR","type":"county","population":"8948"}
+,{"id":"0500000US05101","name":"Newton County, AR","type":"county","population":"8211"}
+,{"id":"0500000US05103","name":"Ouachita County, AR","type":"county","population":"25651"}
+,{"id":"0500000US05105","name":"Perry County, AR","type":"county","population":"10381"}
+,{"id":"0500000US05107","name":"Phillips County, AR","type":"county","population":"21253"}
+,{"id":"0500000US05109","name":"Pike County, AR","type":"county","population":"11250"}
+,{"id":"0500000US05111","name":"Poinsett County, AR","type":"county","population":"24403"}
+,{"id":"0500000US05113","name":"Polk County, AR","type":"county","population":"20540"}
+,{"id":"0500000US05115","name":"Pope County, AR","type":"county","population":"62248"}
+,{"id":"0500000US05117","name":"Prairie County, AR","type":"county","population":"8573"}
+,{"id":"0500000US05119","name":"Pulaski County, AR","type":"county","population":"386106"}
+,{"id":"0500000US05121","name":"Randolph County, AR","type":"county","population":"17896"}
+,{"id":"0500000US05123","name":"St. Francis County, AR","type":"county","population":"27914"}
+,{"id":"0500000US05125","name":"Saline County, AR","type":"county","population":"109844"}
+,{"id":"0500000US05127","name":"Scott County, AR","type":"county","population":"11111"}
+,{"id":"0500000US05129","name":"Searcy County, AR","type":"county","population":"8101"}
+,{"id":"0500000US05131","name":"Sebastian County, AR","type":"county","population":"126536"}
+,{"id":"0500000US05133","name":"Sevier County, AR","type":"county","population":"17137"}
+,{"id":"0500000US05135","name":"Sharp County, AR","type":"county","population":"17203"}
+,{"id":"0500000US05137","name":"Stone County, AR","type":"county","population":"12517"}
+,{"id":"0500000US05139","name":"Union County, AR","type":"county","population":"41307"}
+,{"id":"0500000US05141","name":"Van Buren County, AR","type":"county","population":"17147"}
+,{"id":"0500000US05143","name":"Washington County, AR","type":"county","population":"207911"}
+,{"id":"0500000US05145","name":"White County, AR","type":"county","population":"77767"}
+,{"id":"0500000US05147","name":"Woodruff County, AR","type":"county","population":"7180"}
+,{"id":"0500000US05149","name":"Yell County, AR","type":"county","population":"22014"}
+,{"id":"0500000US06001","name":"Alameda County, CA","type":"county","population":"1535248"}
+,{"id":"0500000US06003","name":"Alpine County, CA","type":"county","population":"1165"}
+,{"id":"0500000US06005","name":"Amador County, CA","type":"county","population":"37422"}
+,{"id":"0500000US06007","name":"Butte County, CA","type":"county","population":"220542"}
+,{"id":"0500000US06009","name":"Calaveras County, CA","type":"county","population":"45147"}
+,{"id":"0500000US06011","name":"Colusa County, CA","type":"county","population":"21366"}
+,{"id":"0500000US06013","name":"Contra Costa County, CA","type":"county","population":"1065794"}
+,{"id":"0500000US06015","name":"Del Norte County, CA","type":"county","population":"28357"}
+,{"id":"0500000US06017","name":"El Dorado County, CA","type":"county","population":"180982"}
+,{"id":"0500000US06019","name":"Fresno County, CA","type":"county","population":"939605"}
+,{"id":"0500000US06021","name":"Glenn County, CA","type":"county","population":"28054"}
+,{"id":"0500000US06023","name":"Humboldt County, CA","type":"county","population":"134613"}
+,{"id":"0500000US06025","name":"Imperial County, CA","type":"county","population":"175201"}
+,{"id":"0500000US06027","name":"Inyo County, CA","type":"county","population":"18482"}
+,{"id":"0500000US06029","name":"Kern County, CA","type":"county","population":"848204"}
+,{"id":"0500000US06031","name":"Kings County, CA","type":"county","population":"151806"}
+,{"id":"0500000US06033","name":"Lake County, CA","type":"county","population":"64260"}
+,{"id":"0500000US06035","name":"Lassen County, CA","type":"county","population":"34018"}
+,{"id":"0500000US06037","name":"Los Angeles County, CA","type":"county","population":"9893481"}
+,{"id":"0500000US06039","name":"Madera County, CA","type":"county","population":"151435"}
+,{"id":"0500000US06041","name":"Marin County, CA","type":"county","population":"254643"}
+,{"id":"0500000US06043","name":"Mariposa County, CA","type":"county","population":"18061"}
+,{"id":"0500000US06045","name":"Mendocino County, CA","type":"county","population":"87497"}
+,{"id":"0500000US06047","name":"Merced County, CA","type":"county","population":"258707"}
+,{"id":"0500000US06049","name":"Modoc County, CA","type":"county","population":"9468"}
+,{"id":"0500000US06051","name":"Mono County, CA","type":"county","population":"14217"}
+,{"id":"0500000US06053","name":"Monterey County, CA","type":"county","population":"420569"}
+,{"id":"0500000US06055","name":"Napa County, CA","type":"county","population":"137837"}
+,{"id":"0500000US06057","name":"Nevada County, CA","type":"county","population":"98509"}
+,{"id":"0500000US06059","name":"Orange County, CA","type":"county","population":"3051771"}
+,{"id":"0500000US06061","name":"Placer County, CA","type":"county","population":"355924"}
+,{"id":"0500000US06063","name":"Plumas County, CA","type":"county","population":"19586"}
+,{"id":"0500000US06065","name":"Riverside County, CA","type":"county","population":"2228528"}
+,{"id":"0500000US06067","name":"Sacramento County, CA","type":"county","population":"1435207"}
+,{"id":"0500000US06069","name":"San Benito County, CA","type":"county","population":"56115"}
+,{"id":"0500000US06071","name":"San Bernardino County, CA","type":"county","population":"2056915"}
+,{"id":"0500000US06073","name":"San Diego County, CA","type":"county","population":"3138265"}
+,{"id":"0500000US06075","name":"San Francisco County, CA","type":"county","population":"817501"}
+,{"id":"0500000US06077","name":"San Joaquin County, CA","type":"county","population":"693177"}
+,{"id":"0500000US06079","name":"San Luis Obispo County, CA","type":"county","population":"272094"}
+,{"id":"0500000US06081","name":"San Mateo County, CA","type":"county","population":"729543"}
+,{"id":"0500000US06083","name":"Santa Barbara County, CA","type":"county","population":"427288"}
+,{"id":"0500000US06085","name":"Santa Clara County, CA","type":"county","population":"1812208"}
+,{"id":"0500000US06087","name":"Santa Cruz County, CA","type":"county","population":"264808"}
+,{"id":"0500000US06089","name":"Shasta County, CA","type":"county","population":"177966"}
+,{"id":"0500000US06091","name":"Sierra County, CA","type":"county","population":"3127"}
+,{"id":"0500000US06093","name":"Siskiyou County, CA","type":"county","population":"44503"}
+,{"id":"0500000US06095","name":"Solano County, CA","type":"county","population":"417258"}
+,{"id":"0500000US06097","name":"Sonoma County, CA","type":"county","population":"487469"}
+,{"id":"0500000US06099","name":"Stanislaus County, CA","type":"county","population":"518321"}
+,{"id":"0500000US06101","name":"Sutter County, CA","type":"county","population":"94787"}
+,{"id":"0500000US06103","name":"Tehama County, CA","type":"county","population":"63241"}
+,{"id":"0500000US06105","name":"Trinity County, CA","type":"county","population":"13638"}
+,{"id":"0500000US06107","name":"Tulare County, CA","type":"county","population":"446644"}
+,{"id":"0500000US06109","name":"Tuolumne County, CA","type":"county","population":"54728"}
+,{"id":"0500000US06111","name":"Ventura County, CA","type":"county","population":"829017"}
+,{"id":"0500000US06113","name":"Yolo County, CA","type":"county","population":"202288"}
+,{"id":"0500000US06115","name":"Yuba County, CA","type":"county","population":"72574"}
+,{"id":"0500000US08001","name":"Adams County, CO","type":"county","population":"452030"}
+,{"id":"0500000US08003","name":"Alamosa County, CO","type":"county","population":"15933"}
+,{"id":"0500000US08005","name":"Arapahoe County, CO","type":"county","population":"585333"}
+,{"id":"0500000US08007","name":"Archuleta County, CO","type":"county","population":"12109"}
+,{"id":"0500000US08009","name":"Baca County, CO","type":"county","population":"3761"}
+,{"id":"0500000US08011","name":"Bent County, CO","type":"county","population":"6141"}
+,{"id":"0500000US08013","name":"Boulder County, CO","type":"county","population":"301072"}
+,{"id":"0500000US08014","name":"Broomfield County, CO","type":"county","population":"57171"}
+,{"id":"0500000US08015","name":"Chaffee County, CO","type":"county","population":"18063"}
+,{"id":"0500000US08017","name":"Cheyenne County, CO","type":"county","population":"2189"}
+,{"id":"0500000US08019","name":"Clear Creek County, CO","type":"county","population":"9048"}
+,{"id":"0500000US08021","name":"Conejos County, CO","type":"county","population":"8256"}
+,{"id":"0500000US08023","name":"Costilla County, CO","type":"county","population":"3552"}
+,{"id":"0500000US08025","name":"Crowley County, CO","type":"county","population":"5629"}
+,{"id":"0500000US08027","name":"Custer County, CO","type":"county","population":"4245"}
+,{"id":"0500000US08029","name":"Delta County, CO","type":"county","population":"30659"}
+,{"id":"0500000US08031","name":"Denver County, CO","type":"county","population":"619297"}
+,{"id":"0500000US08033","name":"Dolores County, CO","type":"county","population":"1709"}
+,{"id":"0500000US08035","name":"Douglas County, CO","type":"county","population":"293014"}
+,{"id":"0500000US08037","name":"Eagle County, CO","type":"county","population":"52151"}
+,{"id":"0500000US08039","name":"Elbert County, CO","type":"county","population":"23295"}
+,{"id":"0500000US08041","name":"El Paso County, CO","type":"county","population":"634423"}
+,{"id":"0500000US08043","name":"Fremont County, CO","type":"county","population":"46850"}
+,{"id":"0500000US08045","name":"Garfield County, CO","type":"county","population":"56687"}
+,{"id":"0500000US08047","name":"Gilpin County, CO","type":"county","population":"5477"}
+,{"id":"0500000US08049","name":"Grand County, CO","type":"county","population":"14535"}
+,{"id":"0500000US08051","name":"Gunnison County, CO","type":"county","population":"15421"}
+,{"id":"0500000US08053","name":"Hinsdale County, CO","type":"county","population":"809"}
+,{"id":"0500000US08055","name":"Huerfano County, CO","type":"county","population":"6625"}
+,{"id":"0500000US08057","name":"Jackson County, CO","type":"county","population":"1371"}
+,{"id":"0500000US08059","name":"Jefferson County, CO","type":"county","population":"540669"}
+,{"id":"0500000US08061","name":"Kiowa County, CO","type":"county","population":"1423"}
+,{"id":"0500000US08063","name":"Kit Carson County, CO","type":"county","population":"8189"}
+,{"id":"0500000US08065","name":"Lake County, CO","type":"county","population":"7332"}
+,{"id":"0500000US08067","name":"La Plata County, CO","type":"county","population":"52039"}
+,{"id":"0500000US08069","name":"Larimer County, CO","type":"county","population":"305798"}
+,{"id":"0500000US08071","name":"Las Animas County, CO","type":"county","population":"15136"}
+,{"id":"0500000US08073","name":"Lincoln County, CO","type":"county","population":"5442"}
+,{"id":"0500000US08075","name":"Logan County, CO","type":"county","population":"22607"}
+,{"id":"0500000US08077","name":"Mesa County, CO","type":"county","population":"147432"}
+,{"id":"0500000US08079","name":"Mineral County, CO","type":"county","population":"761"}
+,{"id":"0500000US08081","name":"Moffat County, CO","type":"county","population":"13447"}
+,{"id":"0500000US08083","name":"Montezuma County, CO","type":"county","population":"25512"}
+,{"id":"0500000US08085","name":"Montrose County, CO","type":"county","population":"41020"}
+,{"id":"0500000US08087","name":"Morgan County, CO","type":"county","population":"28308"}
+,{"id":"0500000US08089","name":"Otero County, CO","type":"county","population":"18817"}
+,{"id":"0500000US08091","name":"Ouray County, CO","type":"county","population":"4475"}
+,{"id":"0500000US08093","name":"Park County, CO","type":"county","population":"16131"}
+,{"id":"0500000US08095","name":"Phillips County, CO","type":"county","population":"4383"}
+,{"id":"0500000US08097","name":"Pitkin County, CO","type":"county","population":"17173"}
+,{"id":"0500000US08099","name":"Prowers County, CO","type":"county","population":"12473"}
+,{"id":"0500000US08101","name":"Pueblo County, CO","type":"county","population":"160048"}
+,{"id":"0500000US08103","name":"Rio Blanco County, CO","type":"county","population":"6770"}
+,{"id":"0500000US08105","name":"Rio Grande County, CO","type":"county","population":"11913"}
+,{"id":"0500000US08107","name":"Routt County, CO","type":"county","population":"23409"}
+,{"id":"0500000US08109","name":"Saguache County, CO","type":"county","population":"6200"}
+,{"id":"0500000US08111","name":"San Juan County, CO","type":"county","population":"659"}
+,{"id":"0500000US08113","name":"San Miguel County, CO","type":"county","population":"7496"}
+,{"id":"0500000US08115","name":"Sedgwick County, CO","type":"county","population":"2376"}
+,{"id":"0500000US08117","name":"Summit County, CO","type":"county","population":"28091"}
+,{"id":"0500000US08119","name":"Teller County, CO","type":"county","population":"23276"}
+,{"id":"0500000US08121","name":"Washington County, CO","type":"county","population":"4796"}
+,{"id":"0500000US08123","name":"Weld County, CO","type":"county","population":"258780"}
+,{"id":"0500000US08125","name":"Yuma County, CO","type":"county","population":"10093"}
+,{"id":"0500000US09001","name":"Fairfield County, CT","type":"county","population":"926233"}
+,{"id":"0500000US09003","name":"Hartford County, CT","type":"county","population":"895827"}
+,{"id":"0500000US09005","name":"Litchfield County, CT","type":"county","population":"188629"}
+,{"id":"0500000US09007","name":"Middlesex County, CT","type":"county","population":"165690"}
+,{"id":"0500000US09009","name":"New Haven County, CT","type":"county","population":"862611"}
+,{"id":"0500000US09011","name":"New London County, CT","type":"county","population":"274090"}
+,{"id":"0500000US09013","name":"Tolland County, CT","type":"county","population":"152366"}
+,{"id":"0500000US09015","name":"Windham County, CT","type":"county","population":"118115"}
+,{"id":"0500000US10001","name":"Kent County, DE","type":"county","population":"165030"}
+,{"id":"0500000US10003","name":"New Castle County, DE","type":"county","population":"542784"}
+,{"id":"0500000US10005","name":"Sussex County, DE","type":"county","population":"200632"}
+,{"id":"0500000US11001","name":"District of Columbia, DC","type":"county","population":"619371"}
+,{"id":"0500000US12001","name":"Alachua County, FL","type":"county","population":"249848"}
+,{"id":"0500000US12003","name":"Baker County, FL","type":"county","population":"27069"}
+,{"id":"0500000US12005","name":"Bay County, FL","type":"county","population":"170704"}
+,{"id":"0500000US12007","name":"Bradford County, FL","type":"county","population":"27981"}
+,{"id":"0500000US12009","name":"Brevard County, FL","type":"county","population":"545667"}
+,{"id":"0500000US12011","name":"Broward County, FL","type":"county","population":"1784889"}
+,{"id":"0500000US12013","name":"Calhoun County, FL","type":"county","population":"14700"}
+,{"id":"0500000US12015","name":"Charlotte County, FL","type":"county","population":"161276"}
+,{"id":"0500000US12017","name":"Citrus County, FL","type":"county","population":"140214"}
+,{"id":"0500000US12019","name":"Clay County, FL","type":"county","population":"192665"}
+,{"id":"0500000US12021","name":"Collier County, FL","type":"county","population":"328209"}
+,{"id":"0500000US12023","name":"Columbia County, FL","type":"county","population":"67568"}
+,{"id":"0500000US12027","name":"DeSoto County, FL","type":"county","population":"34651"}
+,{"id":"0500000US12029","name":"Dixie County, FL","type":"county","population":"16234"}
+,{"id":"0500000US12031","name":"Duval County, FL","type":"county","population":"872598"}
+,{"id":"0500000US12033","name":"Escambia County, FL","type":"county","population":"300795"}
+,{"id":"0500000US12035","name":"Flagler County, FL","type":"county","population":"97301"}
+,{"id":"0500000US12037","name":"Franklin County, FL","type":"county","population":"11554"}
+,{"id":"0500000US12039","name":"Gadsden County, FL","type":"county","population":"46860"}
+,{"id":"0500000US12041","name":"Gilchrist County, FL","type":"county","population":"16917"}
+,{"id":"0500000US12043","name":"Glades County, FL","type":"county","population":"13080"}
+,{"id":"0500000US12045","name":"Gulf County, FL","type":"county","population":"15793"}
+,{"id":"0500000US12047","name":"Hamilton County, FL","type":"county","population":"14655"}
+,{"id":"0500000US12049","name":"Hardee County, FL","type":"county","population":"27336"}
+,{"id":"0500000US12051","name":"Hendry County, FL","type":"county","population":"38346"}
+,{"id":"0500000US12053","name":"Hernando County, FL","type":"county","population":"173119"}
+,{"id":"0500000US12055","name":"Highlands County, FL","type":"county","population":"98275"}
+,{"id":"0500000US12057","name":"Hillsborough County, FL","type":"county","population":"1257913"}
+,{"id":"0500000US12059","name":"Holmes County, FL","type":"county","population":"19864"}
+,{"id":"0500000US12061","name":"Indian River County, FL","type":"county","population":"139356"}
+,{"id":"0500000US12063","name":"Jackson County, FL","type":"county","population":"49326"}
+,{"id":"0500000US12065","name":"Jefferson County, FL","type":"county","population":"14469"}
+,{"id":"0500000US12067","name":"Lafayette County, FL","type":"county","population":"8745"}
+,{"id":"0500000US12069","name":"Lake County, FL","type":"county","population":"300926"}
+,{"id":"0500000US12071","name":"Lee County, FL","type":"county","population":"633968"}
+,{"id":"0500000US12073","name":"Leon County, FL","type":"county","population":"278624"}
+,{"id":"0500000US12075","name":"Levy County, FL","type":"county","population":"40289"}
+,{"id":"0500000US12077","name":"Liberty County, FL","type":"county","population":"8308"}
+,{"id":"0500000US12079","name":"Madison County, FL","type":"county","population":"19070"}
+,{"id":"0500000US12081","name":"Manatee County, FL","type":"county","population":"329487"}
+,{"id":"0500000US12083","name":"Marion County, FL","type":"county","population":"333503"}
+,{"id":"0500000US12085","name":"Martin County, FL","type":"county","population":"147786"}
+,{"id":"0500000US12086","name":"Miami-Dade County, FL","type":"county","population":"2549075"}
+,{"id":"0500000US12087","name":"Monroe County, FL","type":"county","population":"74213"}
+,{"id":"0500000US12089","name":"Nassau County, FL","type":"county","population":"74163"}
+,{"id":"0500000US12091","name":"Okaloosa County, FL","type":"county","population":"185852"}
+,{"id":"0500000US12093","name":"Okeechobee County, FL","type":"county","population":"39642"}
+,{"id":"0500000US12095","name":"Orange County, FL","type":"county","population":"1175416"}
+,{"id":"0500000US12097","name":"Osceola County, FL","type":"county","population":"279837"}
+,{"id":"0500000US12099","name":"Palm Beach County, FL","type":"county","population":"1339221"}
+,{"id":"0500000US12101","name":"Pasco County, FL","type":"county","population":"468194"}
+,{"id":"0500000US12103","name":"Pinellas County, FL","type":"county","population":"920015"}
+,{"id":"0500000US12105","name":"Polk County, FL","type":"county","population":"610295"}
+,{"id":"0500000US12107","name":"Putnam County, FL","type":"county","population":"73683"}
+,{"id":"0500000US12109","name":"St. Johns County, FL","type":"county","population":"197115"}
+,{"id":"0500000US12111","name":"St. Lucie County, FL","type":"county","population":"281015"}
+,{"id":"0500000US12113","name":"Santa Rosa County, FL","type":"county","population":"155579"}
+,{"id":"0500000US12115","name":"Sarasota County, FL","type":"county","population":"383094"}
+,{"id":"0500000US12117","name":"Seminole County, FL","type":"county","population":"427184"}
+,{"id":"0500000US12119","name":"Sumter County, FL","type":"county","population":"98409"}
+,{"id":"0500000US12121","name":"Suwannee County, FL","type":"county","population":"42865"}
+,{"id":"0500000US12123","name":"Taylor County, FL","type":"county","population":"22660"}
+,{"id":"0500000US12125","name":"Union County, FL","type":"county","population":"15307"}
+,{"id":"0500000US12127","name":"Volusia County, FL","type":"county","population":"496268"}
+,{"id":"0500000US12129","name":"Wakulla County, FL","type":"county","population":"30824"}
+,{"id":"0500000US12131","name":"Walton County, FL","type":"county","population":"56590"}
+,{"id":"0500000US12133","name":"Washington County, FL","type":"county","population":"24702"}
+,{"id":"0500000US13001","name":"Appling County, GA","type":"county","population":"18354"}
+,{"id":"0500000US13003","name":"Atkinson County, GA","type":"county","population":"8332"}
+,{"id":"0500000US13005","name":"Bacon County, GA","type":"county","population":"11159"}
+,{"id":"0500000US13007","name":"Baker County, GA","type":"county","population":"3410"}
+,{"id":"0500000US13009","name":"Baldwin County, GA","type":"county","population":"46018"}
+,{"id":"0500000US13011","name":"Banks County, GA","type":"county","population":"18333"}
+,{"id":"0500000US13013","name":"Barrow County, GA","type":"county","population":"69933"}
+,{"id":"0500000US13015","name":"Bartow County, GA","type":"county","population":"100382"}
+,{"id":"0500000US13017","name":"Ben Hill County, GA","type":"county","population":"17576"}
+,{"id":"0500000US13019","name":"Berrien County, GA","type":"county","population":"19174"}
+,{"id":"0500000US13021","name":"Bibb County, GA","type":"county","population":"155524"}
+,{"id":"0500000US13023","name":"Bleckley County, GA","type":"county","population":"12961"}
+,{"id":"0500000US13025","name":"Brantley County, GA","type":"county","population":"18409"}
+,{"id":"0500000US13027","name":"Brooks County, GA","type":"county","population":"15885"}
+,{"id":"0500000US13029","name":"Bryan County, GA","type":"county","population":"31410"}
+,{"id":"0500000US13031","name":"Bulloch County, GA","type":"county","population":"71190"}
+,{"id":"0500000US13033","name":"Burke County, GA","type":"county","population":"23223"}
+,{"id":"0500000US13035","name":"Butts County, GA","type":"county","population":"23563"}
+,{"id":"0500000US13037","name":"Calhoun County, GA","type":"county","population":"6592"}
+,{"id":"0500000US13039","name":"Camden County, GA","type":"county","population":"50799"}
+,{"id":"0500000US13043","name":"Candler County, GA","type":"county","population":"11045"}
+,{"id":"0500000US13045","name":"Carroll County, GA","type":"county","population":"111160"}
+,{"id":"0500000US13047","name":"Catoosa County, GA","type":"county","population":"64606"}
+,{"id":"0500000US13049","name":"Charlton County, GA","type":"county","population":"13080"}
+,{"id":"0500000US13051","name":"Chatham County, GA","type":"county","population":"271102"}
+,{"id":"0500000US13053","name":"Chattahoochee County, GA","type":"county","population":"12193"}
+,{"id":"0500000US13055","name":"Chattooga County, GA","type":"county","population":"25670"}
+,{"id":"0500000US13057","name":"Cherokee County, GA","type":"county","population":"218277"}
+,{"id":"0500000US13059","name":"Clarke County, GA","type":"county","population":"118864"}
+,{"id":"0500000US13061","name":"Clay County, GA","type":"county","population":"3133"}
+,{"id":"0500000US13063","name":"Clayton County, GA","type":"county","population":"262455"}
+,{"id":"0500000US13065","name":"Clinch County, GA","type":"county","population":"6766"}
+,{"id":"0500000US13067","name":"Cobb County, GA","type":"county","population":"699235"}
+,{"id":"0500000US13069","name":"Coffee County, GA","type":"county","population":"42841"}
+,{"id":"0500000US13071","name":"Colquitt County, GA","type":"county","population":"45781"}
+,{"id":"0500000US13073","name":"Columbia County, GA","type":"county","population":"128213"}
+,{"id":"0500000US13075","name":"Cook County, GA","type":"county","population":"17066"}
+,{"id":"0500000US13077","name":"Coweta County, GA","type":"county","population":"129397"}
+,{"id":"0500000US13079","name":"Crawford County, GA","type":"county","population":"12607"}
+,{"id":"0500000US13081","name":"Crisp County, GA","type":"county","population":"23521"}
+,{"id":"0500000US13083","name":"Dade County, GA","type":"county","population":"16580"}
+,{"id":"0500000US13085","name":"Dawson County, GA","type":"county","population":"22387"}
+,{"id":"0500000US13087","name":"Decatur County, GA","type":"county","population":"27676"}
+,{"id":"0500000US13089","name":"DeKalb County, GA","type":"county","population":"700308"}
+,{"id":"0500000US13091","name":"Dodge County, GA","type":"county","population":"21502"}
+,{"id":"0500000US13093","name":"Dooly County, GA","type":"county","population":"14554"}
+,{"id":"0500000US13095","name":"Dougherty County, GA","type":"county","population":"94220"}
+,{"id":"0500000US13097","name":"Douglas County, GA","type":"county","population":"133486"}
+,{"id":"0500000US13099","name":"Early County, GA","type":"county","population":"10787"}
+,{"id":"0500000US13101","name":"Echols County, GA","type":"county","population":"4053"}
+,{"id":"0500000US13103","name":"Effingham County, GA","type":"county","population":"52961"}
+,{"id":"0500000US13105","name":"Elbert County, GA","type":"county","population":"19907"}
+,{"id":"0500000US13107","name":"Emanuel County, GA","type":"county","population":"22669"}
+,{"id":"0500000US13109","name":"Evans County, GA","type":"county","population":"10902"}
+,{"id":"0500000US13111","name":"Fannin County, GA","type":"county","population":"23614"}
+,{"id":"0500000US13113","name":"Fayette County, GA","type":"county","population":"107105"}
+,{"id":"0500000US13115","name":"Floyd County, GA","type":"county","population":"96147"}
+,{"id":"0500000US13117","name":"Forsyth County, GA","type":"county","population":"182916"}
+,{"id":"0500000US13119","name":"Franklin County, GA","type":"county","population":"21998"}
+,{"id":"0500000US13121","name":"Fulton County, GA","type":"county","population":"948554"}
+,{"id":"0500000US13123","name":"Gilmer County, GA","type":"county","population":"28308"}
+,{"id":"0500000US13125","name":"Glascock County, GA","type":"county","population":"3094"}
+,{"id":"0500000US13127","name":"Glynn County, GA","type":"county","population":"80280"}
+,{"id":"0500000US13129","name":"Gordon County, GA","type":"county","population":"55409"}
+,{"id":"0500000US13131","name":"Grady County, GA","type":"county","population":"25143"}
+,{"id":"0500000US13133","name":"Greene County, GA","type":"county","population":"16091"}
+,{"id":"0500000US13135","name":"Gwinnett County, GA","type":"county","population":"825911"}
+,{"id":"0500000US13137","name":"Habersham County, GA","type":"county","population":"43181"}
+,{"id":"0500000US13139","name":"Hall County, GA","type":"county","population":"182841"}
+,{"id":"0500000US13141","name":"Hancock County, GA","type":"county","population":"9233"}
+,{"id":"0500000US13143","name":"Haralson County, GA","type":"county","population":"28594"}
+,{"id":"0500000US13145","name":"Harris County, GA","type":"county","population":"32267"}
+,{"id":"0500000US13147","name":"Hart County, GA","type":"county","population":"25348"}
+,{"id":"0500000US13149","name":"Heard County, GA","type":"county","population":"11708"}
+,{"id":"0500000US13151","name":"Henry County, GA","type":"county","population":"206349"}
+,{"id":"0500000US13153","name":"Houston County, GA","type":"county","population":"143205"}
+,{"id":"0500000US13155","name":"Irwin County, GA","type":"county","population":"9571"}
+,{"id":"0500000US13157","name":"Jackson County, GA","type":"county","population":"60577"}
+,{"id":"0500000US13159","name":"Jasper County, GA","type":"county","population":"13748"}
+,{"id":"0500000US13161","name":"Jeff Davis County, GA","type":"county","population":"15042"}
+,{"id":"0500000US13163","name":"Jefferson County, GA","type":"county","population":"16696"}
+,{"id":"0500000US13165","name":"Jenkins County, GA","type":"county","population":"8642"}
+,{"id":"0500000US13167","name":"Johnson County, GA","type":"county","population":"9903"}
+,{"id":"0500000US13169","name":"Jones County, GA","type":"county","population":"28650"}
+,{"id":"0500000US13171","name":"Lamar County, GA","type":"county","population":"18139"}
+,{"id":"0500000US13173","name":"Lanier County, GA","type":"county","population":"10250"}
+,{"id":"0500000US13175","name":"Laurens County, GA","type":"county","population":"48203"}
+,{"id":"0500000US13177","name":"Lee County, GA","type":"county","population":"28631"}
+,{"id":"0500000US13179","name":"Liberty County, GA","type":"county","population":"64899"}
+,{"id":"0500000US13181","name":"Lincoln County, GA","type":"county","population":"7894"}
+,{"id":"0500000US13183","name":"Long County, GA","type":"county","population":"15285"}
+,{"id":"0500000US13185","name":"Lowndes County, GA","type":"county","population":"111334"}
+,{"id":"0500000US13187","name":"Lumpkin County, GA","type":"county","population":"30428"}
+,{"id":"0500000US13189","name":"McDuffie County, GA","type":"county","population":"21697"}
+,{"id":"0500000US13191","name":"McIntosh County, GA","type":"county","population":"14142"}
+,{"id":"0500000US13193","name":"Macon County, GA","type":"county","population":"14455"}
+,{"id":"0500000US13195","name":"Madison County, GA","type":"county","population":"28044"}
+,{"id":"0500000US13197","name":"Marion County, GA","type":"county","population":"8673"}
+,{"id":"0500000US13199","name":"Meriwether County, GA","type":"county","population":"21695"}
+,{"id":"0500000US13201","name":"Miller County, GA","type":"county","population":"6054"}
+,{"id":"0500000US13205","name":"Mitchell County, GA","type":"county","population":"23340"}
+,{"id":"0500000US13207","name":"Monroe County, GA","type":"county","population":"26613"}
+,{"id":"0500000US13209","name":"Montgomery County, GA","type":"county","population":"9050"}
+,{"id":"0500000US13211","name":"Morgan County, GA","type":"county","population":"17870"}
+,{"id":"0500000US13213","name":"Murray County, GA","type":"county","population":"39504"}
+,{"id":"0500000US13215","name":"Muscogee County, GA","type":"county","population":"194949"}
+,{"id":"0500000US13217","name":"Newton County, GA","type":"county","population":"100808"}
+,{"id":"0500000US13219","name":"Oconee County, GA","type":"county","population":"33240"}
+,{"id":"0500000US13221","name":"Oglethorpe County, GA","type":"county","population":"14730"}
+,{"id":"0500000US13223","name":"Paulding County, GA","type":"county","population":"143845"}
+,{"id":"0500000US13225","name":"Peach County, GA","type":"county","population":"27481"}
+,{"id":"0500000US13227","name":"Pickens County, GA","type":"county","population":"29486"}
+,{"id":"0500000US13229","name":"Pierce County, GA","type":"county","population":"18774"}
+,{"id":"0500000US13231","name":"Pike County, GA","type":"county","population":"17807"}
+,{"id":"0500000US13233","name":"Polk County, GA","type":"county","population":"41308"}
+,{"id":"0500000US13235","name":"Pulaski County, GA","type":"county","population":"11775"}
+,{"id":"0500000US13237","name":"Putnam County, GA","type":"county","population":"21241"}
+,{"id":"0500000US13239","name":"Quitman County, GA","type":"county","population":"2396"}
+,{"id":"0500000US13241","name":"Rabun County, GA","type":"county","population":"16271"}
+,{"id":"0500000US13243","name":"Randolph County, GA","type":"county","population":"7498"}
+,{"id":"0500000US13245","name":"Richmond County, GA","type":"county","population":"201081"}
+,{"id":"0500000US13247","name":"Rockdale County, GA","type":"county","population":"85650"}
+,{"id":"0500000US13249","name":"Schley County, GA","type":"county","population":"5017"}
+,{"id":"0500000US13251","name":"Screven County, GA","type":"county","population":"14455"}
+,{"id":"0500000US13253","name":"Seminole County, GA","type":"county","population":"8831"}
+,{"id":"0500000US13255","name":"Spalding County, GA","type":"county","population":"64011"}
+,{"id":"0500000US13257","name":"Stephens County, GA","type":"county","population":"25910"}
+,{"id":"0500000US13259","name":"Stewart County, GA","type":"county","population":"6007"}
+,{"id":"0500000US13261","name":"Sumter County, GA","type":"county","population":"32099"}
+,{"id":"0500000US13263","name":"Talbot County, GA","type":"county","population":"6689"}
+,{"id":"0500000US13265","name":"Taliaferro County, GA","type":"county","population":"1766"}
+,{"id":"0500000US13267","name":"Tattnall County, GA","type":"county","population":"25343"}
+,{"id":"0500000US13269","name":"Taylor County, GA","type":"county","population":"8595"}
+,{"id":"0500000US13271","name":"Telfair County, GA","type":"county","population":"16391"}
+,{"id":"0500000US13273","name":"Terrell County, GA","type":"county","population":"9246"}
+,{"id":"0500000US13275","name":"Thomas County, GA","type":"county","population":"44692"}
+,{"id":"0500000US13277","name":"Tift County, GA","type":"county","population":"40537"}
+,{"id":"0500000US13279","name":"Toombs County, GA","type":"county","population":"27229"}
+,{"id":"0500000US13281","name":"Towns County, GA","type":"county","population":"10551"}
+,{"id":"0500000US13283","name":"Treutlen County, GA","type":"county","population":"6817"}
+,{"id":"0500000US13285","name":"Troup County, GA","type":"county","population":"67776"}
+,{"id":"0500000US13287","name":"Turner County, GA","type":"county","population":"8637"}
+,{"id":"0500000US13289","name":"Twiggs County, GA","type":"county","population":"8808"}
+,{"id":"0500000US13291","name":"Union County, GA","type":"county","population":"21399"}
+,{"id":"0500000US13293","name":"Upson County, GA","type":"county","population":"26918"}
+,{"id":"0500000US13295","name":"Walker County, GA","type":"county","population":"68481"}
+,{"id":"0500000US13297","name":"Walton County, GA","type":"county","population":"84397"}
+,{"id":"0500000US13299","name":"Ware County, GA","type":"county","population":"36008"}
+,{"id":"0500000US13301","name":"Warren County, GA","type":"county","population":"5706"}
+,{"id":"0500000US13303","name":"Washington County, GA","type":"county","population":"20982"}
+,{"id":"0500000US13305","name":"Wayne County, GA","type":"county","population":"30187"}
+,{"id":"0500000US13307","name":"Webster County, GA","type":"county","population":"2769"}
+,{"id":"0500000US13309","name":"Wheeler County, GA","type":"county","population":"7746"}
+,{"id":"0500000US13311","name":"White County, GA","type":"county","population":"27400"}
+,{"id":"0500000US13313","name":"Whitfield County, GA","type":"county","population":"102556"}
+,{"id":"0500000US13315","name":"Wilcox County, GA","type":"county","population":"9110"}
+,{"id":"0500000US13317","name":"Wilkes County, GA","type":"county","population":"10265"}
+,{"id":"0500000US13319","name":"Wilkinson County, GA","type":"county","population":"9520"}
+,{"id":"0500000US13321","name":"Worth County, GA","type":"county","population":"21670"}
+,{"id":"0500000US15001","name":"Hawaii County, HI","type":"county","population":"187044"}
+,{"id":"0500000US15003","name":"Honolulu County, HI","type":"county","population":"964678"}
+,{"id":"0500000US15005","name":"Kalawao County, HI","type":"county","population":"71"}
+,{"id":"0500000US15007","name":"Kauai County, HI","type":"county","population":"67872"}
+,{"id":"0500000US15009","name":"Maui County, HI","type":"county","population":"156633"}
+,{"id":"0500000US16001","name":"Ada County, ID","type":"county","population":"401673"}
+,{"id":"0500000US16003","name":"Adams County, ID","type":"county","population":"3937"}
+,{"id":"0500000US16005","name":"Bannock County, ID","type":"county","population":"83091"}
+,{"id":"0500000US16007","name":"Bear Lake County, ID","type":"county","population":"5957"}
+,{"id":"0500000US16009","name":"Benewah County, ID","type":"county","population":"9186"}
+,{"id":"0500000US16011","name":"Bingham County, ID","type":"county","population":"45485"}
+,{"id":"0500000US16013","name":"Blaine County, ID","type":"county","population":"21294"}
+,{"id":"0500000US16015","name":"Boise County, ID","type":"county","population":"6944"}
+,{"id":"0500000US16017","name":"Bonner County, ID","type":"county","population":"40743"}
+,{"id":"0500000US16019","name":"Bonneville County, ID","type":"county","population":"105580"}
+,{"id":"0500000US16021","name":"Boundary County, ID","type":"county","population":"10866"}
+,{"id":"0500000US16023","name":"Butte County, ID","type":"county","population":"2786"}
+,{"id":"0500000US16025","name":"Camas County, ID","type":"county","population":"1267"}
+,{"id":"0500000US16027","name":"Canyon County, ID","type":"county","population":"192153"}
+,{"id":"0500000US16029","name":"Caribou County, ID","type":"county","population":"6867"}
+,{"id":"0500000US16031","name":"Cassia County, ID","type":"county","population":"23054"}
+,{"id":"0500000US16033","name":"Clark County, ID","type":"county","population":"751"}
+,{"id":"0500000US16035","name":"Clearwater County, ID","type":"county","population":"8638"}
+,{"id":"0500000US16037","name":"Custer County, ID","type":"county","population":"4331"}
+,{"id":"0500000US16039","name":"Elmore County, ID","type":"county","population":"26528"}
+,{"id":"0500000US16041","name":"Franklin County, ID","type":"county","population":"12801"}
+,{"id":"0500000US16043","name":"Fremont County, ID","type":"county","population":"13088"}
+,{"id":"0500000US16045","name":"Gem County, ID","type":"county","population":"16722"}
+,{"id":"0500000US16047","name":"Gooding County, ID","type":"county","population":"15278"}
+,{"id":"0500000US16049","name":"Idaho County, ID","type":"county","population":"16269"}
+,{"id":"0500000US16051","name":"Jefferson County, ID","type":"county","population":"26389"}
+,{"id":"0500000US16053","name":"Jerome County, ID","type":"county","population":"22391"}
+,{"id":"0500000US16055","name":"Kootenai County, ID","type":"county","population":"140785"}
+,{"id":"0500000US16057","name":"Latah County, ID","type":"county","population":"37636"}
+,{"id":"0500000US16059","name":"Lemhi County, ID","type":"county","population":"7853"}
+,{"id":"0500000US16061","name":"Lewis County, ID","type":"county","population":"3851"}
+,{"id":"0500000US16063","name":"Lincoln County, ID","type":"county","population":"5221"}
+,{"id":"0500000US16065","name":"Madison County, ID","type":"county","population":"37542"}
+,{"id":"0500000US16067","name":"Minidoka County, ID","type":"county","population":"20104"}
+,{"id":"0500000US16069","name":"Nez Perce County, ID","type":"county","population":"39458"}
+,{"id":"0500000US16071","name":"Oneida County, ID","type":"county","population":"4257"}
+,{"id":"0500000US16073","name":"Owyhee County, ID","type":"county","population":"11474"}
+,{"id":"0500000US16075","name":"Payette County, ID","type":"county","population":"22629"}
+,{"id":"0500000US16077","name":"Power County, ID","type":"county","population":"7756"}
+,{"id":"0500000US16079","name":"Shoshone County, ID","type":"county","population":"12729"}
+,{"id":"0500000US16081","name":"Teton County, ID","type":"county","population":"10141"}
+,{"id":"0500000US16083","name":"Twin Falls County, ID","type":"county","population":"78067"}
+,{"id":"0500000US16085","name":"Valley County, ID","type":"county","population":"9698"}
+,{"id":"0500000US16087","name":"Washington County, ID","type":"county","population":"10094"}
+,{"id":"0500000US17001","name":"Adams County, IL","type":"county","population":"67152"}
+,{"id":"0500000US17003","name":"Alexander County, IL","type":"county","population":"7980"}
+,{"id":"0500000US17005","name":"Bond County, IL","type":"county","population":"17665"}
+,{"id":"0500000US17007","name":"Boone County, IL","type":"county","population":"54068"}
+,{"id":"0500000US17009","name":"Brown County, IL","type":"county","population":"6904"}
+,{"id":"0500000US17011","name":"Bureau County, IL","type":"county","population":"34594"}
+,{"id":"0500000US17013","name":"Calhoun County, IL","type":"county","population":"5062"}
+,{"id":"0500000US17015","name":"Carroll County, IL","type":"county","population":"15199"}
+,{"id":"0500000US17017","name":"Cass County, IL","type":"county","population":"13530"}
+,{"id":"0500000US17019","name":"Champaign County, IL","type":"county","population":"202428"}
+,{"id":"0500000US17021","name":"Christian County, IL","type":"county","population":"34651"}
+,{"id":"0500000US17023","name":"Clark County, IL","type":"county","population":"16284"}
+,{"id":"0500000US17025","name":"Clay County, IL","type":"county","population":"13744"}
+,{"id":"0500000US17027","name":"Clinton County, IL","type":"county","population":"37891"}
+,{"id":"0500000US17029","name":"Coles County, IL","type":"county","population":"53732"}
+,{"id":"0500000US17031","name":"Cook County, IL","type":"county","population":"5212372"}
+,{"id":"0500000US17033","name":"Crawford County, IL","type":"county","population":"19707"}
+,{"id":"0500000US17035","name":"Cumberland County, IL","type":"county","population":"11015"}
+,{"id":"0500000US17037","name":"DeKalb County, IL","type":"county","population":"104820"}
+,{"id":"0500000US17039","name":"De Witt County, IL","type":"county","population":"16511"}
+,{"id":"0500000US17041","name":"Douglas County, IL","type":"county","population":"19902"}
+,{"id":"0500000US17043","name":"DuPage County, IL","type":"county","population":"922803"}
+,{"id":"0500000US17045","name":"Edgar County, IL","type":"county","population":"18339"}
+,{"id":"0500000US17047","name":"Edwards County, IL","type":"county","population":"6695"}
+,{"id":"0500000US17049","name":"Effingham County, IL","type":"county","population":"34274"}
+,{"id":"0500000US17051","name":"Fayette County, IL","type":"county","population":"22088"}
+,{"id":"0500000US17053","name":"Ford County, IL","type":"county","population":"13991"}
+,{"id":"0500000US17055","name":"Franklin County, IL","type":"county","population":"39470"}
+,{"id":"0500000US17057","name":"Fulton County, IL","type":"county","population":"36829"}
+,{"id":"0500000US17059","name":"Gallatin County, IL","type":"county","population":"5516"}
+,{"id":"0500000US17061","name":"Greene County, IL","type":"county","population":"13778"}
+,{"id":"0500000US17063","name":"Grundy County, IL","type":"county","population":"50064"}
+,{"id":"0500000US17065","name":"Hamilton County, IL","type":"county","population":"8413"}
+,{"id":"0500000US17067","name":"Hancock County, IL","type":"county","population":"18949"}
+,{"id":"0500000US17069","name":"Hardin County, IL","type":"county","population":"4273"}
+,{"id":"0500000US17071","name":"Henderson County, IL","type":"county","population":"7186"}
+,{"id":"0500000US17073","name":"Henry County, IL","type":"county","population":"50260"}
+,{"id":"0500000US17075","name":"Iroquois County, IL","type":"county","population":"29446"}
+,{"id":"0500000US17077","name":"Jackson County, IL","type":"county","population":"60055"}
+,{"id":"0500000US17079","name":"Jasper County, IL","type":"county","population":"9680"}
+,{"id":"0500000US17081","name":"Jefferson County, IL","type":"county","population":"38769"}
+,{"id":"0500000US17083","name":"Jersey County, IL","type":"county","population":"22850"}
+,{"id":"0500000US17085","name":"Jo Daviess County, IL","type":"county","population":"22602"}
+,{"id":"0500000US17087","name":"Johnson County, IL","type":"county","population":"12665"}
+,{"id":"0500000US17089","name":"Kane County, IL","type":"county","population":"518380"}
+,{"id":"0500000US17091","name":"Kankakee County, IL","type":"county","population":"112991"}
+,{"id":"0500000US17093","name":"Kendall County, IL","type":"county","population":"116366"}
+,{"id":"0500000US17095","name":"Knox County, IL","type":"county","population":"52545"}
+,{"id":"0500000US17097","name":"Lake County, IL","type":"county","population":"702099"}
+,{"id":"0500000US17099","name":"LaSalle County, IL","type":"county","population":"113295"}
+,{"id":"0500000US17101","name":"Lawrence County, IL","type":"county","population":"16702"}
+,{"id":"0500000US17103","name":"Lee County, IL","type":"county","population":"35535"}
+,{"id":"0500000US17105","name":"Livingston County, IL","type":"county","population":"38687"}
+,{"id":"0500000US17107","name":"Logan County, IL","type":"county","population":"30177"}
+,{"id":"0500000US17109","name":"McDonough County, IL","type":"county","population":"32549"}
+,{"id":"0500000US17111","name":"McHenry County, IL","type":"county","population":"308060"}
+,{"id":"0500000US17113","name":"McLean County, IL","type":"county","population":"171240"}
+,{"id":"0500000US17115","name":"Macon County, IL","type":"county","population":"110262"}
+,{"id":"0500000US17117","name":"Macoupin County, IL","type":"county","population":"47462"}
+,{"id":"0500000US17119","name":"Madison County, IL","type":"county","population":"268373"}
+,{"id":"0500000US17121","name":"Marion County, IL","type":"county","population":"39070"}
+,{"id":"0500000US17123","name":"Marshall County, IL","type":"county","population":"12454"}
+,{"id":"0500000US17125","name":"Mason County, IL","type":"county","population":"14508"}
+,{"id":"0500000US17127","name":"Massac County, IL","type":"county","population":"15282"}
+,{"id":"0500000US17129","name":"Menard County, IL","type":"county","population":"12687"}
+,{"id":"0500000US17131","name":"Mercer County, IL","type":"county","population":"16325"}
+,{"id":"0500000US17133","name":"Monroe County, IL","type":"county","population":"33181"}
+,{"id":"0500000US17135","name":"Montgomery County, IL","type":"county","population":"29878"}
+,{"id":"0500000US17137","name":"Morgan County, IL","type":"county","population":"35424"}
+,{"id":"0500000US17139","name":"Moultrie County, IL","type":"county","population":"14869"}
+,{"id":"0500000US17141","name":"Ogle County, IL","type":"county","population":"53092"}
+,{"id":"0500000US17143","name":"Peoria County, IL","type":"county","population":"187117"}
+,{"id":"0500000US17145","name":"Perry County, IL","type":"county","population":"22182"}
+,{"id":"0500000US17147","name":"Piatt County, IL","type":"county","population":"16620"}
+,{"id":"0500000US17149","name":"Pike County, IL","type":"county","population":"16337"}
+,{"id":"0500000US17151","name":"Pope County, IL","type":"county","population":"4383"}
+,{"id":"0500000US17153","name":"Pulaski County, IL","type":"county","population":"6035"}
+,{"id":"0500000US17155","name":"Putnam County, IL","type":"county","population":"5927"}
+,{"id":"0500000US17157","name":"Randolph County, IL","type":"county","population":"33218"}
+,{"id":"0500000US17159","name":"Richland County, IL","type":"county","population":"16213"}
+,{"id":"0500000US17161","name":"Rock Island County, IL","type":"county","population":"147477"}
+,{"id":"0500000US17163","name":"St. Clair County, IL","type":"county","population":"268939"}
+,{"id":"0500000US17165","name":"Saline County, IL","type":"county","population":"24950"}
+,{"id":"0500000US17167","name":"Sangamon County, IL","type":"county","population":"198269"}
+,{"id":"0500000US17169","name":"Schuyler County, IL","type":"county","population":"7490"}
+,{"id":"0500000US17171","name":"Scott County, IL","type":"county","population":"5288"}
+,{"id":"0500000US17173","name":"Shelby County, IL","type":"county","population":"22266"}
+,{"id":"0500000US17175","name":"Stark County, IL","type":"county","population":"5942"}
+,{"id":"0500000US17177","name":"Stephenson County, IL","type":"county","population":"47315"}
+,{"id":"0500000US17179","name":"Tazewell County, IL","type":"county","population":"135747"}
+,{"id":"0500000US17181","name":"Union County, IL","type":"county","population":"17722"}
+,{"id":"0500000US17183","name":"Vermilion County, IL","type":"county","population":"81147"}
+,{"id":"0500000US17185","name":"Wabash County, IL","type":"county","population":"11848"}
+,{"id":"0500000US17187","name":"Warren County, IL","type":"county","population":"17762"}
+,{"id":"0500000US17189","name":"Washington County, IL","type":"county","population":"14626"}
+,{"id":"0500000US17191","name":"Wayne County, IL","type":"county","population":"16674"}
+,{"id":"0500000US17193","name":"White County, IL","type":"county","population":"14630"}
+,{"id":"0500000US17195","name":"Whiteside County, IL","type":"county","population":"58150"}
+,{"id":"0500000US17197","name":"Will County, IL","type":"county","population":"679688"}
+,{"id":"0500000US17199","name":"Williamson County, IL","type":"county","population":"66606"}
+,{"id":"0500000US17201","name":"Winnebago County, IL","type":"county","population":"293384"}
+,{"id":"0500000US17203","name":"Woodford County, IL","type":"county","population":"38903"}
+,{"id":"0500000US18001","name":"Adams County, IN","type":"county","population":"34424"}
+,{"id":"0500000US18003","name":"Allen County, IN","type":"county","population":"358324"}
+,{"id":"0500000US18005","name":"Bartholomew County, IN","type":"county","population":"77930"}
+,{"id":"0500000US18007","name":"Benton County, IN","type":"county","population":"8823"}
+,{"id":"0500000US18009","name":"Blackford County, IN","type":"county","population":"12665"}
+,{"id":"0500000US18011","name":"Boone County, IN","type":"county","population":"58009"}
+,{"id":"0500000US18013","name":"Brown County, IN","type":"county","population":"15128"}
+,{"id":"0500000US18015","name":"Carroll County, IN","type":"county","population":"20109"}
+,{"id":"0500000US18017","name":"Cass County, IN","type":"county","population":"38802"}
+,{"id":"0500000US18019","name":"Clark County, IN","type":"county","population":"111221"}
+,{"id":"0500000US18021","name":"Clay County, IN","type":"county","population":"26865"}
+,{"id":"0500000US18023","name":"Clinton County, IN","type":"county","population":"33086"}
+,{"id":"0500000US18025","name":"Crawford County, IN","type":"county","population":"10656"}
+,{"id":"0500000US18027","name":"Daviess County, IN","type":"county","population":"31928"}
+,{"id":"0500000US18029","name":"Dearborn County, IN","type":"county","population":"49975"}
+,{"id":"0500000US18031","name":"Decatur County, IN","type":"county","population":"25939"}
+,{"id":"0500000US18033","name":"DeKalb County, IN","type":"county","population":"42253"}
+,{"id":"0500000US18035","name":"Delaware County, IN","type":"county","population":"117575"}
+,{"id":"0500000US18037","name":"Dubois County, IN","type":"county","population":"42103"}
+,{"id":"0500000US18039","name":"Elkhart County, IN","type":"county","population":"198662"}
+,{"id":"0500000US18041","name":"Fayette County, IN","type":"county","population":"24112"}
+,{"id":"0500000US18043","name":"Floyd County, IN","type":"county","population":"75120"}
+,{"id":"0500000US18045","name":"Fountain County, IN","type":"county","population":"17108"}
+,{"id":"0500000US18047","name":"Franklin County, IN","type":"county","population":"23042"}
+,{"id":"0500000US18049","name":"Fulton County, IN","type":"county","population":"20698"}
+,{"id":"0500000US18051","name":"Gibson County, IN","type":"county","population":"33514"}
+,{"id":"0500000US18053","name":"Grant County, IN","type":"county","population":"69671"}
+,{"id":"0500000US18055","name":"Greene County, IN","type":"county","population":"33001"}
+,{"id":"0500000US18057","name":"Hamilton County, IN","type":"county","population":"282977"}
+,{"id":"0500000US18059","name":"Hancock County, IN","type":"county","population":"70466"}
+,{"id":"0500000US18061","name":"Harrison County, IN","type":"county","population":"39213"}
+,{"id":"0500000US18063","name":"Hendricks County, IN","type":"county","population":"148623"}
+,{"id":"0500000US18065","name":"Henry County, IN","type":"county","population":"49275"}
+,{"id":"0500000US18067","name":"Howard County, IN","type":"county","population":"82795"}
+,{"id":"0500000US18069","name":"Huntington County, IN","type":"county","population":"37044"}
+,{"id":"0500000US18071","name":"Jackson County, IN","type":"county","population":"42769"}
+,{"id":"0500000US18073","name":"Jasper County, IN","type":"county","population":"33398"}
+,{"id":"0500000US18075","name":"Jay County, IN","type":"county","population":"21333"}
+,{"id":"0500000US18077","name":"Jefferson County, IN","type":"county","population":"32449"}
+,{"id":"0500000US18079","name":"Jennings County, IN","type":"county","population":"28324"}
+,{"id":"0500000US18081","name":"Johnson County, IN","type":"county","population":"141796"}
+,{"id":"0500000US18083","name":"Knox County, IN","type":"county","population":"38266"}
+,{"id":"0500000US18085","name":"Kosciusko County, IN","type":"county","population":"77527"}
+,{"id":"0500000US18087","name":"LaGrange County, IN","type":"county","population":"37463"}
+,{"id":"0500000US18089","name":"Lake County, IN","type":"county","population":"494250"}
+,{"id":"0500000US18091","name":"LaPorte County, IN","type":"county","population":"111310"}
+,{"id":"0500000US18093","name":"Lawrence County, IN","type":"county","population":"46053"}
+,{"id":"0500000US18095","name":"Madison County, IN","type":"county","population":"131027"}
+,{"id":"0500000US18097","name":"Marion County, IN","type":"county","population":"912242"}
+,{"id":"0500000US18099","name":"Marshall County, IN","type":"county","population":"47057"}
+,{"id":"0500000US18101","name":"Martin County, IN","type":"county","population":"10269"}
+,{"id":"0500000US18103","name":"Miami County, IN","type":"county","population":"36624"}
+,{"id":"0500000US18105","name":"Monroe County, IN","type":"county","population":"139634"}
+,{"id":"0500000US18107","name":"Montgomery County, IN","type":"county","population":"38215"}
+,{"id":"0500000US18109","name":"Morgan County, IN","type":"county","population":"69217"}
+,{"id":"0500000US18111","name":"Newton County, IN","type":"county","population":"14151"}
+,{"id":"0500000US18113","name":"Noble County, IN","type":"county","population":"47509"}
+,{"id":"0500000US18115","name":"Ohio County, IN","type":"county","population":"6075"}
+,{"id":"0500000US18117","name":"Orange County, IN","type":"county","population":"19829"}
+,{"id":"0500000US18119","name":"Owen County, IN","type":"county","population":"21467"}
+,{"id":"0500000US18121","name":"Parke County, IN","type":"county","population":"17210"}
+,{"id":"0500000US18123","name":"Perry County, IN","type":"county","population":"19450"}
+,{"id":"0500000US18125","name":"Pike County, IN","type":"county","population":"12780"}
+,{"id":"0500000US18127","name":"Porter County, IN","type":"county","population":"165168"}
+,{"id":"0500000US18129","name":"Posey County, IN","type":"county","population":"25713"}
+,{"id":"0500000US18131","name":"Pulaski County, IN","type":"county","population":"13253"}
+,{"id":"0500000US18133","name":"Putnam County, IN","type":"county","population":"37799"}
+,{"id":"0500000US18135","name":"Randolph County, IN","type":"county","population":"25975"}
+,{"id":"0500000US18137","name":"Ripley County, IN","type":"county","population":"28636"}
+,{"id":"0500000US18139","name":"Rush County, IN","type":"county","population":"17257"}
+,{"id":"0500000US18141","name":"St. Joseph County, IN","type":"county","population":"266694"}
+,{"id":"0500000US18143","name":"Scott County, IN","type":"county","population":"24035"}
+,{"id":"0500000US18145","name":"Shelby County, IN","type":"county","population":"44511"}
+,{"id":"0500000US18147","name":"Spencer County, IN","type":"county","population":"20960"}
+,{"id":"0500000US18149","name":"Starke County, IN","type":"county","population":"23267"}
+,{"id":"0500000US18151","name":"Steuben County, IN","type":"county","population":"34190"}
+,{"id":"0500000US18153","name":"Sullivan County, IN","type":"county","population":"21321"}
+,{"id":"0500000US18155","name":"Switzerland County, IN","type":"county","population":"10534"}
+,{"id":"0500000US18157","name":"Tippecanoe County, IN","type":"county","population":"175628"}
+,{"id":"0500000US18159","name":"Tipton County, IN","type":"county","population":"15834"}
+,{"id":"0500000US18161","name":"Union County, IN","type":"county","population":"7420"}
+,{"id":"0500000US18163","name":"Vanderburgh County, IN","type":"county","population":"180233"}
+,{"id":"0500000US18165","name":"Vermillion County, IN","type":"county","population":"16098"}
+,{"id":"0500000US18167","name":"Vigo County, IN","type":"county","population":"108084"}
+,{"id":"0500000US18169","name":"Wabash County, IN","type":"county","population":"32650"}
+,{"id":"0500000US18171","name":"Warren County, IN","type":"county","population":"8464"}
+,{"id":"0500000US18173","name":"Warrick County, IN","type":"county","population":"60163"}
+,{"id":"0500000US18175","name":"Washington County, IN","type":"county","population":"28064"}
+,{"id":"0500000US18177","name":"Wayne County, IN","type":"county","population":"68557"}
+,{"id":"0500000US18179","name":"Wells County, IN","type":"county","population":"27707"}
+,{"id":"0500000US18181","name":"White County, IN","type":"county","population":"24542"}
+,{"id":"0500000US18183","name":"Whitley County, IN","type":"county","population":"33274"}
+,{"id":"0500000US19001","name":"Adair County, IA","type":"county","population":"7588"}
+,{"id":"0500000US19003","name":"Adams County, IA","type":"county","population":"3973"}
+,{"id":"0500000US19005","name":"Allamakee County, IA","type":"county","population":"14242"}
+,{"id":"0500000US19007","name":"Appanoose County, IA","type":"county","population":"12808"}
+,{"id":"0500000US19009","name":"Audubon County, IA","type":"county","population":"6002"}
+,{"id":"0500000US19011","name":"Benton County, IA","type":"county","population":"25971"}
+,{"id":"0500000US19013","name":"Black Hawk County, IA","type":"county","population":"131468"}
+,{"id":"0500000US19015","name":"Boone County, IA","type":"county","population":"26310"}
+,{"id":"0500000US19017","name":"Bremer County, IA","type":"county","population":"24387"}
+,{"id":"0500000US19019","name":"Buchanan County, IA","type":"county","population":"20954"}
+,{"id":"0500000US19021","name":"Buena Vista County, IA","type":"county","population":"20350"}
+,{"id":"0500000US19023","name":"Butler County, IA","type":"county","population":"14909"}
+,{"id":"0500000US19025","name":"Calhoun County, IA","type":"county","population":"9952"}
+,{"id":"0500000US19027","name":"Carroll County, IA","type":"county","population":"20732"}
+,{"id":"0500000US19029","name":"Cass County, IA","type":"county","population":"13793"}
+,{"id":"0500000US19031","name":"Cedar County, IA","type":"county","population":"18452"}
+,{"id":"0500000US19033","name":"Cerro Gordo County, IA","type":"county","population":"43932"}
+,{"id":"0500000US19035","name":"Cherokee County, IA","type":"county","population":"12013"}
+,{"id":"0500000US19037","name":"Chickasaw County, IA","type":"county","population":"12379"}
+,{"id":"0500000US19039","name":"Clarke County, IA","type":"county","population":"9311"}
+,{"id":"0500000US19041","name":"Clay County, IA","type":"county","population":"16604"}
+,{"id":"0500000US19043","name":"Clayton County, IA","type":"county","population":"17990"}
+,{"id":"0500000US19045","name":"Clinton County, IA","type":"county","population":"48896"}
+,{"id":"0500000US19047","name":"Crawford County, IA","type":"county","population":"17205"}
+,{"id":"0500000US19049","name":"Dallas County, IA","type":"county","population":"69526"}
+,{"id":"0500000US19051","name":"Davis County, IA","type":"county","population":"8755"}
+,{"id":"0500000US19053","name":"Decatur County, IA","type":"county","population":"8308"}
+,{"id":"0500000US19055","name":"Delaware County, IA","type":"county","population":"17665"}
+,{"id":"0500000US19057","name":"Des Moines County, IA","type":"county","population":"40301"}
+,{"id":"0500000US19059","name":"Dickinson County, IA","type":"county","population":"16818"}
+,{"id":"0500000US19061","name":"Dubuque County, IA","type":"county","population":"94411"}
+,{"id":"0500000US19063","name":"Emmet County, IA","type":"county","population":"10141"}
+,{"id":"0500000US19065","name":"Fayette County, IA","type":"county","population":"20822"}
+,{"id":"0500000US19067","name":"Floyd County, IA","type":"county","population":"16177"}
+,{"id":"0500000US19069","name":"Franklin County, IA","type":"county","population":"10623"}
+,{"id":"0500000US19071","name":"Fremont County, IA","type":"county","population":"7291"}
+,{"id":"0500000US19073","name":"Greene County, IA","type":"county","population":"9255"}
+,{"id":"0500000US19075","name":"Grundy County, IA","type":"county","population":"12416"}
+,{"id":"0500000US19077","name":"Guthrie County, IA","type":"county","population":"10843"}
+,{"id":"0500000US19079","name":"Hamilton County, IA","type":"county","population":"15486"}
+,{"id":"0500000US19081","name":"Hancock County, IA","type":"county","population":"11243"}
+,{"id":"0500000US19083","name":"Hardin County, IA","type":"county","population":"17453"}
+,{"id":"0500000US19085","name":"Harrison County, IA","type":"county","population":"14729"}
+,{"id":"0500000US19087","name":"Henry County, IA","type":"county","population":"20188"}
+,{"id":"0500000US19089","name":"Howard County, IA","type":"county","population":"9560"}
+,{"id":"0500000US19091","name":"Humboldt County, IA","type":"county","population":"9776"}
+,{"id":"0500000US19093","name":"Ida County, IA","type":"county","population":"7099"}
+,{"id":"0500000US19095","name":"Iowa County, IA","type":"county","population":"16323"}
+,{"id":"0500000US19097","name":"Jackson County, IA","type":"county","population":"19737"}
+,{"id":"0500000US19099","name":"Jasper County, IA","type":"county","population":"36710"}
+,{"id":"0500000US19101","name":"Jefferson County, IA","type":"county","population":"16800"}
+,{"id":"0500000US19103","name":"Johnson County, IA","type":"county","population":"134034"}
+,{"id":"0500000US19105","name":"Jones County, IA","type":"county","population":"20637"}
+,{"id":"0500000US19107","name":"Keokuk County, IA","type":"county","population":"10428"}
+,{"id":"0500000US19109","name":"Kossuth County, IA","type":"county","population":"15437"}
+,{"id":"0500000US19111","name":"Lee County, IA","type":"county","population":"35736"}
+,{"id":"0500000US19113","name":"Linn County, IA","type":"county","population":"213425"}
+,{"id":"0500000US19115","name":"Louisa County, IA","type":"county","population":"11348"}
+,{"id":"0500000US19117","name":"Lucas County, IA","type":"county","population":"8840"}
+,{"id":"0500000US19119","name":"Lyon County, IA","type":"county","population":"11659"}
+,{"id":"0500000US19121","name":"Madison County, IA","type":"county","population":"15606"}
+,{"id":"0500000US19123","name":"Mahaska County, IA","type":"county","population":"22428"}
+,{"id":"0500000US19125","name":"Marion County, IA","type":"county","population":"33318"}
+,{"id":"0500000US19127","name":"Marshall County, IA","type":"county","population":"40800"}
+,{"id":"0500000US19129","name":"Mills County, IA","type":"county","population":"14983"}
+,{"id":"0500000US19131","name":"Mitchell County, IA","type":"county","population":"10739"}
+,{"id":"0500000US19133","name":"Monona County, IA","type":"county","population":"9208"}
+,{"id":"0500000US19135","name":"Monroe County, IA","type":"county","population":"8010"}
+,{"id":"0500000US19137","name":"Montgomery County, IA","type":"county","population":"10625"}
+,{"id":"0500000US19139","name":"Muscatine County, IA","type":"county","population":"42798"}
+,{"id":"0500000US19141","name":"O'Brien County, IA","type":"county","population":"14249"}
+,{"id":"0500000US19143","name":"Osceola County, IA","type":"county","population":"6335"}
+,{"id":"0500000US19145","name":"Page County, IA","type":"county","population":"15838"}
+,{"id":"0500000US19147","name":"Palo Alto County, IA","type":"county","population":"9352"}
+,{"id":"0500000US19149","name":"Plymouth County, IA","type":"county","population":"24923"}
+,{"id":"0500000US19151","name":"Pocahontas County, IA","type":"county","population":"7243"}
+,{"id":"0500000US19153","name":"Polk County, IA","type":"county","population":"438307"}
+,{"id":"0500000US19155","name":"Pottawattamie County, IA","type":"county","population":"92962"}
+,{"id":"0500000US19157","name":"Poweshiek County, IA","type":"county","population":"18804"}
+,{"id":"0500000US19159","name":"Ringgold County, IA","type":"county","population":"5107"}
+,{"id":"0500000US19161","name":"Sac County, IA","type":"county","population":"10227"}
+,{"id":"0500000US19163","name":"Scott County, IA","type":"county","population":"167080"}
+,{"id":"0500000US19165","name":"Shelby County, IA","type":"county","population":"12088"}
+,{"id":"0500000US19167","name":"Sioux County, IA","type":"county","population":"34050"}
+,{"id":"0500000US19169","name":"Story County, IA","type":"county","population":"90750"}
+,{"id":"0500000US19171","name":"Tama County, IA","type":"county","population":"17661"}
+,{"id":"0500000US19173","name":"Taylor County, IA","type":"county","population":"6256"}
+,{"id":"0500000US19175","name":"Union County, IA","type":"county","population":"12547"}
+,{"id":"0500000US19177","name":"Van Buren County, IA","type":"county","population":"7517"}
+,{"id":"0500000US19179","name":"Wapello County, IA","type":"county","population":"35469"}
+,{"id":"0500000US19181","name":"Warren County, IA","type":"county","population":"46631"}
+,{"id":"0500000US19183","name":"Washington County, IA","type":"county","population":"21834"}
+,{"id":"0500000US19185","name":"Wayne County, IA","type":"county","population":"6382"}
+,{"id":"0500000US19187","name":"Webster County, IA","type":"county","population":"37626"}
+,{"id":"0500000US19189","name":"Winnebago County, IA","type":"county","population":"10732"}
+,{"id":"0500000US19191","name":"Winneshiek County, IA","type":"county","population":"21038"}
+,{"id":"0500000US19193","name":"Woodbury County, IA","type":"county","population":"102155"}
+,{"id":"0500000US19195","name":"Worth County, IA","type":"county","population":"7562"}
+,{"id":"0500000US19197","name":"Wright County, IA","type":"county","population":"13092"}
+,{"id":"0500000US20001","name":"Allen County, KS","type":"county","population":"13318"}
+,{"id":"0500000US20003","name":"Anderson County, KS","type":"county","population":"8021"}
+,{"id":"0500000US20005","name":"Atchison County, KS","type":"county","population":"16839"}
+,{"id":"0500000US20007","name":"Barber County, KS","type":"county","population":"4898"}
+,{"id":"0500000US20009","name":"Barton County, KS","type":"county","population":"27602"}
+,{"id":"0500000US20011","name":"Bourbon County, KS","type":"county","population":"15004"}
+,{"id":"0500000US20013","name":"Brown County, KS","type":"county","population":"9969"}
+,{"id":"0500000US20015","name":"Butler County, KS","type":"county","population":"65786"}
+,{"id":"0500000US20017","name":"Chase County, KS","type":"county","population":"2763"}
+,{"id":"0500000US20019","name":"Chautauqua County, KS","type":"county","population":"3614"}
+,{"id":"0500000US20021","name":"Cherokee County, KS","type":"county","population":"21361"}
+,{"id":"0500000US20023","name":"Cheyenne County, KS","type":"county","population":"2708"}
+,{"id":"0500000US20025","name":"Clark County, KS","type":"county","population":"2188"}
+,{"id":"0500000US20027","name":"Clay County, KS","type":"county","population":"8500"}
+,{"id":"0500000US20029","name":"Cloud County, KS","type":"county","population":"9419"}
+,{"id":"0500000US20031","name":"Coffey County, KS","type":"county","population":"8516"}
+,{"id":"0500000US20033","name":"Comanche County, KS","type":"county","population":"1905"}
+,{"id":"0500000US20035","name":"Cowley County, KS","type":"county","population":"36232"}
+,{"id":"0500000US20037","name":"Crawford County, KS","type":"county","population":"39182"}
+,{"id":"0500000US20039","name":"Decatur County, KS","type":"county","population":"2933"}
+,{"id":"0500000US20041","name":"Dickinson County, KS","type":"county","population":"19734"}
+,{"id":"0500000US20043","name":"Doniphan County, KS","type":"county","population":"7905"}
+,{"id":"0500000US20045","name":"Douglas County, KS","type":"county","population":"112210"}
+,{"id":"0500000US20047","name":"Edwards County, KS","type":"county","population":"2998"}
+,{"id":"0500000US20049","name":"Elk County, KS","type":"county","population":"2782"}
+,{"id":"0500000US20051","name":"Ellis County, KS","type":"county","population":"28746"}
+,{"id":"0500000US20053","name":"Ellsworth County, KS","type":"county","population":"6454"}
+,{"id":"0500000US20055","name":"Finney County, KS","type":"county","population":"36920"}
+,{"id":"0500000US20057","name":"Ford County, KS","type":"county","population":"34217"}
+,{"id":"0500000US20059","name":"Franklin County, KS","type":"county","population":"25870"}
+,{"id":"0500000US20061","name":"Geary County, KS","type":"county","population":"35583"}
+,{"id":"0500000US20063","name":"Gove County, KS","type":"county","population":"2835"}
+,{"id":"0500000US20065","name":"Graham County, KS","type":"county","population":"2604"}
+,{"id":"0500000US20067","name":"Grant County, KS","type":"county","population":"7869"}
+,{"id":"0500000US20069","name":"Gray County, KS","type":"county","population":"6012"}
+,{"id":"0500000US20071","name":"Greeley County, KS","type":"county","population":"1202"}
+,{"id":"0500000US20073","name":"Greenwood County, KS","type":"county","population":"6582"}
+,{"id":"0500000US20075","name":"Hamilton County, KS","type":"county","population":"2645"}
+,{"id":"0500000US20077","name":"Harper County, KS","type":"county","population":"5951"}
+,{"id":"0500000US20079","name":"Harvey County, KS","type":"county","population":"34722"}
+,{"id":"0500000US20081","name":"Haskell County, KS","type":"county","population":"4219"}
+,{"id":"0500000US20083","name":"Hodgeman County, KS","type":"county","population":"1946"}
+,{"id":"0500000US20085","name":"Jackson County, KS","type":"county","population":"13430"}
+,{"id":"0500000US20087","name":"Jefferson County, KS","type":"county","population":"18971"}
+,{"id":"0500000US20089","name":"Jewell County, KS","type":"county","population":"3061"}]
