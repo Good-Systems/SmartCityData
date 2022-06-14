@@ -7,6 +7,7 @@
 
 
 
+from telnetlib import AUTHENTICATION
 from sodapy import Socrata
 from sys import exit
 import pandas as pd
@@ -68,7 +69,8 @@ def mainprogram(a,b,c):
     #?domains=data.austintexas.gov'
    
     request_site = 'https://api.us.socrata.com/api/catalog/v1'+ city_domain
-    
+
+    # request_site = 'https://ridb.recreation.gov/api/v1/'
     request = http.request('GET',request_site)
 
     #response_body = urlopen(request).read()
