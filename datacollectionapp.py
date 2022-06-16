@@ -68,34 +68,34 @@ def mainprogram(a,b,c):
 
     #?domains=data.austintexas.gov'
    
-    request_site = 'https://api.us.socrata.com/api/catalog/v1'+ city_domain
-
+    # request_site = 'https://api.us.socrata.com/api/catalog/v1'+ city_domain
+    request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
     # request_site = 'https://ridb.recreation.gov/api/v1/'
     request = http.request('GET',request_site)
 
     #response_body = urlopen(request).read()
     data = json.loads(request.data)
-
-
     # results_df = pd.json_normalize(data['results'])
 
-    # print(data)
     while True: 
-        results_df = pd.json_normalize(data['results'])
+        results_df = pd.json_normalize(data['result'], record_path=['results'])
         if results_df.size == 0:
             return results_df
         break
-            
+    print("this is dataset -----------------------------")
+    print(results_df.to_string())       
     #DataFrame.from_records(str(request.data))
-    
+    print("end-------------------------------------")
     results_df['Index'] = range(1,len(results_df)+1)
     #print(results_df.head())
     results_df.set_index('Index')
     #['resource.name']
     a = pd.DataFrame(data, columns = ['Index', 'Name'], index = None)
     a['Index'] = results_df['Index']
-    a['Name'] = results_df['resource.name']
-    a['More Info'] = results_df['permalink']
+    # a['Name'] = results_df['resource.name']
+    # a['More Info'] = results_df['permalink']
+    a['Name'] = results_df['title']
+    a['More Info'] = results_df['url']
     #print(a[['Index','Name']].to_string(index=False))
     return a
     #results_df.to_csv('results_test.csv')

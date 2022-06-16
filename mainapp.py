@@ -12,6 +12,7 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 
 from datacollectionapp import *
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SECRET_KEY'] = 'SECRET_KEY'
@@ -41,6 +42,7 @@ class Form(FlaskForm):
     # state = QuerySelectField(query_factory=choice_query,allow_blank=True)
     state = SelectField('state', choices=[('AL', 'Alabama'),('AK', 'Alaska'),('AZ', 'Arizona'),('AR', 'Arkansas'),('CA', 'California'),('CO', 'Colorado'),('CT', 'Connecticut'),('DE', 'Delaware'),('FL', 'Florida'),('GA', 'Georgia'),('HI', 'Hawaii'),('ID', 'Idaho'),('IL', 'Illinois'),('IN', 'Indiana'),('IA', 'Iowa'),('KS', 'Kansas'),('KY', 'Kentucky'),('LA', 'Louisiana'),('ME', 'Maine'),('MD', 'Maryland'),('MA', 'Massachusetts'),('MI', 'Michigan'),('MN', 'Minnesota'),('MS', 'Mississippi'),('MO', 'Missouri'),('MT', 'Montana'),('NE', 'Nebraska'),('NV', 'Nevada'),('NH', 'New Hampshire'),('NJ', 'New Jersey'),('NM', 'New Mexico'),('NY', 'New York'),('NC', 'North Carolina'),('ND', 'North Dakota'),('OH', 'Ohio'),('OK', 'Oklahoma'),('OR', 'Oregon'),('PA', 'Pennsylvania'),('PR', 'Puerto Rico'),('RI', 'Rhode Island'),('SC', 'South Carolina'),('SD', 'South Dakota'),('TN', 'Tennessee'),('TX', 'Texas'),('UT', 'Utah'),('VT', 'Vermont'),('VA', 'Virginia'),('WA', 'Washington'),('WV', 'West Virginia'),('WI', 'Wisconsin'),('WY', 'Wyoming')])
     city = SelectField('city',choices=[])
+    
 
 @app.route('/', methods = ['POST','GET'])
 
@@ -53,10 +55,19 @@ def index():
         #topic = City.query.filter_by(id=city.topic).first()
         m = folium.Map(location=[30.2672,-97.7431],zoom_start=14)
         m.save('templates/map.html')
-        returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
-        if returnlist is None or returnlist.size == 0:
-            return render_template('index.html',form=form)
+        # returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
+
+        # if returnlist is None or returnlist.size == 0:
+        #     
+        
+        while True:
+            try:
+                returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
+                break
+            except TypeError:
+                return render_template('index.html',form=form)
         return render_template('dataresults.html', form = form, city = city.name, state = form.state.name, topic = request.form['content_topic'], tables=[returnlist.to_html(classes='data', index = False, header = True, justify='center', render_links=True)], titles=returnlist.columns.values)
+        
                                                                                                                                                     
     #tables=[returnlist.to_html(classes='data')], titles=returnlist.columns.values
 
