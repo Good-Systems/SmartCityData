@@ -69,7 +69,7 @@ def mainprogram(a, b, c):
 
     # request_site = 'https://api.us.socrata.com/api/catalog/v1'+ city_domain
     # request_site = 'https://data.sanantonio.gov/api/3/action/package_search?q=health'
-    request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=health'
+    request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
     # request_site = 'https://ridb.recreation.gov/api/v1/'
     request = http.request('GET', request_site)
 
@@ -100,10 +100,10 @@ def mainprogram(a, b, c):
     a['More Info'] = results_df['url']
     print(a.to_string())
     # Drop the cell doesn't contain https
-    httpString = "https://"
-    #a = a[a['More Info'].str.contains(httpString) == True]
+    httpString = "http"
+    a = a[a['More Info'].str.contains(httpString) == True]
+    a = a.dropna()
     # After drop all invalid data, assign the Index
-    a['Index'] = range(1, len(a)+1)
     return a
     # results_df.to_csv('results_test.csv')
     # print()
