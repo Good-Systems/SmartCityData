@@ -1,10 +1,8 @@
-
 # API Key ID
 # 9yz7a9cjftdr9qbvdlhz4ii9l
 
 # API Key Secret
 # e48r6otlbnf9bt6qd6ymci5hudrbwbk582ulbccarit04orlr
-
 
 from telnetlib import AUTHENTICATION
 from sodapy import Socrata
@@ -66,13 +64,19 @@ def mainprogram(a, b, c):
         # return empty_df
         return None
     http = urllib3.PoolManager()
-
+    # Scorata URL
     # request_site = 'https://api.us.socrata.com/api/catalog/v1'+ city_domain
+
+    # Ckan URL
     # request_site = 'https://data.sanantonio.gov/api/3/action/package_search?q=health'
-    request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
+    # request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
+    # request_site = 'https://azgeo-open-data-agic.hub.arcgis.com/search?categories=health'
+    # request_site = 'https://data.sanjoseca.gov/api/3/action/package_search?q=health'
+
+    # RIDB
     # request_site = 'https://ridb.recreation.gov/api/v1/'
     request = http.request('GET', request_site)
-
+    printData(request)
     #response_body = urlopen(request).read()
     data = json.loads(request.data)
     # results_df = pd.json_normalize(data['results'])
