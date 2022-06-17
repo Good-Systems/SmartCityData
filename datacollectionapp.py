@@ -103,6 +103,7 @@ def mainprogram(a, b, c):
     httpString = "http"
     a = a[a['More Info'].str.contains(httpString) == True]
     a = a.dropna()
+    a['Index'] = range(1, len(a)+1)
     # After drop all invalid data, assign the Index
     return a
     # results_df.to_csv('results_test.csv')
