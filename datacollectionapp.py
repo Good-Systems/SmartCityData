@@ -4,6 +4,7 @@
 # API Key Secret
 # e48r6otlbnf9bt6qd6ymci5hudrbwbk582ulbccarit04orlr
 
+from re import T
 from telnetlib import AUTHENTICATION
 from sodapy import Socrata
 from sys import exit
@@ -84,8 +85,8 @@ def mainprogram(a, b, c):
     http = urllib3.PoolManager()
 
     # Scorata URL
-    request_site = 'https://api.us.socrata.com/api/catalog/v1' + city_domain
-    print(request_site)
+    # request_site = 'https://api.us.socrata.com/api/catalog/v1' + city_domain
+    # print(request_site)
     # Ckan URL
     # request_site = 'https://data.sanantonio.gov/api/3/action/package_search?q=health'
     # request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
@@ -95,9 +96,8 @@ def mainprogram(a, b, c):
     # RIDB
     # request_site = 'https://ridb.recreation.gov/api/v1/'
 
-    # try
-    #request_site = 'https://catalog.data.gov/dataset?q=arizona'
-
+    # ArcGis
+    request_site = 'https://glendaleaz-cog-gis.hub.arcgis.com/api/feed/dcat-ap/2.0.1.json'
     request = http.request('GET', request_site)
     print("Request")
     print(request)
@@ -106,7 +106,6 @@ def mainprogram(a, b, c):
     datastring = str(data)
     print("Data")
     print(data)
-
     if "error" in datastring:
         # request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
         request_site = searchCkan(a, b, c)
@@ -130,13 +129,21 @@ def mainprogram(a, b, c):
             if results_df.size == 0:
                 return results_df
             break
-        else:
+        if "api/3/action" in str(request_site):
             results_df = pd.json_normalize(
                 data['result'], record_path=['results'])
             if results_df.size == 0:
                 return results_df
             break
-    # printData(results_df.to_string())
+        else:
+            # results_df = pd.json_normalize(
+            #     data['dcat:dataset'], record_path=['dcat:dataset'])
+            results_df = pd.json_normalize(
+                data['dcat:dataset'])
+            if results_df.size == 0:
+                return results_df
+            break
+    print(results_df.to_string())
     if "socrata" in str(request_site):
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
@@ -149,7 +156,7 @@ def mainprogram(a, b, c):
         a['Name'] = results_df['resource.name']
         a['More Info'] = results_df['permalink']
         return a
-    else:
+    if "api/3/action" in str(request_site):
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
         results_df.set_index('Index')
@@ -165,6 +172,37 @@ def mainprogram(a, b, c):
         httpString = "http"
         a = a[a['More Info'].str.contains(httpString) == True]
         a = a.dropna()
+        a['Index'] = range(1, len(a)+1)
+        # After drop all invalid data, assign the Index
+        return a
+    else:
+        print("REACH HERE")
+        results_df['Index'] = range(1, len(results_df)+1)
+        # print(results_df.head())
+        results_df.set_index('Index')
+        # ['resource.name']
+        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
+     # CKAN
+     #   Final displayed data frame Name & More Infor
+        a['Name'] = results_df['dct:title']
+        a['More Info'] = results_df['dct:identifier']
+        a['Keywords'] = results_df['dcat:keyword']
+        a['Index'] = results_df['Index']
+        print(a.to_string())
+        # Drop the cell doesn't contain https
+        httpString = "http"
+        a = a[a['More Info'].str.contains(httpString) == True]
+        a = a.dropna()
+        # Drop all the things that do not contains the keywords
+        print(a['Keywords'].to_string)
+        print("Before Drop __________________")
+        a['Keywords'] = a['Keywords'].astype('str').str.upper()
+        print(a['Keywords'])
+        # a = a[a['Keywords'].str.contains(str(c)) == True]
+        a = a[a['Keywords'].str.contains(str.upper(c)) == True]
+        a = a.drop(a.columns[3], axis=1)
+        print("After Drop __________________")
+        #a = a[a['More Info'].str.contains(httpString) == True]
         a['Index'] = range(1, len(a)+1)
         # After drop all invalid data, assign the Index
         return a
