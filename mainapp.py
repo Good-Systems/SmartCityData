@@ -70,6 +70,10 @@ def index():
         returnlist = mainprogram(
             city.name, form.state.data, request.form['content_topic'])
         if returnlist is None or returnlist.size == 0:
+            if returnlist is None:
+                print("REACH HERE INVALID RETURNLIST")
+            if returnlist.size == 0:
+                print("REACH THE ZERO SIZE")
             return render_template('index.html', form=form)
         return render_template('dataresults.html', form=form, city=city.name, state=form.state.name, topic=request.form['content_topic'], tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values)
 

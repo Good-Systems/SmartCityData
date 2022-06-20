@@ -14,23 +14,18 @@ import urllib3
 import json
 
 
-def search(a, b, c):
-
+def search_Socrata(a, b, c):
     print("Input fields or NA")
     print("If searching a state government type state name in city and state feilds")
     city = a
     state = b
     topic_name = c
-
     city_api_list = pd.read_csv("city_api_list.csv", index_col=False)
-
     # if city_api_list.loc[city_api_list['City'].str.contains(city)] != None:
     if city_api_list["City"].eq(city).any() and city_api_list["State-Abbr."].eq(state).any():
         # print('True')
-
         # x = city index
         x = city_api_list.loc[city_api_list['City'].str.contains(city)]
-
         # x = website
         x = x.loc[x['State-Abbr.'].str.contains(state)]['API-site']
         # x = [data, austintx, gov]
@@ -48,68 +43,131 @@ def search(a, b, c):
     return var
 
 
-def printData(data):
-    print("THIS IS TESTING DATASET -----------------------------")
-    print(data)
-    print("END -------------------------------------")
+def searchCkan(a, b, c):
+    #request_site = 'https://data.sanantonio.gov/api/3/action/package_search?q=health'
+    print("Input fields or NA")
+    print("If searching a state government type state name in city and state feilds")
+    city = a
+    state = b
+    topic_name = c
+    city_api_list = pd.read_csv("city_api_list.csv", index_col=False)
+    # if city_api_list.loc[city_api_list['City'].str.contains(city)] != None:
+    if city_api_list["City"].eq(city).any() and city_api_list["State-Abbr."].eq(state).any():
+        # print('True')
+        # x = city index
+        x = city_api_list.loc[city_api_list['City'].str.contains(city)]
+        # x = website
+        x = x.loc[x['State-Abbr.'].str.contains(state)]['API-site']
+        # x = [austintx, gov]
+        x = str(x).split()
+        # x = austintx
+        x = x[1]
+        # var = ?search_context=austintexas
+        var = 'https://' + \
+            str(x) + '/api/3/action/package_search?q=' + str(topic_name)
+        print(var)
+
+    else:
+        print("City Not Found.")
+        var = ''
+    return var
 
 
 def mainprogram(a, b, c):
 
     stoprg = 0
-
-    city_domain = str(search(a, b, c))
+    city_domain = str(search_Socrata(a, b, c))
     if city_domain == '':
         # empty_df = pd.DataFrame(None, None)
         # return empty_df
         return None
     http = urllib3.PoolManager()
-    # Scorata URL
-    # request_site = 'https://api.us.socrata.com/api/catalog/v1'+ city_domain
 
+    # Scorata URL
+    request_site = 'https://api.us.socrata.com/api/catalog/v1' + city_domain
+    print(request_site)
     # Ckan URL
     # request_site = 'https://data.sanantonio.gov/api/3/action/package_search?q=health'
     # request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
-    # request_site = 'https://azgeo-open-data-agic.hub.arcgis.com/search?categories=health'
     # request_site = 'https://data.sanjoseca.gov/api/3/action/package_search?q=health'
+    # request_site = 'https://data.milwaukee.gov/api/3/action/package_search?q=transport'
 
     # RIDB
     # request_site = 'https://ridb.recreation.gov/api/v1/'
+
+    # try
+    #request_site = 'https://catalog.data.gov/dataset?q=arizona'
+
     request = http.request('GET', request_site)
-    printData(request)
+    print("Request")
+    print(request)
     #response_body = urlopen(request).read()
+    data = request.data
+    datastring = str(data)
+    print("Data")
+    print(data)
+
+    if "error" in datastring:
+        # request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
+        request_site = searchCkan(a, b, c)
+        request = http.request('GET', request_site)
+        print(request)
+        # data = request.data
+        data = json.loads(request.data)
+        print(data)
     data = json.loads(request.data)
     # results_df = pd.json_normalize(data['results'])
 
+    # Ckan
+    # while True:
+    #     results_df = pd.json_normalize(data['result'], record_path=['results'])
+    #     if results_df.size == 0:
+    #         return results_df
+    #     break
     while True:
-        results_df = pd.json_normalize(data['result'], record_path=['results'])
-        if results_df.size == 0:
-            return results_df
-        break
-    printData(results_df.to_string())
-    results_df['Index'] = range(1, len(results_df)+1)
-    # print(results_df.head())
-    results_df.set_index('Index')
-    # ['resource.name']
-    a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
-    a['Index'] = results_df['Index']
-    # SCORATA
-    #   Final displayed data frame page NAME & More Info
-    # a['Name'] = results_df['resource.name']
-    # a['More Info'] = results_df['permalink']
-
-    # CKAN
-    #   Final displayed data frame Name & More Infor
-    a['Name'] = results_df['title']
-    a['More Info'] = results_df['url']
-    print(a.to_string())
-    # Drop the cell doesn't contain https
-    httpString = "http"
-    a = a[a['More Info'].str.contains(httpString) == True]
-    a = a.dropna()
-    a['Index'] = range(1, len(a)+1)
-    # After drop all invalid data, assign the Index
-    return a
+        if "socrata" in str(request_site):
+            results_df = pd.json_normalize(data['results'])
+            if results_df.size == 0:
+                return results_df
+            break
+        else:
+            results_df = pd.json_normalize(
+                data['result'], record_path=['results'])
+            if results_df.size == 0:
+                return results_df
+            break
+    # printData(results_df.to_string())
+    if "socrata" in str(request_site):
+        results_df['Index'] = range(1, len(results_df)+1)
+        # print(results_df.head())
+        results_df.set_index('Index')
+        # ['resource.name']
+        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
+        a['Index'] = results_df['Index']
+        # SCORATA
+        # Final displayed data frame page NAME & More Info
+        a['Name'] = results_df['resource.name']
+        a['More Info'] = results_df['permalink']
+        return a
+    else:
+        results_df['Index'] = range(1, len(results_df)+1)
+        # print(results_df.head())
+        results_df.set_index('Index')
+        # ['resource.name']
+        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
+     # CKAN
+     #   Final displayed data frame Name & More Infor
+        a['Name'] = results_df['title']
+        a['More Info'] = results_df['url']
+        a['Index'] = results_df['Index']
+        print(a.to_string())
+        # Drop the cell doesn't contain https
+        httpString = "http"
+        a = a[a['More Info'].str.contains(httpString) == True]
+        a = a.dropna()
+        a['Index'] = range(1, len(a)+1)
+        # After drop all invalid data, assign the Index
+        return a
     # results_df.to_csv('results_test.csv')
     # print()
 
