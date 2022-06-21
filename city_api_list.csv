@@ -1,7 +1,7 @@
 ﻿City,State-Abbr.,API-site,Working,,,,,
 Anchorage,AK,data.muni.org,,,,,Mesa,citydata.mesaaz.gov
 Montgomery,AL,data.montgomerycountymd.gov,,,,,Mesa,data.mesaaz.gov
-Chandler,AZ,www.chandlerpd.com,,,,,Mesa,costamesaca.data.socrata.com
+Chandler,AZ,share-open-data-changis.hub.arcgis.com,,,,,Mesa,costamesaca.data.socrata.com
 Glendale,AZ,data-cog-gis.opendata.arcgis.com,,,,,Mesa,mesa-az.demo.socrata.com
 Mesa,AZ,data.mesaaz.gov,, citydata.mesaaz.gov, costamesaca.data.socrata.com, mesa-az.demo.socrata.com,Berkeley,berkeleycountywv.data.socrata.com
 Phoenix,AZ,phoenixopendata.com,,,,,Berkeley,berkeleyperformance.demo.socrata.com
@@ -94,14 +94,14 @@ Austin,TX,data.austintexas.gov,,,,,,
 Dallas,TX,www.dallasopendata.com,Yes,,,,,
 Arlington,TX,data.texas.gov&q=arlington,,,,,,
 Fort Worth,TX,data.fortworthtexas.gov,,,,,,
-Houston,TX,data.texas.gov&q=houston,,,,,,
-Lubbock,TX,data.texas.gov&q=lubbock,,,,,,
+Houston,TX,data.houstontx.gov,,,,,,
+Lubbock,TX,gis-txdot.opendata.arcgis.com,Arc,,,,,
 Plano,TX,dashboard.plano.gov,,,,,,
-San Antonio,TX,data.texas.gov&q=san%20antonio,,,,,,
+San Antonio,TX,data.sanantonio.gov,,,,,,
 Chesapeake,VA,cityofchesapeake.data.socrata.com,,,,,,
 Norfolk,VA,data.norfolk.gov,,,,,,
 Virginia Beach,VA,data.virginia.gov,,norfolk-performance.demo.socrata.com,,,,
 Seattle,WA,data.seattle.gov,,,,,,
 Washington,WA,washingtoncountyok.data.socrata.com,Yes,,,,,
 Madison,WI,data.cityofmadison.com,,,,,,
-Milwaukee,WI,city.milwaukee.gov,,,,,,
+Milwaukee,WI,data.milwaukee.gov,,,,,,
