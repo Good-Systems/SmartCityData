@@ -57,10 +57,13 @@ def searchCkan(a, b, c):
         # print('True')
         # x = city index
         x = city_api_list.loc[city_api_list['City'].str.contains(city)]
+        print(x)
         # x = website
         x = x.loc[x['State-Abbr.'].str.contains(state)]['API-site']
+        print(x)
         # x = [austintx, gov]
         x = str(x).split()
+        print(x)
         # x = austintx
         x = x[1]
         # var = ?search_context=austintexas
@@ -129,41 +132,41 @@ def mainprogram(a, b, c):
     print(request)
 
     #response_body = urlopen(request).read()
-    data = request.data
-    datastring = str(data)
+    dataS = request.data
+    datastring = str(dataS)
     print("Data")
-    print(data)
+    print(dataS)
     if "error" in datastring:
         # request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
         request_site = searchCkan(a, b, c)
         request = http.request('GET', request_site)
-        data = request.data
+        dataC = request.data
         print("REACH THE ERROR IN CKAN REQUEST DATA")
-        print(data)
-        dataStringCkan = str(data)
+        print(dataC)
+        dataStringCkan = str(dataC)
         print(request)
-        if "error".upper() in dataStringCkan.upper():
+        if not "success\": true".upper() in dataStringCkan.upper():
             print("REACH THE ERROR IN ")
             request_site = searchArcGis(a, b, c)
             request = http.request('GET', request_site)
-            data = request.data
-            # data = json.loads(request.data)
-        # data = request.data
-        # data = json.loads(request.data)
-        print(data)
-    data = json.loads(request.data)
+            dataA = request.data
+            dataA = json.loads(request.data)
+        dataC = request.data
+        dataC = json.loads(request.data)
+        print(dataC)
+    dataS = json.loads(request.data)
 
     while True:
         # Socrata
         if "socrata" in str(request_site):
-            results_df = pd.json_normalize(data['results'])
+            results_df = pd.json_normalize(dataS['results'])
             if results_df.size == 0:
                 return results_df
             break
         # Ckan
         if "api/3/action" in str(request_site):
             results_df = pd.json_normalize(
-                data['result'], record_path=['results'])
+                dataC['result'], record_path=['results'])
             if results_df.size == 0:
                 return results_df
             break
@@ -172,7 +175,7 @@ def mainprogram(a, b, c):
             # results_df = pd.json_normalize(
             #     data['dcat:dataset'], record_path=['dcat:dataset'])
             results_df = pd.json_normalize(
-                data['dcat:dataset'])
+                dataA['dcat:dataset'])
             if results_df.size == 0:
                 return results_df
             break
@@ -182,7 +185,7 @@ def mainprogram(a, b, c):
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
+        a = pd.DataFrame(dataS, columns=['Index', 'Name'], index=None)
         a['Index'] = results_df['Index']
         # SCORATA
         # Final displayed data frame page NAME & More Info
@@ -194,7 +197,7 @@ def mainprogram(a, b, c):
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
+        a = pd.DataFrame(dataC, columns=['Index', 'Name'], index=None)
      # CKAN
      #   Final displayed data frame Name & More Infor
         a['Name'] = results_df['title']
@@ -214,8 +217,7 @@ def mainprogram(a, b, c):
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
-     # CKAN
+        a = pd.DataFrame(dataA, columns=['Index', 'Name'], index=None)
      #   Final displayed data frame Name & More Infor
         a['Name'] = results_df['dct:title']
         a['More Info'] = results_df['dct:identifier']
