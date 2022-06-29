@@ -14,6 +14,8 @@ from sqlalchemy import null
 import urllib3
 import json
 
+api_name = ''
+
 
 def search_Socrata(a, b, c):
     print("Input fields or NA")
@@ -31,8 +33,14 @@ def search_Socrata(a, b, c):
         x = x.loc[x['State-Abbr.'].str.contains(state)]['API-site']
         # x = [data, austintx, gov]
         x = str(x).split()
-        # x = austintx
-        x = x[1]
+        # x[1] api domain name
+        domain = x[1]
+        
+        # x[2] api name
+        global api_name
+        api_name = city_api_list['Working'][int(x[0])]
+        domain_name = generateName(str(domain), str(api_name), str(topic_name))
+        return domain_name
         # var = ?search_context=austintexastransport
         var = '?search_context=' + str(x)
         var = var + '&q=' + str(topic_name)
@@ -42,6 +50,18 @@ def search_Socrata(a, b, c):
         print("City Not Found.")
         var = ''
     return var
+
+
+def generateName(x, api_name, topic_name):
+    domain_name = ''
+    if(api_name == 'socrata'):
+        domain_name = 'https://api.us.socrata.com/api/catalog/v1'
+        domain_name += '?search_context=' + x + '&q=' + str(topic_name)
+    elif(api_name == 'ckan'):
+        domain_name = 'https://' + x + '/api/3/action/package_search?q=' + topic_name
+    else:
+        domain_name = 'https://' + x + '/api/feed/dcat-ap/2.0.1.json'
+    return domain_name
 
 
 def searchCkan(a, b, c):
@@ -57,13 +77,10 @@ def searchCkan(a, b, c):
         # print('True')
         # x = city index
         x = city_api_list.loc[city_api_list['City'].str.contains(city)]
-        print(x)
         # x = website
         x = x.loc[x['State-Abbr.'].str.contains(state)]['API-site']
-        print(x)
         # x = [austintx, gov]
         x = str(x).split()
-        print(x)
         # x = austintx
         x = x[1]
         # var = ?search_context=austintexas
@@ -109,16 +126,20 @@ def searchArcGis(a, b, c):
 
 def mainprogram(a, b, c):
 
-    stoprg = 0
-    city_domain = str(search_Socrata(a, b, c))
-    if city_domain == '':
-        # empty_df = pd.DataFrame(None, None)
-        # return empty_df
+    # stoprg = 0
+    # Find the request site
+    request_site = search_Socrata(a, b, c)
+    if request_site == '':
+        print("Request Not Found")
         return None
+    # if city_domain == '':
+    #     # empty_df = pd.DataFrame(None, None)
+    #     # return empty_df
+    #     return None
     http = urllib3.PoolManager()
 
     # Scorata URL
-    request_site = 'https://api.us.socrata.com/api/catalog/v1' + city_domain
+    # request_site = 'https://api.us.socrata.com/api/catalog/v1' + city_domain
     # print(request_site)
 
     # RIDB
@@ -132,72 +153,87 @@ def mainprogram(a, b, c):
     print(request)
 
     #response_body = urlopen(request).read()
-    dataS = request.data
-    datastring = str(dataS)
-    print("Data")
-    print(dataS)
-    if "error" in datastring:
-        # request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
-        request_site = searchCkan(a, b, c)
-        request = http.request('GET', request_site)
-        dataC = request.data
-        print("REACH THE ERROR IN CKAN REQUEST DATA")
-        print(dataC)
-        dataStringCkan = str(dataC)
-        print(request)
-        if not "success\": true".upper() in dataStringCkan.upper():
-            print("REACH THE ERROR IN ")
-            request_site = searchArcGis(a, b, c)
-            request = http.request('GET', request_site)
-            dataA = request.data
-            dataA = json.loads(request.data)
-        dataC = request.data
-        dataC = json.loads(request.data)
-        print(dataC)
-    dataS = json.loads(request.data)
+    # get data from the request
+    data = request.data
+    # get the json file from the request data
+    data = json.loads(request.data)
+
+    # datastring = str(data)
+    # print("Data")
+    # print(data)
+
+    # if "error" in datastring:
+    #     # request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
+    #     request_site = searchCkan(a, b, c)
+    #     request = http.request('GET', request_site)
+    #     data = request.data
+    #     print("REACH THE ERROR IN CKAN REQUEST DATA")
+    #     print(data)
+    #     dataStringCkan = str(data)
+    #     print(request)
+
+    #     if "error".upper() in dataStringCkan.upper():
+    #         print("REACH THE ERROR IN ")
+    #         request_site = searchArcGis(a, b, c)
+    #         request = http.request('GET', request_site)
+    #         data = request.data
+    #         # data = json.loads(request.data)
+    #     # data = request.data
+    #     # data = json.loads(request.data)
+    #     print(data)
+
+    # data = json.loads(request.data)
 
     while True:
         # Socrata
-        if "socrata" in str(request_site):
-            results_df = pd.json_normalize(dataS['results'])
-            if results_df.size == 0:
-                return results_df
-            break
+        # if "socrata" in str(request_site):
+        #     results_df = pd.json_normalize(data['results'])
+        #     if results_df.size == 0:
+        #         return results_df
+        #     break
+        if api_name == 'socrata':
+            results_df = pd.json_normalize(data['results'])
+            # if results_df.size == 0:
+            #     return results_df
+            # break
         # Ckan
-        if "api/3/action" in str(request_site):
+        elif api_name == 'ckan':
             results_df = pd.json_normalize(
-                dataC['result'], record_path=['results'])
-            if results_df.size == 0:
-                return results_df
-            break
+                data['result'], record_path=['results'])
+            # if results_df.size == 0:
+            #     return results_df
+            # break
         # ArcGis
-        else:
+        elif api_name == 'arcgis':
             # results_df = pd.json_normalize(
             #     data['dcat:dataset'], record_path=['dcat:dataset'])
-            results_df = pd.json_normalize(
-                dataA['dcat:dataset'])
-            if results_df.size == 0:
-                return results_df
-            break
+            results_df = pd.json_normalize(data['dcat:dataset'])
+            # if results_df.size == 0:
+            #     return results_df
+            # break
+        if results_df.size == 0:
+            return results_df
+        break
     print(results_df.to_string())
-    if "socrata" in str(request_site):
+    # Scorata
+    if api_name == 'socrata':
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(dataS, columns=['Index', 'Name'], index=None)
+        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
         a['Index'] = results_df['Index']
         # SCORATA
         # Final displayed data frame page NAME & More Info
         a['Name'] = results_df['resource.name']
         a['More Info'] = results_df['permalink']
         return a
-    if "api/3/action" in str(request_site):
+    if api_name == 'ckan':
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(dataC, columns=['Index', 'Name'], index=None)
+        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
      # CKAN
      #   Final displayed data frame Name & More Infor
         a['Name'] = results_df['title']
@@ -205,19 +241,20 @@ def mainprogram(a, b, c):
         a['Index'] = results_df['Index']
         print(a.to_string())
         # Drop the cell doesn't contain https
-        httpString = "http"
-        a = a[a['More Info'].str.contains(httpString) == True]
-        a = a.dropna()
+        # httpString = "http"
+        # a = a[a['More Info'].str.contains(httpString) == True]
+        # a = a.dropna()
         a['Index'] = range(1, len(a)+1)
         # After drop all invalid data, assign the Index
         return a
-    else:
+    if api_name == 'arcgis':
         print("REACH HERE")
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(dataA, columns=['Index', 'Name'], index=None)
+        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
+     # ArcGis
      #   Final displayed data frame Name & More Infor
         a['Name'] = results_df['dct:title']
         a['More Info'] = results_df['dct:identifier']
