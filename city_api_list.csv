@@ -1,107 +1,105 @@
-﻿City,State-Abbr.,API-site,Working,,,,,
-Anchorage,AK,data.muni.org,,,,,Mesa,citydata.mesaaz.gov
-Montgomery,AL,data.montgomerycountymd.gov,,,,,Mesa,data.mesaaz.gov
-Chandler,AZ,www.chandlerpd.com,,,,,Mesa,costamesaca.data.socrata.com
-Glendale,AZ,data-cog-gis.opendata.arcgis.com,,,,,Mesa,mesa-az.demo.socrata.com
-Mesa,AZ,data.mesaaz.gov,, citydata.mesaaz.gov, costamesaca.data.socrata.com, mesa-az.demo.socrata.com,Berkeley,berkeleycountywv.data.socrata.com
-Phoenix,AZ,www.phoenix.gov,,,,,Berkeley,berkeleyperformance.demo.socrata.com
-Scottsdale,AZ,data.scottsdaleaz.gov,,,,,Berkeley,data.cityofberkeley.info
-Tempe,AZ,data.tempe.gov,,,,,Oakland,data.oaklandca.gov
-Tucson,AZ,data.tucsonaz.gov,,,,,Riverside,data.countyofriverside.us
-Los Angeles,CA,data.lacity.org,,,,,Miami,data.miamigov.com
-Anaheim,CA,anaheim.opendata.junar.com,,,,,Miami,miami.demo.socrata.com
-Bakersfield,CA,www.bakersfieldcity.us,,,,,Miami,northmiamifl.data.socrata.com
-Berkeley,CA,data.cityofberkeley.info,,berkeleycountywv.data.socrata.com,berkeleyperformance.demo.socrata.com,,Miami,townofmiamilakes.data.socrata.com
-Chula Vista,CA,www.chulavistaca.gov,,,,,Atlanta,atlanta.data.socrata.com
-Fremont,CA,fremont.gov,,,,,Illinois,data.urbanaillinois.us
-Long Beach,CA,www.longbeach.gov,,,,,Olathe,olathe.data.socrata.com
-Oakland,CA,data.oaklandca.gov,,,,,Reno,moreno-valley.data.socrata.com
-Riverside,CA,data.countyofriverside.us,,,,,Columbus,internal-columbusschools.data.socrata.com
-Sacramento,CA,data.cityofsacramento.org,,,,,Portland,internal-portlandme.data.socrata.com
-San Bernardino,CA,open.sbcounty.gov,,,,,Chesapeake,cityofchesapeake.data.socrata.com
-San Diego,CA,internal-sandiegocounty.data.socrata.com,,,,,Norfolk,data.norfolk.gov
-San Francisco,CA,data.sfgov.org,,,,,Norfolk,norfolk-performance.demo.socrata.com
-San Jose,CA,data.sanjoseca.gov,,,,,Washington,washingtoncountyok.data.socrata.com
-San Mateo,CA,performance.smcgov.org,,,,,nan,finances.worldbank.org
-Santa Clara,CA,data.sccgov.org,,,,,,
-Colorado,CO,data.colorado.gov?q=colorado,,,,,,
-Aurora,CO,data.colorado.gov?q=aurora,,,,,,
-Denver,CO,data.colorado.gov?q=denver,,,,,,
-Connecticut,CT,data.ct.gov,,,,,,
-Hartford,CT,hartstat.hartford.gov,,,,,,
-Wellington,FL,data.wellingtonfl.gov,,,,,,
-Miami,FL,data.miamigov.com,,miami.demo.socrata.com,northmiamifl.data.socrata.com,townofmiamilakes.data.socrata.com,,
-Jacksonville,FL,www.coj.net,,,,,,
-Orlando,FL,data.cityoforlando.net,,,,,,
-Tampa,FL,city-tampa.opendata.arcgis.com,,,,,,
-Atlanta,GA,atlanta.data.socrata.com,,,,,,
-Honolulu,HI,data.honolulu.gov,No,,,,,
-Iowa,IA,data.iowa.gov,,,,,,
-Boise,ID,opendata.utah.gov&q=boise,,,,,,
-Chicago,IL,data.cityofchicago.org,Yes,,,,,
-Illinois,IL,data.urbanaillinois.us,,,,,,
-Cook County,IL,datacatalog.cookcountyil.gov,,,,,,
-Fort Wayne,IN,maps.cityoffortwayne.org,,,,,,
-Indianapolis,IN,data.indy.gov,,,,,,
-Olathe,KA,olathe.data.socrata.com,,,,,,
-Kansas City,KS,data.kcmo.org,,,,,,
-Wichita,KS,opendata.wichita.gov,,,,,,
-Lexington,KY,data.lexingtonky.gov,,,,,,
-Louisville,KY,data.louisvilleky.gov,,,,,,
-New Orleans,LA,data.nola.gov,,,,,,
-Baton Rouge,LA,data.brla.gov,,,,,,
-Boston,MA,data.cityofboston.gov,,,,,,
-Cambridge,MA,data.cambridgema.gov,,,,,,
-Somerville,MA,data.somervillema.gov,,,,,,
-Boston,MA,data.boston.gov,,,,,,
-Baltimore,MD,data.baltimorecity.gov,,,,,,
-Maryland,MD,data.maryland.gov,,,,,,
-Howard County,MD,opendata.howardcountymd.gov,,,,,,
-Prince George County,MD,data.princegeorgescountymd.gov,,,,,,
-Detroit,MI,data.detroitmi.gov,,,,,,
-Michigan,MI,data.michigan.gov,,,,,,
-Austin,MN,bronx.lehman.cuny.edu,Yes,,,,,
-Minneapolis,MN,opendata.minneapolismn.gov,,,,,,
-St. Paul,MN,information.stpaul.gov,,,,,,
-Missouri,MO,data.mo.gov,,,,,,
-Kansas City,MO,data.kcmo.org,,,,,,
-St. Louis,MO,www.stlouis-mo.gov,,,,,,
-Raleigh,NC,data.raleighnc.gov,,,,,,
-Charlotte,NC,clt-charlotte.opendata.arcgis.com,,,,,,
-Durham,NC,opendurham.nc.gov,,,,,,
-Greensboro,NC,data.greensboro-nc.gov,,,,,,
-Winston-Salem,NC,www.cityofws.org,,,,,,
-Lincoln,NE,opendata.lincoln.ne.gov,,,,,,
-Omaha,NE,dataomaha.com,,,,,,
-Jersey City,NJ,data.nj.gov,,,,,,
-Newark,NJ,data.ci.newark.nj.us,,,,,,
-Albuquerque,NM,www.cabq.gov,,,,,,
-Las Vegas,NV,opendata.lasvegasnevada.gov,,,,,,
-Henderson,NV,opendata.cityofhenderson.com,,,,,,
-Reno,NV,moreno-valley.data.socrata.com,,,,,,
-New York City,NY,data.cityofnewyork.us,,,,,,
-Buffalo,NY,data.ny.gov,,,,,,
-Cincinnati,OH,data.cincinnati-oh.gov,,,,,,
-Columbus,OH,internal-columbusschools.data.socrata.com,,,,,,
-Oklahoma,OK,data.ok.gov,,,,,,
-Oklahoma City,OK,data.okc.gov,,,,,,
-Tulsa,OK,www.cityoftulsa.org,,,,,,
-Oregon,OR,data.oregon.gov,,,,,,
-Portland,OR,internal-portlandme.data.socrata.com,,,,,,
-Philadelphia,PA,data.pa.gov&q=philadelphia,,,,,,
-Nashville,TN,data.nashville.gov,,,,,,
-Austin,TX,data.austintexas.gov,,,,,,
-Dallas,TX,www.dallasopendata.com,Yes,,,,,
-Arlington,TX,data.texas.gov&q=arlington,,,,,,
-Fort Worth,TX,data.fortworthtexas.gov,,,,,,
-Houston,TX,data.texas.gov&q=houston,,,,,,
-Lubbock,TX,data.texas.gov&q=lubbock,,,,,,
-Plano,TX,dashboard.plano.gov,,,,,,
-San Antonio,TX,data.texas.gov&q=san%20antonio,,,,,,
-Chesapeake,VA,cityofchesapeake.data.socrata.com,,,,,,
-Norfolk,VA,data.norfolk.gov,,,,,,
-Virginia Beach,VA,data.virginia.gov,,norfolk-performance.demo.socrata.com,,,,
-Seattle,WA,data.seattle.gov,,,,,,
-Washington,WA,washingtoncountyok.data.socrata.com,Yes,,,,,
-Madison,WI,data.cityofmadison.com,,,,,,
-Milwaukee,WI,city.milwaukee.gov,,,,,,
+﻿City,State-Abbr.,API-site,Working
+Anchorage,AK,data.muni.org,socrata
+Montgomery,AL,data.montgomerycountymd.gov,socrata
+Chandler,AZ,share-open-data-changis.hub.arcgis.com,arcgis
+Glendale,AZ,glendaleaz-cog-gis.hub.arcgis.com,arcgis
+Mesa,AZ,data.mesaaz.gov,socrata
+Phoenix,AZ,phoenixopendata.com,ckan
+Scottsdale,AZ,data-cos-gis.hub.arcgis.com,arcgis
+Tempe,AZ,open-tempe-tempegov.hub.arcgis.com,arcgis
+Tucson,AZ,data-cotgis.opendata.arcgis.com,arcgis
+Los Angeles,CA,data.lacity.org,socrata
+Anaheim,CA,main-anaheim.opendata.arcgis.com,arcgis
+Bakersfield,CA,bakersfielddatalibrary-cob.opendata.arcgis.com,arcgis
+Berkeley,CA,data.cityofberkeley.info,socrata
+Chula Vista,CA,chulavista-cvgis.opendata.arcgis.com,arcgis
+Fremont,CA,fremont-ca-open-data-cofgis.hub.arcgis.com,arcgis
+Long Beach,CA,prod-longbeachca.hub.arcgis.com,arcgis
+Oakland,CA,data.oaklandca.gov,socrata
+Riverside,CA,data.countyofriverside.us,socrata
+Sacramento,CA,data-sacramentocounty.opendata.arcgis.com,arcgis
+San Bernardino,CA,data-sbcounty.opendata.arcgis.com,arcgis
+San Diego,CA,internal-sandiegocounty.data.socrata.com,socrata
+San Francisco,CA,data.sfgov.org,socrata
+San Jose,CA,gisdata-csj.opendata.arcgis.com,arcgis
+San Mateo,CA,data-smcmaps.opendata.arcgis.com,arcgis
+Santa Clara,CA,data.smgov.net,socrata
+Colorado,CO,data.colorado.gov,socrata
+Aurora,CO,data-auroraco.opendata.arcgis.com,arcgis
+Denver,CO,data.colorado.gov?q=denver,
+Connecticut,CT,data.ct.gov,socrata
+Hartford,CT,hartstat.hartford.gov,socrata
+Wellington,FL,opendata-nzta.opendata.arcgis.com,arcgis
+Miami,FL,data.miamigov.com,socrata
+Jacksonville,FL,,0
+Orlando,FL,data.cityoforlando.net,socrata
+Tampa,FL,city-tampa.opendata.arcgis.com,arcgis
+Atlanta,GA,atlanta.data.socrata.com,socrata
+Honolulu,HI,data.honolulu.gov,socrata
+Iowa,IA,data.iowa.gov,socrata
+Boise,ID,city-of-boise.opendata.arcgis.com,arcgis
+Chicago,IL,data.cityofchicago.org,socrata
+Illinois,IL,data.urbanaillinois.us,socrata
+Cook County,IL,datacatalog.cookcountyil.gov,socrata
+Fort Wayne,IN,hub.mph.in.gov?q=fort%20wayne,
+South Bend,IN,data-southbend.opendata.arcgis.com,arcgis
+Olathe,KA,olathe.data.socrata.com,socrata
+Kansas City,KS,data.kcmo.org,socrata
+Wichita,KS,data-cityofwichita.hub.arcgis.com,arcgis
+Lexington,KY,maps-lexco-gis.hub.arcgis.com,arcgis
+Louisville,KY,,0
+New Orleans,LA,data.nola.gov,socrata
+Baton Rouge,LA,data.brla.gov,socrata
+Boston,MA,bostonopendata-boston.opendata.arcgis.com,arcgis
+Cambridge,MA,data.cambridgema.gov,socrata
+Somerville,MA,data.somervillema.gov,socrata
+Baltimore,MD,bmore-open-data-baltimore.hub.arcgis.com,arcgis
+Maryland,MD,data.maryland.gov,socrata
+Howard County,MD,opendata.howardcountymd.gov,socrata
+Prince George County,MD,data.princegeorgescountymd.gov,socrata
+Detroit,MI,data-detroitmi.hub.arcgis.com,arcgis
+Michigan,MI,data.michigan.gov,socrata
+Austin,MN,bronx.lehman.cuny.edu,socrata
+Minneapolis,MN,openmpls-cityoflakes.opendata.arcgis.com,arcgis
+St. Paul,MN,information-stpaul.hub.arcgis.com,arcgis
+Missouri,MO,data.mo.gov,socrata
+Kansas City,MO,data.kcmo.org,socrata
+St. Louis,MO,data-stlcogis.opendata.arcgis.com,arcgis
+Raleigh,NC,data-ral.opendata.arcgis.com,arcgis
+Charlotte,NC,opencharlotte-charlotte.opendata.arcgis.com,arcgis
+Durham,NC,live-durhamnc.opendata.arcgis.com,arcgis
+Greensboro,NC,open-gate-city-greensboro.hub.arcgis.com,arcgis
+Winston-Salem,NC,demo-cows.opendata.arcgis.com,arcgis
+Lincoln,NE,data2-lincolnne.opendata.arcgis.com,arcgis
+Omaha,NE,data-dogis.opendata.arcgis.com,arcgis
+Jersey City,NJ,data.nj.gov,socrata
+Newark,NJ,data-newgin.opendata.arcgis.com,arcgis
+Albuquerque,NM,,0
+Las Vegas,NV,opendataportal-lasvegas.opendata.arcgis.com,arcgis
+Henderson,NV,opendata.cityofhenderson.com,socrata
+Reno,NV,moreno-valley.data.socrata.com,socrata
+New York City,NY,data.cityofnewyork.us,socrata
+Buffalo,NY,data.ny.gov,socrata
+Cincinnati,OH,data.cincinnati-oh.gov,socrata
+Columbus,OH,internal-columbusschools.data.socrata.com,socrata
+Oklahoma,OK,data.ok.gov,ckan
+Tulsa,OK,gis2-cityoftulsa.opendata.arcgis.com,arcgis
+Oregon,OR,data.oregon.gov,socrata
+Portland,OR,internal-portlandme.data.socrata.com,socrata
+Philadelphia,PA,opendataphilly.org,0
+Nashville,TN,data.nashville.gov,socrata
+Austin,TX,data.austintexas.gov,socrata
+Dallas,TX,www.dallasopendata.com,socrata
+Arlington,TX,opendatadraftosi-arlingtontx.hub.arcgis.com,arcgis
+Fort Worth,TX,data.fortworthtexas.gov,socrata
+Houston,TX,data.houstontx.gov,ckan
+Lubbock,TX,data.texas.gov&q=lubbock,
+Plano,TX,dashboard.plano.gov,socrata
+San Antonio,TX,data.sanantonio.gov,ckan
+Chesapeake,VA,cityofchesapeake.data.socrata.com,socrata
+Norfolk,VA,data.norfolk.gov,socrata
+Virginia Beach,VA,data.virginia.gov,socrata
+Seattle,WA,data.seattle.gov,socrata
+Washington,WA,washingtoncountyok.data.socrata.com,socrata
+Madison,WI,data-cityofmadison.opendata.arcgis.com,arcgis
+Milwaukee,WI,city.milwaukee.gov,ckan
