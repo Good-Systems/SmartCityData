@@ -47,6 +47,7 @@ class Form(FlaskForm):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     form = Form()
+
     form.city.choices = [(city.id, city.name)
                          for city in City.query.filter_by(state='AL').all()]
 
@@ -78,7 +79,9 @@ def index():
         return render_template('dataresults.html', form=form, city=city.name, state=form.state.name, topic=request.form['content_topic'], tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values)
 
     # tables=[returnlist.to_html(classes='data')], titles=returnlist.columns.values
-
+    # Set form class to "input-1"
+    form.state.render_kw = {'class': 'input-1'}
+    form.city.render_kw = {'class': 'input-1'}
     return render_template('index.html', form=form)
     # tables=[returnlist.to_html(classes='data')], titles=returnlist.columns.values
 

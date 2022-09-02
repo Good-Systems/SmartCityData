@@ -32,7 +32,23 @@
 
     <form method = 'POST'>
         {{ form.csrf_token }}
-        <p>State: {{ form.state }} City: {{ form.city }} Topic: <input type='text' name='content_topic' id ='content'> <input type = "submit"></p>
+        <p>
+            <div class="input-box active-grey" style="display:inline-block">
+                <label class="input-label">State</label>
+            {{ form.state }}
+            </div>  
+             <div class="input-box active-grey" style="display:inline-block">
+                <label class="input-label">City</label>
+             {{ form.city }} 
+             </div>
+
+            <!--<input type='text' name='content_topic' id ='content'> -->
+            <div class="input-box" style="display:inline-block">
+                <label class="input-label">Topic</label>
+                <input type="text" name='content_topic' id ='content' class="input-1" onfocus="setFocus(true)" onblur="setFocus(false)" />
+            </div>
+            <input class="button-3" type = "submit">
+        </p>
     </form>
     <script>
         let state_select = document.getElementById('state');
@@ -56,4 +72,5 @@
     <!---<iframe class="map", src="/map" width="600" height="600"></iframe>--->
 
 </div>
+
 {% endblock %}
