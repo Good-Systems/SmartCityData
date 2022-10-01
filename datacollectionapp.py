@@ -4,6 +4,9 @@
 # API Key Secret
 # e48r6otlbnf9bt6qd6ymci5hudrbwbk582ulbccarit04orlr
 
+import html
+from html.entities import html5
+from html.parser import HTMLParser
 from re import T
 from telnetlib import AUTHENTICATION
 from sodapy import Socrata
@@ -44,7 +47,7 @@ def search_Socrata(a, b, c):
         # var = ?search_context=austintexastransport
         var = '?search_context=' + str(x)
         var = var + '&q=' + str(topic_name)
-        print(var)
+        #print(var)
 
     else:
         print("City Not Found.")
@@ -125,7 +128,6 @@ def searchArcGis(a, b, c):
 
 
 def mainprogram(a, b, c):
-
     # stoprg = 0
     # Find the request site
     request_site = search_Socrata(a, b, c)
@@ -150,7 +152,7 @@ def mainprogram(a, b, c):
     request = http.request('GET', request_site)
 
     print("Request")
-    print(request)
+    #print(request)
 
     #response_body = urlopen(request).read()
     # get data from the request
@@ -193,6 +195,8 @@ def mainprogram(a, b, c):
         #     break
         if api_name == 'socrata':
             results_df = pd.json_normalize(data['results'])
+            print("Socrata")
+            #print(results_df)
             # if results_df.size == 0:
             #     return results_df
             # break
@@ -214,19 +218,114 @@ def mainprogram(a, b, c):
         if results_df.size == 0:
             return results_df
         break
-    print(results_df.to_string())
+    #print(results_df.to_string())
     # Scorata
     if api_name == 'socrata':
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", results_df['resource.name'])
+        
+
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
-        a['Index'] = results_df['Index']
+        a = pd.DataFrame(data, columns=['Name'], index=None)
+        #a['Index'] = results_df['Index']
         # SCORATA
         # Final displayed data frame page NAME & More Info
         a['Name'] = results_df['resource.name']
-        a['More Info'] = results_df['permalink']
+        #a['More Info'] = results_df['permalink']
+        #set a['Name'] as results_df['resource.name'] with an href link to the more info
+        a['Name'] = '<a href="' + results_df['permalink'] + '">' + results_df['resource.name'] + '</a>'
+        #a['Name'] = results_df['permalink']
+        #a['Desc'] = "Description"
+        # if results_df['resource.description'] > 50 chars, shorten it
+        #a['Desc'] = results_df['resource.description']
+        #if resource.description does not exist, r3 = 'No Description'
+        #print("READ THIS RESOURCE DESC")
+        #print(results_df['resource.description'])
+        #print("READ THIS RESOURCE DESC")
+        #strip the tags from the description
+        results_df['resource.description'] = results_df['resource.description'].str.replace(r'\r', ' ', regex=True)
+        results_df['resource.description'] = results_df['resource.description'].str.replace(r'\n', ' ', regex=True)
+        results_df['resource.description'] = results_df['resource.description'].str.replace(r'<[^>]*>', ' ', regex=True)
+
+        for index, desc in results_df['resource.description'].items():
+
+            if desc is None or desc == '' or "http" in desc:
+                results_df['resource.description'][index] = 'No description was provided.'
+            
+            elif len(desc) > 99:
+                #print("MAX FOUND AT", results_df['resource.description'][index])
+                #split until end of 50th char and the first space after
+                r1 = desc[:100]
+                #remove the last word
+                r3 = r1.rsplit(' ', 1)[0]
+                #This is the stored value
+                r4 = r1.rsplit(' ', 1)[1]
+                r1 = r3
+                if len(desc) > 199:
+                    r2 = r4 + desc[100:199]
+                    #remove the last word
+                    r2 = r2.rsplit(' ', 1)[0]
+                    r3 = r1 + '<br>' + r2 + '...'
+                else:
+                    r2 = r4 + desc[100:]
+                    r3 = r1 + '<br>' + r2
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif r3[-1] != '.':
+                    r3 = r3 + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                if "Data Update" in r3:
+                    r3 = r3[:r3.find("Data Update")]
+                elif "Update Frequency" in r3:
+                    r3 = r3[:r3.find("Update Frequency")]
+                
+                results_df['resource.description'][index] = r3
+            else:
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif desc[-1] != '.':
+                    desc = desc + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                if "Data Update" in r3:
+                    r3 = r3[:r3.find("Data Update")]
+                elif "Update " in r3:
+                    r3 = r3[:r3.find("Update ")]
+                    
+                results_df['resource.description'][index] = desc
+            #remove all spaces before periods
+            results_df['resource.description'][index] = results_df['resource.description'][index].replace(' .', '.')
+            #else:
+            #    print("NO MAX FOUND AT", results_df['resource.description'][index])
+            #    r3 = results_df['resource.description'][index]
+            #    results_df['resource.description'][index] = r3
+
+        
+
+            #r1 = results_df['resource.description'].str.split(' ', 
+        #a['Desc'] = results_df['resource.description'].str.split(' ', 1).str[0]
+        a['Name'] += '<br>' + results_df['resource.description']
+        
+        #a['Desc'] = results_df['resource.description']
+        if 'resource.updatedAt' in results_df.columns:
+            a['Last Updated'] = results_df['resource.updatedAt']
+            # set display none for last updated
+            a['Last Updated'] = '<span style="display:none;">' + a['Last Updated'] + '</span>'
+
+        if 'resource.download_count' in results_df.columns:
+            a['Popularity'] = results_df['resource.download_count']
+            # set display none for popularity
+            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        #url = requests.get(results_df['permalink'])
+        #soup = BeautifulSoup(url.content, 'html.parser')
+        #a['Desc'] = soup
+        #a['Desc'] = soup.find('meta', attrs={'name': 'description'})['content']
+
         return a
     if api_name == 'ckan':
         results_df['Index'] = range(1, len(results_df)+1)
@@ -239,7 +338,7 @@ def mainprogram(a, b, c):
         a['Name'] = results_df['title']
         a['More Info'] = results_df['url']
         a['Index'] = results_df['Index']
-        print(a.to_string())
+        #print(a.to_string())
         # Drop the cell doesn't contain https
         # httpString = "http"
         # a = a[a['More Info'].str.contains(httpString) == True]
@@ -248,35 +347,108 @@ def mainprogram(a, b, c):
         # After drop all invalid data, assign the Index
         return a
     if api_name == 'arcgis':
-        print("REACH HERE")
+        #print("REACH HERE")
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
+        a = pd.DataFrame(data, columns=['Name'], index=None)
      # ArcGis
      #   Final displayed data frame Name & More Infor
-        a['Name'] = results_df['dct:title']
-        a['More Info'] = results_df['dct:identifier']
-        a['Keywords'] = results_df['dcat:keyword']
-        a['Index'] = results_df['Index']
-        print(a.to_string())
+        #a['Name'] = results_df['dct:title']
+        a['Name'] = '<a href="' + results_df['dct:identifier'] + '">' + results_df['dct:title'] + '</a>'
+        #a['More Info'] = results_df['dct:identifier']
+        #a['Keywords'] = results_df['dcat:keyword']
+        #a['Index'] = results_df['Index']
+        #print(a.to_string())
         # Drop the cell doesn't contain https
-        httpString = "http"
-        a = a[a['More Info'].str.contains(httpString) == True]
-        a = a.dropna()
-        # Drop all the things that do not contains the keywords
-        print(a['Keywords'].to_string)
-        print("Before Drop __________________")
-        a['Keywords'] = a['Keywords'].astype('str').str.upper()
-        print(a['Keywords'])
-        # a = a[a['Keywords'].str.contains(str(c)) == True]
-        a = a[a['Keywords'].str.contains(str.upper(c)) == True]
-        a = a.drop(a.columns[3], axis=1)
-        print("After Drop __________________")
+        #httpString = "http"
         #a = a[a['More Info'].str.contains(httpString) == True]
-        a['Index'] = range(1, len(a)+1)
+        #a = a.dropna()
+        # Drop all the things that do not contains the keywords
+        #print(a['Keywords'].to_string)
+        #print("Before Drop __________________")
+        #a['Keywords'] = a['Keywords'].astype('str').str.upper()
+        #print(a['Keywords'])
+        # a = a[a['Keywords'].str.contains(str(c)) == True]
+        #a = a[a['Keywords'].str.contains(str.upper(c)) == True]
+        #a = a.drop(a.columns[3], axis=1)
+        #print("After Drop __________________")
+        #a = a[a['More Info'].str.contains(httpString) == True]
+        #a['Index'] = range(1, len(a)+1)
         # After drop all invalid data, assign the Index
+
+        #strip the tags from the description
+        results_df['dct:description'] = results_df['dct:description'].str.replace(r'\r', '', regex=True)
+        results_df['dct:description'] = results_df['dct:description'].str.replace(r'\n', '', regex=True)
+        results_df['dct:description'] = results_df['dct:description'].str.replace(r'<[^>]*>', '', regex=True)
+
+        #reuse the exact same code from the Socrata section
+        for index, desc in results_df['dct:description'].items():
+
+            if desc is None or desc == '' or "http" in desc:
+                results_df['dct:description'][index] = 'No description was provided.'
+            
+            elif len(desc) > 99:
+                #print("MAX FOUND AT", results_df['resource.description'][index])
+                #split until end of 50th char and the first space after
+                r1 = desc[:100]
+                #remove the last word
+                r3 = r1.rsplit(' ', 1)[0]
+                #This is the stored value
+                r4 = r1.rsplit(' ', 1)[1]
+                r1 = r3
+                if len(desc) > 199:
+                    r2 = r4 + desc[100:199]
+                    #remove the last word
+                    r2 = r2.rsplit(' ', 1)[0]
+                    r3 = r1 + '<br>' + r2 + '...'
+                else:
+                    r2 = r4 + desc[100:]
+                    r3 = r1 + '<br>' + r2
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif r3[-1] != '.':
+                    r3 = r3 + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                if "Data Update" in r3:
+                    r3 = r3[:r3.find("Data Update")]
+                elif "Update Frequency" in r3:
+                    r3 = r3[:r3.find("Update Frequency")]
+                
+                results_df['dct:description'][index] = r3
+            else:
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif desc[-1] != '.':
+                    desc = desc + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                if "Data Update" in r3:
+                    r3 = r3[:r3.find("Data Update")]
+                elif "Update " in r3:
+                    r3 = r3[:r3.find("Update ")]
+                    
+                results_df['dct:description'][index] = desc
+            #remove all spaces before periods
+            results_df['dct:description'][index] = results_df['dct:description'][index].replace(' .', '.')
+
+        a['Name'] += '<br>' + results_df['dct:description']
+
+
+        if 'dct:modified' in results_df.columns:
+            a['Last Updated'] = results_df['dct:modified']
+            # set display none for last updated
+            a['Last Updated'] = '<span style="display:none;">' + a['Last Updated'] + '</span>'
+
+        if 'dct:accrualPeriodicity' in results_df.columns:
+            a['Popularity'] = results_df['dct:accrualPeriodicity']
+            # set display none for popularity
+            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+
         return a
     # results_df.to_csv('results_test.csv')
     # print()

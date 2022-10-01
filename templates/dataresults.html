@@ -4,23 +4,208 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
+
+    <!-- import jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- import datatables js -->
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <!-- import datatables css -->
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <!-- why would u overwrite my stylesheet with datatables stylesheet? -->
+    <!-- stylesheets are cumulative. not replacement. -->
     <title>Document</title>
 </head>
+<body><div class="header" style="
+    display: flex;
+">
+<div class="logo">
+<a href="/" title="Go to SmartCityData Home" id="logo" style="display: block;">
+<img src="https://user-images.githubusercontent.com/96705270/191649160-c90d1a48-bea3-4436-b851-89c87c385c62.png" style="
+    height: 1%;
+    top: 50px;
+    left: 20px;
+    position: relative;
+    /* width: 100%; */
+    margin-right: 50px;
+"></a></div>
+    <form method="POST" style="margin-top: 15px;">
+        <input id="csrf_token" name="csrf_token" type="hidden" value="IjIwMzRkMTVkOTRlYzcwNDQ4ZmYzY2Y3MWUxMWQ2NjA4ZjgyM2Y1YTYi.Yyu_6Q.4W6LugrPJJQhkUcW16iuRFqwXfI">
+        <p>
+            </p><div class="input-box active-grey" style="display:inline-block">
+                <label class="input-label">State</label>
+            <select class="input-1" id="state" name="state"><option value="AL">Alabama</option><option value="AK">Alaska</option><option value="AZ">Arizona</option><option value="AR">Arkansas</option><option value="CA">California</option><option value="CO">Colorado</option><option value="CT">Connecticut</option><option value="DE">Delaware</option><option value="FL">Florida</option><option value="GA">Georgia</option><option value="HI">Hawaii</option><option value="ID">Idaho</option><option value="IL">Illinois</option><option value="IN">Indiana</option><option value="IA">Iowa</option><option value="KS">Kansas</option><option value="KY">Kentucky</option><option value="LA">Louisiana</option><option value="ME">Maine</option><option value="MD">Maryland</option><option value="MA">Massachusetts</option><option value="MI">Michigan</option><option value="MN">Minnesota</option><option value="MS">Mississippi</option><option value="MO">Missouri</option><option value="MT">Montana</option><option value="NE">Nebraska</option><option value="NV">Nevada</option><option value="NH">New Hampshire</option><option value="NJ">New Jersey</option><option value="NM">New Mexico</option><option value="NY">New York</option><option value="NC">North Carolina</option><option value="ND">North Dakota</option><option value="OH">Ohio</option><option value="OK">Oklahoma</option><option value="OR">Oregon</option><option value="PA">Pennsylvania</option><option value="PR">Puerto Rico</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option><option value="SD">South Dakota</option><option value="TN">Tennessee</option><option value="TX">Texas</option><option value="UT">Utah</option><option value="VT">Vermont</option><option value="VA">Virginia</option><option value="WA">Washington</option><option value="WV">West Virginia</option><option value="WI">Wisconsin</option><option value="WY">Wyoming</option></select>
+            </div>  
+             <div class="input-box active-grey" style="display:inline-block">
+                <label class="input-label">City</label>
+             <select class="input-1" id="city" name="city"><option value="2">Montgomery</option></select> 
+             </div>
 
-<body>
+            <!--<input type='text' name='content_topic' id ='content'> -->
+            <div class="input-box" style="display:inline-block">
+                <label class="input-label">Topic</label>
+                <input type="text" name="content_topic" id="content" class="input-1" onfocus="setFocus(true)" onblur="setFocus(false)">
+            </div>
+            <input class="button-3" type="submit">
+        <p></p>
+    </form>
+    <script>
+        let state_select = document.getElementById('state');
+        let city_select = document.getElementById('city');
+        let content_topic = document.getElementById('topic');
+        state_select.onchange = function() {
+            state = state_select.value;
+            
+            fetch('/city/'+state).then(function(response){
+                response.json().then(function(data){
+                    let optionHTML = '';
 
-    <h1>State: {{ state }}, City: {{ city }}, Topic: {{ topic }}</h1> 
-    <body> 
+                    for (let city of data.cities){
+                        optionHTML += '<option value="' + city.id + '">' + city.name + '</option>';
+                    }
+                    city_select.innerHTML = optionHTML;
+                });
+            });
+        }
+    </script>
+</div>
+<div class="flex-container">
+<div class="flex-child query" style="margin-left: 225px; max-width: 43.4%;">
+    <div class="header" style="display: flex;">
+        <span class="horizental-line"></span>
+    <!--add Sort By dropdown in top right of child-->
+        <div class="input-box active-grey" style="scale: 0.87;float: right;display: block;min-width: 15%">
+            <label class="input-label">Sort By</label>
+        <select class="input-1" onclick="CheckSort()" id="sortby" name="sortby"><option value="Relevance">Relevance</option><option value="Date">Date</option><option value="Popularity">Popularity</option></select>
+        </div>
+        <script>
+            function CheckSort() {
+                var sortby = document.getElementById("sortby");
+                var selectedValue = sortby.options[sortby.selectedIndex].value;
+                //console.log(selectedValue);
+            }
+
+        </script>
+        </div>
+    <!--<h1>State: {{ state }}, City: {{ city }}, Topic: {{ topic }} Details: {{ citydetails }}</h1>-->
+    <body>
         {% for table in tables %}
-            {{titles[loop.index]}}
-            {{ table|safe }}
-        {% endfor %}
-    </body>
-    Download: <input type='text' name='selectdata' id ='content'> <input type = "submit"> <input type="button" value="Go back!" onclick="history.back()"> <form> </form>
+        {% autoescape off %}
+            <!--{{titles[loop.index]}}-->
+            {{table | replace("&lt;", "<") | replace("&gt;", ">")}}
     
+        {% endautoescape %}
+        {% endfor %}
+        <script>
+            var tables = document.getElementsByTagName("table");
+            for (var i = 0; i < tables.length; i++) {
+                tables[i].setAttribute("border", "0");
+            }
+            //add display="none" to thead
+            var theads = document.getElementsByTagName("thead");
+            for (var i = 0; i < theads.length; i++) {
+                theads[i].setAttribute("style", "display: none;");
+            }
+            //if string in table has href, set style line-height to be 40px and font-size to be large
+            var hrefs = document.getElementsByTagName("a");
+            //if parent of href is a <td>
+            for (var i = 0; i < hrefs.length; i++) {
+                if (hrefs[i].parentElement.tagName == "TD") {
+                    hrefs[i].setAttribute("style", "line-height: 40px; font-size: large;");
+                }
+            }
+            
+        </script>
+        </div>
+<div class="flex-child right" style="margin-top: 100px;
+background-color: white;
+border-radius: 20px;
+height: 120%;
+/*border: groove;*/
+max-width: 415px;">
+    <iframe class="map", src="/map" width="400" height="400" style="margin-top: 5px; margin-left: 5px; margin-right: 5px"></iframe>
+    <h2 style="margin-bottom: -10px"> {{ city }}, {{ state }}</h2>
+    <p> {{ citydetails }} </p>
+</div>
+        </div>
+    </body>
+    <!--Download: <input type='text' name='selectdata' id ='content'> <input type = "submit" onclick="download()"> <input type="button" value="Go back!" onclick="history.back()"> <form> </form>-->
+    <script>
+        function download() {}
+
+        //user adjusted page size
+        var pageSize = 25;
+
+        $(document).ready( function () {
+            $('.data').DataTable(
+                {
+                    "pageLength": 25,
+                    "oLanguage": {"sSearch": "Filter: "}
+            //console.log("data tabled");
+        })
+        
+        $("select[name='DataTables_Table_0_length']").change(function(){
+            pageSize = $(this).val();
+        });
+
+        $("select[name='sortby']").change(function(){
+        var value = $(this).val();
+            if(value == "Date"){
+                console.log("Sorting by Date")
+                // reload table
+                $('.data').DataTable().destroy();
+                $('.data').DataTable(
+                    {
+                        "pageLength": pageSize,
+                        "oLanguage": {"sSearch": "Filter: "},
+                        "order": [[1, "desc"]]
+                    }
+                );
+                // Do your function here
+                $("select[name='DataTables_Table_0_length']").change(function(){
+                    pageSize = $(this).val();
+                });
+            }
+            else if (value == "Popularity"){
+                console.log("Sorting by Popularity")
+                // reload table
+                $('.data').DataTable().destroy();
+                $('.data').DataTable(
+                    {
+                        "pageLength": pageSize,
+                        "oLanguage": {"sSearch": "Filter: "},
+                        "order": [[2, "desc"]]
+                    }
+                );
+                // Do your function here
+                $("select[name='DataTables_Table_0_length']").change(function(){
+                    pageSize = $(this).val();
+                });
+            }
+            else{
+                console.log("Sorting by Relevance")
+                // reload table
+                $('.data').DataTable().destroy();
+                $('.data').DataTable(
+                    {
+                        "pageLength": pageSize,
+                        "oLanguage": {"sSearch": "Filter: "}
+                    }
+                );
+                // Do your function here
+                $("select[name='DataTables_Table_0_length']").change(function(){
+                    pageSize = $(this).val();
+                });
+            }
+        });
+        });
+
+        $('.data').on('page.dt', function () {$('html, body').animate({scrollTop: 0}, 300);});
+
+    </script>
     <br></br>
     
-    <iframe class="map", src="/map" width="600" height="600"></iframe>
-    
+    <!--<iframe class="map", src="/map" width="600" height="600"></iframe>-->
+</div>
 </body>
 </html>

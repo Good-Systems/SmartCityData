@@ -12,6 +12,12 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 
 from datacollectionapp import *
 
+# wiki for cities
+import requests
+from bs4 import BeautifulSoup
+import re
+lat = 30.2672
+lon = -97.7431
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -53,14 +59,16 @@ def index():
 
     if request.method == 'POST':
         city = City.query.filter_by(id=form.city.data).first()
+        #state = form.state.data
         #topic = City.query.filter_by(id=city.topic).first()
-        m = folium.Map(location=[30.2672, -97.7431], zoom_start=14)
+        # Austin : 30.2672° N, 97.7431° W
+        updateCoords(city.name, form.state.data)
+        m = folium.Map(location=[lat, lon], zoom_start=14)
         m.save('templates/map.html')
         # returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
 
         # if returnlist is None or returnlist.size == 0:
         #
-
         # while True:
         #     try:
         #         returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
@@ -76,7 +84,8 @@ def index():
             if returnlist.size == 0:
                 print("REACH THE ZERO SIZE")
             return render_template('index.html', form=form)
-        return render_template('dataresults.html', form=form, city=city.name, state=form.state.name, topic=request.form['content_topic'], tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values)
+        return render_template('dataresults.html', form=form, city=city.name, state=form.state.data, topic=request.form['content_topic'], tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values, citydetails=citydetails(city.name, form.state.data), lat=citydetails(city.name, form.state.data, True))
+
 
     # tables=[returnlist.to_html(classes='data')], titles=returnlist.columns.values
     # Set form class to "input-1"
@@ -87,6 +96,120 @@ def index():
 
     # return render_template('index.html', form=form)
 
+@app.route('/updateCoords')
+def updateCoords(city, state):
+    global lat
+    global lon
+    lat, lon = citydetails(city, state, True)
+    return "Updated"
+
+
+@app.route('/citydetails')
+def citydetails(city, state, latlon = False):
+    #var curCity = "{{ city }}";
+    # //if spaces in city name replace with _
+    # if (curCity.includes(" ")) {
+    #     curCity = curCity.replace(" ", "_");
+    # }
+    # var curState = "{{ state }}";
+    # //console.log(curCity);
+    # //console.log(curState);
+    # wikistr = "https://en.wikipedia.org/wiki/" + curCity + ",_" + curState;
+    # console.log(wikistr);
+    # convert above code to python
+    curCity = city
+    cityWithSpace = curCity
+    curState = state
+    # if spaces in city name replace with _
+    if " " in curCity:
+        curCity = curCity.replace(" ", "_")
+    wikistr = "https://en.wikipedia.org/wiki/" + curCity + ",_" + curState
+    print(wikistr)
+
+    if latlon:
+        # Use Beautiful Soup to scrape the wikipedia page for span class latitude and assign it to latitude
+        soup = BeautifulSoup(requests.get(wikistr).text, 'html.parser')
+        lat = soup.find('span', class_='latitude').text
+
+        # The input is of the form 30°16′2″N, so we need to convert it to decimal degrees
+        # First, split the string at the degree symbol
+        latlist = []
+        # latlist needs to be a list of the form ['30', '16', '2″N']
+        latlist.append(lat.split('°')[0])
+        latlist.append(lat.split('°')[1].split('′')[0])
+        latlist.append(lat.split('°')[1].split('′')[1].split('″')[0])
+        if lat.split('°')[1].split('′')[1].split('″')[1] == 'S':
+            latlist.append('-1')
+        else:
+            latlist.append('1')
+        # Now, convert the list to a float
+        latlist = [float(i) for i in latlist]
+        # Finally, convert to decimal degrees
+        lat = latlist[0] + latlist[1]/60 + latlist[2]/3600
+        lat = lat * latlist[3]
+        # cut off at 4 decimal places
+        lat = round(lat, 4)
+        # Repeat for longitude
+        lon = soup.find('span', class_='longitude').text
+        lonlist = []
+        lonlist.append(lon.split('°')[0])
+        lonlist.append(lon.split('°')[1].split('′')[0])
+        lonlist.append(lon.split('°')[1].split('′')[1].split('″')[0])
+        if lon.split('°')[1].split('′')[1].split('″')[1] == 'W':
+            lonlist.append('-1')
+        else:
+            lonlist.append('1')
+        lonlist = [float(i) for i in lonlist]
+        lon = lonlist[0] + lonlist[1]/60 + lonlist[2]/3600
+        lon = lon * lonlist[3]
+        lon = round(lon, 4)
+        return lat, lon
+        
+    # Use Beautiful Soup to scrape the wikipedia page for the first <p> tag which starts with a <b> tag with the city name
+    # and the state name in it.  This is the first paragraph of the wikipedia page and contains the city description
+    # that we want to display on the page.
+    soup = BeautifulSoup(requests.get(wikistr).text, 'html.parser')
+    # find the first <p> tag that starts with a <b> tag
+    ptag = soup.find('p', {'class': None})
+    # find the first <b> tag in the <p> tag
+    btag = ptag.find('b')
+    # get the text of the <b> tag
+    btagtext = btag.text
+    # if the text of the <b> tag starts with the city name then we have the correct paragraph
+    if btagtext.startswith(cityWithSpace):
+        # get the text of the <p> tag
+        ptagtext = ptag.text
+        # remove the last character which is a period
+        ptagtext = ptagtext[:-1]
+        
+    brackets="()[]"
+    count = [0] * (len(brackets) // 2) # count open/close brackets
+    saved_chars = []
+    for character in ptagtext:
+        for i, b in enumerate(brackets):
+            if character == b: # found bracket
+                kind, is_close = divmod(i, 2)
+                count[kind] += (-1)**is_close # `+1`: open, `-1`: close
+                if count[kind] < 0: # unbalanced bracket
+                    count[kind] = 0  # keep it
+                else:  # found bracket to remove
+                    break
+        else: # character is not a [balanced] bracket
+            if not any(count): # outside brackets
+                saved_chars.append(character)
+    ptagtext = ''.join(saved_chars)
+    # remove any spaces before commas
+    ptagtext = ptagtext.replace(" ,", ",")
+        
+    return ptagtext
+
+
+        #return ptagtext
+        # return the text of the <p> tag
+        #return ptagtext
+    print(ptagtext)
+
+    return wikistr
 
 @app.route('/map')
 def map():

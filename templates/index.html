@@ -6,7 +6,8 @@
 
 {% block body %}
 <div class = "content">
-    <h1> Data Collection </h1>
+    <img src="https://user-images.githubusercontent.com/96705270/191663521-e9945410-e687-4d0e-ba62-1e36e2043e16.png" alt="Smart City Data Collection" width="100%" height="100%" style="object-position: center bottom;object-fit: contain;max-height: 100%;max-width: 100%;width: auto;min-width: 250px;height: 50px;">
+    <!--<h1> Data Collection </h1>
     {% if tasks|length < 1%}
     <h4>There is no data selected.</h4>
     {% else %}
@@ -28,7 +29,7 @@
             </tr>
         {% endfor %}  
     </table>
-    {% endif %}  
+    {% endif %}  -->
 
     <form method = 'POST'>
         {{ form.csrf_token }}
@@ -67,6 +68,10 @@
                     city_select.innerHTML = optionHTML;
                 });
             });
+        }
+        //if background color is not white, set white
+        if (document.body.style.backgroundColor != "white"){
+            document.body.style.backgroundColor = "white";
         }
     </script>
     <!---<iframe class="map", src="/map" width="600" height="600"></iframe>--->
