@@ -149,6 +149,8 @@ def mainprogram(a, b, c):
 
     # ArcGis
     #request_site = 'https://glendaleaz-cog-gis.hub.arcgis.com/api/feed/dcat-ap/2.0.1.json'
+    #do not check the SSL certificate, I know my links are secure
+    http = urllib3.PoolManager(cert_reqs='CERT_NONE')
     request = http.request('GET', request_site)
 
     print("Request")
@@ -292,10 +294,13 @@ def mainprogram(a, b, c):
                 elif desc[-1] != '.':
                     desc = desc + '.'
                 #remove all words after "Data Update" or "Update Frequency"
-                if "Data Update" in r3:
-                    r3 = r3[:r3.find("Data Update")]
-                elif "Update " in r3:
-                    r3 = r3[:r3.find("Update ")]
+                try:
+                    if "Data Update" in r3:
+                        r3 = r3[:r3.find("Data Update")]
+                    elif "Update " in r3:
+                        r3 = r3[:r3.find("Update ")]
+                except:
+                    pass
                     
                 results_df['resource.description'][index] = desc
             #remove all spaces before periods
@@ -427,11 +432,13 @@ def mainprogram(a, b, c):
                 elif desc[-1] != '.':
                     desc = desc + '.'
                 #remove all words after "Data Update" or "Update Frequency"
-                if "Data Update" in r3:
-                    r3 = r3[:r3.find("Data Update")]
-                elif "Update " in r3:
-                    r3 = r3[:r3.find("Update ")]
-                    
+                try:
+                    if "Data Update" in r3:
+                        r3 = r3[:r3.find("Data Update")]
+                    elif "Update " in r3:
+                        r3 = r3[:r3.find("Update ")]
+                except:
+                    pass    
                 results_df['dct:description'][index] = desc
             #remove all spaces before periods
             results_df['dct:description'][index] = results_df['dct:description'][index].replace(' .', '.')

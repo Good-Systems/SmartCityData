@@ -24,6 +24,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SECRET_KEY'] = 'SECRET_KEY'
 db = SQLAlchemy(app)
 
+#useful abbreviations as a global variable
+states = {"AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California", "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware", "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa", "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont", "VA": "Virginia", "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming"}
 # Creating the SQL database from CSV file if TRUE (Unfinished)
 citycsv = pd.read_csv('city_api_list.csv', index_col=False)
 citycsv = citycsv.drop(citycsv[(citycsv.Working != "Yes")].index)
@@ -124,12 +126,19 @@ def citydetails(city, state, latlon = False):
     if " " in curCity:
         curCity = curCity.replace(" ", "_")
     wikistr = "https://en.wikipedia.org/wiki/" + curCity + ",_" + curState
+    wikistr2 = "https://en.wikipedia.org/wiki/" + curCity
+    wikistr3 = "https://en.wikipedia.org/wiki/" + curCity + ",_" + states[curState]
     print(wikistr)
 
     if latlon:
         # Use Beautiful Soup to scrape the wikipedia page for span class latitude and assign it to latitude
         soup = BeautifulSoup(requests.get(wikistr).text, 'html.parser')
-        lat = soup.find('span', class_='latitude').text
+        try:
+            lat = soup.find('span', class_='latitude').text
+        except:
+            soup = BeautifulSoup(requests.get(wikistr3).text, 'html.parser')
+            lat = soup.find('span', class_='latitude').text
+
 
         # The input is of the form 30°16′2″N, so we need to convert it to decimal degrees
         # First, split the string at the degree symbol
@@ -138,10 +147,20 @@ def citydetails(city, state, latlon = False):
         latlist.append(lat.split('°')[0])
         latlist.append(lat.split('°')[1].split('′')[0])
         latlist.append(lat.split('°')[1].split('′')[1].split('″')[0])
-        if lat.split('°')[1].split('′')[1].split('″')[1] == 'S':
-            latlist.append('-1')
-        else:
-            latlist.append('1')
+        #if latlist has N or S in it, set it to 0
+        if latlist[2].endswith('N') or latlist[2].endswith('S'):
+            latlist[2] = 0
+        try:
+            if lat.split('°')[1].split('′')[1].split('″')[1] == 'S':
+                latlist.append('-1')
+            else:
+                latlist.append('1')
+        except:
+            if lat.split('°')[1].split('′')[1] == 'S':
+                latlist.append('-1')
+            else:
+                latlist.append('1')
+
         # Now, convert the list to a float
         latlist = [float(i) for i in latlist]
         # Finally, convert to decimal degrees
@@ -155,10 +174,19 @@ def citydetails(city, state, latlon = False):
         lonlist.append(lon.split('°')[0])
         lonlist.append(lon.split('°')[1].split('′')[0])
         lonlist.append(lon.split('°')[1].split('′')[1].split('″')[0])
-        if lon.split('°')[1].split('′')[1].split('″')[1] == 'W':
-            lonlist.append('-1')
-        else:
-            lonlist.append('1')
+        #if lonlist has E or W in it, set it to 0
+        if lonlist[2].endswith('E') or lonlist[2].endswith('W'):
+            lonlist[2] = 0
+        try:
+            if lon.split('°')[1].split('′')[1].split('″')[1] == 'W':
+                lonlist.append('-1')
+            else:
+                lonlist.append('1')
+        except:
+            if lon.split('°')[1].split('′')[1] == 'W':
+                lonlist.append('-1')
+            else:
+                lonlist.append('1')
         lonlist = [float(i) for i in lonlist]
         lon = lonlist[0] + lonlist[1]/60 + lonlist[2]/3600
         lon = lon * lonlist[3]
@@ -168,13 +196,26 @@ def citydetails(city, state, latlon = False):
     # Use Beautiful Soup to scrape the wikipedia page for the first <p> tag which starts with a <b> tag with the city name
     # and the state name in it.  This is the first paragraph of the wikipedia page and contains the city description
     # that we want to display on the page.
-    soup = BeautifulSoup(requests.get(wikistr).text, 'html.parser')
-    # find the first <p> tag that starts with a <b> tag
-    ptag = soup.find('p', {'class': None})
-    # find the first <b> tag in the <p> tag
-    btag = ptag.find('b')
-    # get the text of the <b> tag
-    btagtext = btag.text
+    try:
+        soup = BeautifulSoup(requests.get(wikistr).text, 'html.parser')
+        # find the first <p> tag that starts with a <b> tag
+        ptag = soup.find('p', {'class': None})
+        # find the first <b> tag in the <p> tag
+        btag = ptag.find('b')
+        # get the text of the <b> tag
+        btagtext = btag.text
+    except:
+        # if the above fails, try the following
+        print("WE ARE IN THE EXCEPTION")
+        soup = BeautifulSoup(requests.get(wikistr2).text, 'html.parser')
+        #iterate through the <p> tags until you find one that starts with a <b> tag
+        for ptag in soup.find_all('p', {'class': None}):
+            try:
+                btag = ptag.find('b')
+                btagtext = btag.text
+                break
+            except:
+                continue
     # if the text of the <b> tag starts with the city name then we have the correct paragraph
     if btagtext.startswith(cityWithSpace):
         # get the text of the <p> tag
@@ -224,7 +265,11 @@ def city(state):
         cityObj = {}
         cityObj['id'] = city.id
         cityObj['name'] = city.name
-        cityArray.append(cityObj)
+        #if lowercased city name is not equal to lowercased state name
+        if city.name.lower() != states[state].lower():
+            #print(city.name)
+            #print(state)
+            cityArray.append(cityObj)
 
     return jsonify({'cities': cityArray})
 
