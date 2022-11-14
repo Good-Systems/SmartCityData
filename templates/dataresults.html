@@ -38,7 +38,7 @@
             </div>  
              <div class="input-box active-grey" style="display:inline-block">
                 <label class="input-label">City</label>
-             <select class="input-1" id="city" name="city"><option value="2">Montgomery</option></select> 
+             <select class="input-1" id="city" name="city"><option value="2">{{ city }}</option></select> 
              </div>
 
             <!--<input type='text' name='content_topic' id ='content'> -->
@@ -50,9 +50,64 @@
         <p></p>
     </form>
     <script>
+        function setFocus(on) {
+            var element = document.activeElement;
+            if (on) {
+                setTimeout(function () {
+                element.parentNode.classList.add("focus");
+                });
+            } else {
+                let box = document.querySelector(".input-box");
+                box.classList.remove("focus");
+                $("input").each(function () {
+                var $input = $(this);
+                var $parent = $input.closest(".input-box");
+                if ($input.val()) $parent.addClass("focus");
+                else $parent.removeClass("focus");
+                });
+            }
+        }
+        //set the current state and city to the selected state and city
+        state = { state : "{{ state }}" };
+        city1 = { city : "{{ city }}" };
+        topic = { topic : "{{ topic }}" };
+        console.log("The state is: " + state.state);
+        console.log("The city is: " + city1.city);
+        console.log("The topic is: " + topic.topic);
+        //Set the current selection of the input to the selected state and city
+        document.getElementById("state").value = state.state;
+        //set the text inside the topic input to the selected topic
+        document.getElementById("content").value = topic.topic;
+        if (topic.topic != "") {
+            document.getElementById("content").parentNode.classList.add("focus");
+        }
+        //document.getElementById("city").value = "{{ city }}";
+        //the value of city name is still not being set for the city.
+        //set text of the city input to city.city, not value alone
+        
+
+        //set dropdown to be cities in the selected state
         let state_select = document.getElementById('state');
         let city_select = document.getElementById('city');
         let content_topic = document.getElementById('topic');
+        state = state_select.value;
+        optionval = 2;
+        fetch('/city/'+state).then(function(response){
+                response.json().then(function(data){
+                    let optionHTML = '';
+
+                    for (let city of data.cities){
+                        optionHTML += '<option value="' + city.id + '">' + city.name + '</option>';
+                        if (city.name == city1.city){
+                            optionval = city.id;
+                        }
+                    }
+                    city_select.innerHTML = optionHTML;
+                    $("#city").val(optionval);
+                    console.log("Success");
+                });
+            });
+        
         state_select.onchange = function() {
             state = state_select.value;
             
