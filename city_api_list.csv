@@ -1,16 +1,26 @@
 ﻿City,State-Abbr.,API-site,Working
-Anchorage,AK,data.muni.org,socrata
-Montgomery,AL,data.montgomerycountymd.gov,socrata
+Anchorage,AK,gis.data.alaska.gov?q=anchorage,arcgiscustom
+Fairbanks,AK,gis.data.alaska.gov?q=fairbanks,arcgiscustom
+Juneau,AK,gis.data.alaska.gov?q=juneau,arcgiscustom
+Birmingham,AL,data.birminghamal.gov,ckan
+Huntsville,AL,gis-huntsvilleal.opendata.arcgis.com,arcgis
+Montgomery,AL,opendata.montgomeryal.gov,arcgis
+Tuscaloosa,AL,data.tuscaloosa.com,socrata
+Conway,AR,data-conwayargis.opendata.arcgis.com,arcgis
+Fayetteville,AR,data-fayetteville-ar.opendata.arcgis.com,arcgis
+Hot Springs,AR,chs-opendata-chsmaps.opendata.arcgis.com,arcgis
+Little Rock,AR,data.littlerock.gov,socrata
 Chandler,AZ,share-open-data-changis.hub.arcgis.com,arcgis
 Glendale,AZ,glendaleaz-cog-gis.hub.arcgis.com,arcgis
 Mesa,AZ,data.mesaaz.gov,socrata
+Peoria,AZ,geospatial-peoriaazgis.hub.arcgis.com,arcgis
 Phoenix,AZ,phoenixopendata.com,ckan
 Scottsdale,AZ,data-cos-gis.hub.arcgis.com,arcgis
 Tempe,AZ,open-tempe-tempegov.hub.arcgis.com,arcgis
 Tucson,AZ,data-cotgis.opendata.arcgis.com,arcgis
 Los Angeles,CA,data.lacity.org,socrata
 Anaheim,CA,main-anaheim.opendata.arcgis.com,arcgis
-Bakersfield,CA,bakersfielddatalibrary-cob.opendata.arcgis.com,arcgis
+Bakersfield,CA,geodat-kernco.opendata.arcgis.com,arcgis
 Berkeley,CA,data.cityofberkeley.info,socrata
 Chula Vista,CA,chulavista-cvgis.opendata.arcgis.com,arcgis
 Fremont,CA,fremont-ca-open-data-cofgis.hub.arcgis.com,arcgis
@@ -24,82 +34,184 @@ San Francisco,CA,data.sfgov.org,socrata
 San Jose,CA,gisdata-csj.opendata.arcgis.com,arcgis
 San Mateo,CA,data-smcmaps.opendata.arcgis.com,arcgis
 Santa Clara,CA,data.smgov.net,socrata
+Boulder,CO,open-data.bouldercolorado.gov,arcgis
+Centennial,CO,open-centennial.opendata.arcgis.com,arcgis
 Colorado,CO,data.colorado.gov,socrata
+Colorado Springs,CO,data.coloradosprings.gov,socrata
+Fort Collins,CO,data-fcgov.opendata.arcgis.com,arcgis
+Greeley,CO,data.colorado.gov&q=greeley,socrata
 Aurora,CO,data-auroraco.opendata.arcgis.com,arcgis
-Denver,CO,data.colorado.gov?q=denver,
+Arvada,CO,gis-arvada.opendata.arcgis.com,arcgis
+Denver,CO,data.colorado.gov&q=denver,socrata
+Pueblo,CO,opendata-puebloco.hub.arcgis.com,arcgis
+Thornton,CO,data-cityofthornton.opendata.arcgis.com,arcgis
+Westminster,CO,opendata-westminster.hub.arcgis.com,arcgis
 Connecticut,CT,data.ct.gov,socrata
 Hartford,CT,hartstat.hartford.gov,socrata
+New Haven,CT,maps.newhavenct.gov,arcgis
+Norwalk,CT,gis-norwalk.opendata.arcgis.com,arcgis
+Dover,DE,data.delaware.gov,socrata
+Wilmington,DE,data1-wilmingtonnc.opendata.arcgis.com,arcgis
+New Castle,DE,apps-nccde.hub.arcgis.com,arcgis
+Broward County,FL,geohub-bcgis.opendata.arcgis.com,arcgis
+Cape Coral,FL,capecoral-capegis.opendata.arcgis.com,arcgis
+Fort Lauderdale,FL,data-fortlauderdale.opendata.arcgis.com,arcgis
 Wellington,FL,opendata2-pbcgov.opendata.arcgis.com,arcgis
 Miami,FL,data.miamigov.com,socrata
-Jacksonville,FL,,0
+Jacksonville,FL,geodata.floridagio.gov,arcgis
 Orlando,FL,data.cityoforlando.net,socrata
+Port St. Lucie,FL,data-pslgis.opendata.arcgis.com,arcgis
+St. Petersburg,FL,stat.stpete.org,socrata
+Sumter County,FL,data2-sumtercountygis.opendata.arcgis.com,arcgis
+Tallahassee,FL,geodata-tlcgis.opendata.arcgis.com,arcgis
 Tampa,FL,city-tampa.opendata.arcgis.com,arcgis
-Atlanta,GA,atlanta.data.socrata.com,socrata
+Atlanta,GA,dpcd-coaplangis.opendata.arcgis.com,arcgis
+Augusta,GA,geohub-augustagis.opendata.arcgis.com,arcgis
+Brookhaven,GA,data-brookhavenga.opendata.arcgis.com,arcgis
+Dunwoody,GA,get-dunwoody.opendata.arcgis.com,arcgis
+Savannah,GA,data-sagis.opendata.arcgis.com,arcgis
+Hilo,HI,opendata.hawaii.gov?q=hilo,ckan
 Honolulu,HI,data.honolulu.gov,socrata
 Iowa,IA,data.iowa.gov,socrata
 Boise,ID,city-of-boise.opendata.arcgis.com,arcgis
+Meridian,ID,meridian-gis-hub-cityofmeridian.hub.arcgis.com,arcgis
+Nampa,ID,nampa.hub.arcgis.com,arcgiscustom
 Chicago,IL,data.cityofchicago.org,socrata
 Illinois,IL,data.urbanaillinois.us,socrata
 Cook County,IL,datacatalog.cookcountyil.gov,socrata
-Fort Wayne,IN,hub.mph.in.gov?q=fort%20wayne,
+Naperville,IL,data.naperville.il.us,arcgis
+Peoria County,IL,data-peoriacountygis.opendata.arcgis.com,arcgis
+Bloomington,IN,bloomington.data.socrata.com,socrata
+Evansville,IN,dev-evansvilleapc.opendata.arcgis.com,arcgis
+Fort Wayne,IN,hub.mph.in.gov,ckan
+Indianapolis,IN,data.indy.gov,arcgis
 South Bend,IN,data-southbend.opendata.arcgis.com,arcgis
+Des Moines,IA,data.dsm.city,arcgis
+Dubuque,IA,opendata.cityofdubuque.org,socrata
+Linn County,IA,opendata-linncounty-gis.opendata.arcgis.com,arcgis
+Mason City,IA,masoncityiowa.hub.arcgis.com,arcgiscustom
 Olathe,KA,olathe.data.socrata.com,socrata
 Kansas City,KS,data.kcmo.org,socrata
+Johnson County,KS,jocogov-aims.opendata.arcgis.com,arcgis
+Lawrence,KS,hub-lawrenceks.opendata.arcgis.com,arcgis
+Olathe,KS,data.olatheks.org,arcgis
+Shawnee,KS,data-cityofshawneeks.opendata.arcgis.com,arcgis
+Topeka,KS,data.topeka.org,arcgis
 Wichita,KS,data-cityofwichita.hub.arcgis.com,arcgis
-Lexington,KY,maps-lexco-gis.hub.arcgis.com,arcgis
-Louisville,KY,,0
+Lexington,KY,data.lexingtonky.gov,arcgis
+Louisville,KY,data.louisvilleky.gov,arcgis
 New Orleans,LA,data.nola.gov,socrata
 Baton Rouge,LA,data.brla.gov,socrata
 Boston,MA,bostonopendata-boston.opendata.arcgis.com,arcgis
 Cambridge,MA,data.cambridgema.gov,socrata
 Somerville,MA,data.somervillema.gov,socrata
 Baltimore,MD,bmore-open-data-baltimore.hub.arcgis.com,arcgis
+Frederick County,MD,gis-fcgmd.opendata.arcgis.com,arcgis
 Maryland,MD,data.maryland.gov,socrata
+Montgomery County,MD,data.montgomerycountymd.gov,socrata
 Howard County,MD,opendata.howardcountymd.gov,socrata
-Prince George County,MD,data.princegeorgescountymd.gov,socrata
-Detroit,MI,data-detroitmi.hub.arcgis.com,arcgis
+Prince Georges County,MD,data.princegeorgescountymd.gov,socrata
+Portland,ME,data-hub-gpcog.opendata.arcgis.com,arcgis
+Detroit,MI,detroitmi.hub.arcgis.com,arcgiscustom
+Grand Rapids,MI,grdata-grandrapids.opendata.arcgis.com,arcgis
+Lansing,MI,data-lansing.opendata.arcgis.com,arcgis
 Michigan,MI,data.michigan.gov,socrata
-Austin,MN,bronx.lehman.cuny.edu,socrata
-Minneapolis,MN,openmpls-cityoflakes.opendata.arcgis.com,arcgis
+Austin,MN,geospatial-hub-mowercountymn.hub.arcgis.com,arcgis
+Minneapolis,MN,opendata.minneapolismn.gov,arcgis
 St. Paul,MN,information-stpaul.hub.arcgis.com,arcgis
+Columbia,MO,datahub-gocolumbiamo.opendata.arcgis.com,arcgis
 Missouri,MO,data.mo.gov,socrata
 Kansas City,MO,data.kcmo.org,socrata
+Springfield,MO,gisdata-cosmo.opendata.arcgis.com,arcgis
+St. Charles County,MO,gis-sccmo.opendata.arcgis.com,arcgis
 St. Louis,MO,data-stlcogis.opendata.arcgis.com,arcgis
+Gulfport,MS,data1-gulfport.opendata.arcgis.com,arcgis
+Jackson,MS,open.jacksonms.gov,ckan
+Bozeman,MT,public-bozeman.opendata.arcgis.com,arcgis
+Helena,MT,gisdata-helenamtmaps.opendata.arcgis.com,arcgis
+Missoula,MT,missoulamaps-cityofmissoula.hub.arcgis.com,arcgis
 Raleigh,NC,data-ral.opendata.arcgis.com,arcgis
-Charlotte,NC,opencharlotte-charlotte.opendata.arcgis.com,arcgis
+Charlotte,NC,data.charlottenc.gov,arcgis
+Cumberland County,NC,opendata.co.cumberland.nc.us,arcgis
 Durham,NC,live-durhamnc.opendata.arcgis.com,arcgis
+Fayetteville,NC,data.fayettevillenc.gov,arcgis
 Greensboro,NC,open-gate-city-greensboro.hub.arcgis.com,arcgis
+Greenville,NC,gis-cognc.opendata.arcgis.com,arcgis
+Jackson County,NC,data-jacksonnc.opendata.arcgis.com,arcgis
 Winston-Salem,NC,demo-cows.opendata.arcgis.com,arcgis
+Bismarck,ND,public-bismarck.opendata.arcgis.com,arcgis
+Grand Forks,ND,data-gfgis.opendata.arcgis.com,arcgis
+Minot,ND,city-of-minot-open-data-minotnd.hub.arcgis.com,arcgis
+Grand Island,NE,opengis.grand-island.com,arcgis
 Lincoln,NE,data2-lincolnne.opendata.arcgis.com,arcgis
 Omaha,NE,data-dogis.opendata.arcgis.com,arcgis
+Nashua,NH,data-nashuamaps.opendata.arcgis.com,arcgis
 Jersey City,NJ,data.nj.gov,socrata
 Newark,NJ,data-newgin.opendata.arcgis.com,arcgis
-Albuquerque,NM,,0
+Albuquerque,NM,bernco.civicdashboards.com,ckan
+San Juan County,NM,data-sjcounty.opendata.arcgis.com,arcgis
 Las Vegas,NV,opendataportal-lasvegas.opendata.arcgis.com,arcgis
 Henderson,NV,opendata.cityofhenderson.com,socrata
-Reno,NV,moreno-valley.data.socrata.com,socrata
+Reno,NV,data-cityofreno.opendata.arcgis.com,arcgis
 New York City,NY,data.cityofnewyork.us,socrata
 Buffalo,NY,data.ny.gov,socrata
 Cincinnati,OH,data.cincinnati-oh.gov,socrata
-Columbus,OH,internal-columbusschools.data.socrata.com,socrata
+Columbus,OH,opendata.columbus.gov,arcgis
+Cuyahoga County,OH,data-cuyahoga.opendata.arcgis.com,arcgis
+Lorain County,OH,data-loraingis.opendata.arcgis.com,arcgis
+Summit County,OH,data-summitgis.opendata.arcgis.com,arcgis
+Toledo,OH,data.toledo.gov,arcgis
+Norman,OK,data-normanok.opendata.arcgis.com,arcgis
 Oklahoma,OK,data.ok.gov,ckan
+Oklahoma City,OK,data.ok.gov?q=Oklahoma%20City,ckan
 Tulsa,OK,gis2-cityoftulsa.opendata.arcgis.com,arcgis
+Jackson County,OR,gis.jacksoncounty.org,arcgis
 Oregon,OR,data.oregon.gov,socrata
-Portland,OR,internal-portlandme.data.socrata.com,socrata
-Philadelphia,PA,opendataphilly.org,0
+Portland,OR,data.oregon.gov,socrata
+Philadelphia,PA,opendataphilly.org,ckan
+Cranston,RI,geohub-cranston.hub.arcgis.com,arcgis
+Providence,RI,data.providenceri.gov,socrata
+Aiken,SC,open-data-aiken-sc.hub.arcgis.com,arcgis
+Charleston,SC,data-charleston-sc.opendata.arcgis.com,arcgis
+Hilton Head Island,SC,opendata.hiltonheadislandsc.gov,arcgis
+Horry County,SC,gis-hcg.opendata.arcgis.com,arcgis
+Brookings,SD,brookingsopendata-brookingscosd.hub.arcgis.com,arcgis
+Sioux Falls,SD,dataworks.siouxfalls.org,arcgis
+Memphis,TN,data.memphistn.gov,socrata
 Nashville,TN,data.nashville.gov,socrata
 Austin,TX,data.austintexas.gov,socrata
 Dallas,TX,www.dallasopendata.com,socrata
 Arlington,TX,opendatadraftosi-arlingtontx.hub.arcgis.com,arcgis
 Fort Worth,TX,data.fortworthtexas.gov,socrata
-Houston,TX,data.houstontx.gov,ckan
-Lubbock,TX,data.texas.gov&q=lubbock,
+Harrison County,TX,data-harcogis.opendata.arcgis.com,arcgis
+Houston,TX,data.texas.gov&q=houston,socrata
+Lubbock,TX,data.texas.gov&q=lubbock,socrata
 Plano,TX,dashboard.plano.gov,socrata
 San Antonio,TX,data.sanantonio.gov,ckan
-Chesapeake,VA,cityofchesapeake.data.socrata.com,socrata
+Cedar City,UT,opendata.utah.gov&q=Cedar%20City,socrata
+Logan,UT,opendata.utah.gov&q=Logan,socrata
+Salt Lake City,UT,opendata.utah.gov&q=Salt%20Lake%20City,socrata
+Salt Lake County,UT,gisdata-slco.opendata.arcgis.com,arcgis
+Chesapeake,VA,data-chesbay.opendata.arcgis.com,arcgis
 Norfolk,VA,data.norfolk.gov,socrata
 Virginia Beach,VA,data.virginia.gov,socrata
+Burlington,VT,data.vermont.gov&q=Burlington,socrata
+Montpelier,VT,data.vermont.gov&q=Montpelier,socrata
+Stowe,VT,data.vermont.gov&q=Stowe,socrata
+Bellevue,WA,data.bellevuewa.gov,arcgis
+Clark County,WA,hub-clarkcountywa.opendata.arcgis.com,arcgis
+Kent,WA,gis-cityofkent.opendata.arcgis.com,arcgis
+King County,WA,gis-kingcounty.opendata.arcgis.com,arcgis
 Seattle,WA,data.seattle.gov,socrata
+Thurston County,WA,gisdata-thurston.opendata.arcgis.com,arcgis
+Spokane County,WA,gisdatacatalog-spokanecounty.opendata.arcgis.com,arcgis
+Tacoma,WA,geohub.cityoftacoma.org,arcgis
 Washington,WA,washingtoncountyok.data.socrata.com,socrata
 Madison,WI,data-cityofmadison.opendata.arcgis.com,arcgis
-Milwaukee,WI,city.milwaukee.gov,ckan
+Milwaukee,WI,gis-mclio.opendata.arcgis.com,arcgis
+Sauk County,WI,data-saukgis.opendata.arcgis.com,arcgis
+Bridgeport,WV,data-cobwv.opendata.arcgis.com,arcgis
+Jefferson County,WV,od-jcwvgis.opendata.arcgis.com,arcgiscustom
+Raleigh County,WV,data-brcmetrogis.opendata.arcgis.com,arcgiscustom
+Casper,WY,data-cityofcasper.opendata.arcgis.com,arcgis
+Cheyenne,WY,data.geospatialhub.org?q=Cheyenne,arcgiscustom
