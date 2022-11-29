@@ -100,7 +100,7 @@ def index():
 
     # return render_template('index.html', form=form)
 
-@app.route('CityData/updateCoords')
+@app.route('/CityData/updateCoords')
 def updateCoords(city, state):
     global lat
     global lon
@@ -108,7 +108,7 @@ def updateCoords(city, state):
     return "Updated"
 
 
-@app.route('CityData/citydetails')
+@app.route('/CityData/citydetails')
 def citydetails(city, state, latlon = False):
     #var curCity = "{{ city }}";
     # //if spaces in city name replace with _
@@ -255,12 +255,12 @@ def citydetails(city, state, latlon = False):
 
     return wikistr
 
-@app.route('CityData/map')
+@app.route('/CityData/map')
 def map():
     return render_template('map.html')
 
 
-@app.route('CityData/city/<state>')
+@app.route('/CityData/city/<state>')
 def city(state):
     cities = City.query.filter_by(state=state).all()
     cityArray = []
