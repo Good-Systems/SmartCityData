@@ -93,7 +93,7 @@
         let content_topic = document.getElementById('topic');
         state = state_select.value;
         optionval = 2;
-        fetch('/city/'+state).then(function(response){
+        fetch('/CityData/city/'+state).then(function(response){
                 response.json().then(function(data){
                     let optionHTML = '';
 
@@ -112,7 +112,7 @@
         state_select.onchange = function() {
             state = state_select.value;
             
-            fetch('/city/'+state).then(function(response){
+            fetch('/CityData/city/'+state).then(function(response){
                 response.json().then(function(data){
                     let optionHTML = '';
 
