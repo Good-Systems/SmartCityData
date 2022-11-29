@@ -260,7 +260,7 @@ def map():
     return render_template('map.html')
 
 
-@app.route('/CityData/city/<state>')
+@app.route('/city/<state>')
 def city(state):
     cities = City.query.filter_by(state=state).all()
     cityArray = []
