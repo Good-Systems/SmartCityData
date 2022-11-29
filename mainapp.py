@@ -52,7 +52,7 @@ class Form(FlaskForm):
     city = SelectField('city', choices=[])
 
 
-@app.route('/CityData/', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def index():
     form = Form()
 
