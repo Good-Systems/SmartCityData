@@ -255,7 +255,7 @@ def citydetails(city, state, latlon = False):
 
     return wikistr
 
-@app.route('/map')
+@app.route('/CityData/map')
 def map():
     return render_template('map.html')
 
