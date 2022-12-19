@@ -35,7 +35,7 @@ class Form(FlaskForm):
     state = SelectField('state', choices=[('CA','California'),('TX',"Texas")])
     city = SelectField('city',choices=[])
 
-@app.route('CityData/', methods = ['POST','GET'])
+@app.route('/', methods = ['POST','GET'])
 
 def index():
     form = Form()
@@ -50,11 +50,11 @@ def index():
 
     return render_template('index.html',form=form)
     
-@app.route('CityData/map')
+@app.route('/map')
 def map():
     return render_template('map.html')
 
-@app.route('CityData/city/<state>')
+@app.route('/city/<state>')
 def city(state):
     cities = City.query.filter_by(state=state).all()
     cityArray = []
@@ -79,7 +79,7 @@ def update(id):
         try:
             db.session.add(new_task)
             db.session.commit()
-            return redirect('CityData/')
+            return redirect('/')
         except:
             return 'There was an issue adding your task'
     else:
@@ -87,18 +87,18 @@ def update(id):
         return render_template('index.html', tasks = tasks)
 
 
-@app.route('CityData/delete/<int:id>')    
+@app.route('/delete/<int:id>')    
 def delete(id):
     task_to_delete = Todo.query.get_or_404(id)
 
     try: 
         db.session.delete(task_to_delete)
         db.session.commit()
-        return redirect('CityData/')
+        return redirect('/')
     except:
         return 'There was a problem deleting that task'
 
-@app.route('CityData/update/<int:id>',methods=['GET','POST'])
+@app.route('/update/<int:id>',methods=['GET','POST'])
 def update(id):
     task = Todo.query.get_or_404(id)
 
@@ -106,7 +106,7 @@ def update(id):
         task.content = request.form['content']
         try:
             db.session.commit()
-            return redirect('CityData/')
+            return redirect('/')
         except:
             return ' There was an issue updating your task'
     else:
