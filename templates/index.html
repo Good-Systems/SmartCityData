@@ -1,12 +1,267 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<!--Meta tags for FAQ-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!-- FontAwesome CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="style.css">
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <title>Smart City Data Collection</title>
 {% endblock %}
 
 {% block body %}
+<script>
+
+
+states = {"AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California", "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware", "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa", "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont", "VA": "Virginia", "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming"}
+state = ""
+city = ""
+topic = ""
+function readURL() {
+    //if ? in url, we will read the values
+    //if ("?" in window.location.href)
+    if (window.location.href.indexOf("?") > -1)
+    {
+        var url = window.location.href;
+        //set all _'s in url to spaces
+        while (url.indexOf("_") > -1)
+        {
+          url = url.replace("_", " ");
+        }
+        console.log(url)
+        state = url.split("?s=")[1].split("?c=")[0];
+        city = url.split("?c=")[1].split("?t=")[0];
+        topic = url.split("?t=")[1];
+        console.log("State: " + state)
+        console.log("City: " + city)
+        console.log("Topic: " + topic)
+        //now we need to set the values in the form and call the submit function
+        //timeout 100ms
+
+
+        //append <img src="https://user-images.githubusercontent.com/96705270/208284946-db69d6b2-9a28-4702-9ca2-aec978db2ede.gif" style="
+//     margin-left: auto;
+//     margin-right: auto;
+//     display: block;
+//     width: 5%;
+// ">
+        //as a child of class "content"
+        
+
+
+
+
+
+
+        readURLrecurse();
+      }
+    }
+
+function readURLrecurse() {
+
+      try {
+        setTimeout(function(){
+
+        loader = document.createElement("img");
+        loader.src = "https://user-images.githubusercontent.com/96705270/208284946-db69d6b2-9a28-4702-9ca2-aec978db2ede.gif";
+        loader.style = "margin-left: auto; margin-right: auto; display: block; width: 5%;";
+        loader.id = "loader";
+        contenter = document.getElementsByClassName("content")[0];
+        //if loader is not already a child of contenter
+        if (document.getElementById("loader") == null)
+          contenter.appendChild(loader);
+        
+        //get faqbtn and set it to visible false
+        try {
+        document.getElementById("faqbtn").style.display = "none";
+        }
+        catch(err) {
+          readURLrecurse();
+        }
+
+        state_select = document.getElementById('state');
+        city_select = document.getElementById('city');
+        content_topic1 = document.getElementById('content');
+        console.log("State: " + state_select)
+        console.log("City: " + city_select)
+        console.log("Content: " + content_topic1)
+
+        let form = state_select.parentElement.parentElement;
+        //set visibility of form to false
+        form.style.display = "none";
+        console.log("FORM: " + form);
+        state_select.value = Object.keys(states).find(key => states[key] === state);
+        console.log(state_select.value)
+        console.log(state)
+        setTimeout(function(){
+        try {
+          state_select.onchange();
+        }
+        catch(err) {
+          readURLrecurse();
+        }
+        }, 150);
+        console.log("a")
+        console.log(city_select.selectedIndex)
+        console.log("CIqTY: " + city)
+
+        setTimeout(function(){
+        //for item in city_select.options, if innerHTML contains city, set selectedIndex to that item's value
+        for (var i = 0; i < city_select.options.length; i++) {
+          console.log(city_select.options[i].innerHTML)
+          if (city_select.options[i].innerHTML.indexOf(city) > -1) {
+            city_select.selectedIndex = i;
+            console.log(city_select.options[i].value)
+            console.log("AAA")
+            break;
+          }
+        }
+        console.log(city_select.selectedIndex)
+        
+        console.log("b")
+        content_topic1.value = topic;
+        console.log("c")
+
+        form.submit();
+      }, 300);
+     
+      }, 10);
+      }
+      catch(err) {
+        readURLrecurse();
+      }
+      console.log("URL read")
+    }
+readURL()
+
+</script>
+<!--Start of Help Section-->
+<div id="help" class="overlay" style="
+    z-index: 1;
+">
+      <div class="popup">
+        <h2 style="margin-bottom: 1rem !important;">Purpose</h2>
+        <a class="close" href="#" onclick="force_c()">×</a><p>SmartCityData integrates open data from cities into one useful platform. It browses different databases and finds the datasets that are relevant to your query.</p>
+        <div class="content1"><div class="text-center">
+            <h2 style="margin-bottom: 1rem !important; margin-top: 1rem !important;" class="mt-5 mb-5">FAQ</h2>
+          </div>
+          <section class="container my-5" id="maincontent">
+            <section id="accordion">
+              <a class="py-3 d-block h-100 w-100 position-relative z-index-1 pr-1 text-secondary border-top collapsed" aria-controls="faq-17" aria-expanded="false" data-toggle="collapse" href="#faq-17" role="button">
+                <div class="position-relative">
+                  <h2 class="h4 m-0 pr-3">
+                    How do I use SmartCityData?
+                  </h2>
+                  <div class="position-absolute top-0 right-0 h-100 d-flex align-items-center">
+                    <i class="fa fa-plus"></i>
+                  </div>
+                </div>
+              </a>
+              <div class="collapse" id="faq-17" style="">
+                <div class="card card-body border-0 p-0">
+                  <p>Simply select the city and state you want to get data from. Then, you may optionally search for a specific topic (eg. housing) and press Submit to generate results.</p>
+        
+                </div>
+              </div>
+        
+              <a class="py-3 d-block h-100 w-100 position-relative z-index-1 pr-1 text-secondary border-top collapsed" aria-controls="faq-18" aria-expanded="false" data-toggle="collapse" href="#faq-18" role="button">
+                <div class="position-relative">
+                  <h2 class="h4 m-0 pr-3">
+                    How can I sort the data?
+                  </h2>
+                  <div class="position-absolute top-0 right-0 h-100 d-flex align-items-center">
+                    <i class="fa fa-plus"></i>
+                  </div>
+                </div>
+              </a>
+              <div class="collapse" id="faq-18" style="">
+                <div class="card card-body border-0 p-0">
+                  <p>SmartCityData provides three ways you can sort the data you query, by relevance, date, and popularity. Relevance will sort the data by keyword matching. Date will sort it by the most recently published. Popularity will sort it by amount of views/downloads.</p>
+                  <p>
+                  </p>
+                </div>
+              </div>
+        
+              <a class="py-3 d-block h-100 w-100 position-relative z-index-1 pr-1 text-secondary border-top collapsed" aria-controls="faq-19" aria-expanded="false" data-toggle="collapse" href="#faq-19" role="button">
+                <div class="position-relative">
+                  <h2 class="h4 m-0 pr-3">
+                    What if I want to search for a specific word?
+                  </h2>
+                  <div class="position-absolute top-0 right-0 h-100 d-flex align-items-center">
+                    <i class="fa fa-plus"></i>
+                  </div>
+                </div>
+              </a>
+              <div class="collapse" id="faq-19" style="">
+                <div class="card card-body border-0 p-0">
+                  <p>By the Sort dropdown, there is a Filter where the dataset title and description will be precisely matched against any words inputted.</p>
+                  <p>
+                  </p>
+                </div>
+              </div>
+        
+              <a class="py-3 d-block h-100 w-100 position-relative z-index-1 pr-1 text-secondary border-top collapsed" aria-controls="faq-20" aria-expanded="false" data-toggle="collapse" href="#faq-20" role="button">
+                <div class="position-relative">
+                  <h2 class="h4 m-0 pr-3">
+                    Why are there only 100 results for some cities?
+                  </h2>
+                  <div class="position-absolute top-0 right-0 h-100 d-flex align-items-center">
+                    <i class="fa fa-plus"></i>
+                  </div>
+                </div>
+              </a>
+              <div class="collapse" id="faq-20" style="">
+                <div class="card card-body border-0 p-0">
+                  <p>To minimize the search-time with large databases, SmartCityData might only provide the first 100 relevant datasets. To see different datasets, try searching for a different topic.</p>
+                  <p>
+                  </p>
+                </div>
+              </div>
+        
+              <a class="py-3 d-block h-100 w-100 position-relative z-index-1 pr-1 text-secondary border-top collapsed" aria-controls="faq-21" aria-expanded="false" data-toggle="collapse" href="#faq-21" role="button">
+                <div class="position-relative">
+                  <h2 class="h4 m-0 pr-3">
+                    I can't find my city on the list?
+                  </h2>
+                  <div class="position-absolute top-0 right-0 h-100 d-flex align-items-center">
+                    <i class="fa fa-plus"></i>
+                  </div>
+                </div>
+              </a>
+              <div class="collapse" id="faq-21" style="">
+                <div class="card card-body border-0 p-0">
+                  <p>SmartCityData is an actively updating open-data repository. More cities are being added every week, please stay tuned.</p>
+                  <p>
+                  </p>
+                </div>
+              </div>
+        
+              
+              <div class="collapse" id="faq-22" style="">
+                <div class="card card-body border-0 p-0">
+                  <p>The best time to call is 24/7! We are always available to answer any questions.</p>
+                  <p>
+                  </p>
+                </div>
+              </div>
+            </section>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!--End of Help Section-->
 <div class = "content">
-    <img src="https://user-images.githubusercontent.com/96705270/191663521-e9945410-e687-4d0e-ba62-1e36e2043e16.png" alt="Smart City Data Collection" width="100%" height="100%" style="object-position: center bottom;object-fit: contain;max-height: 100%;max-width: 100%;width: auto;min-width: 250px;height: 50px;">
+    <img src="https://user-images.githubusercontent.com/96705270/205511852-7c5d2d13-1f1d-42af-abde-44efcc22efd2.png" alt="Smart City Data Collection" width="100%" height="100%" style="object-position: center bottom;object-fit: contain;max-height: 100%;max-width: 100%;width: auto;min-width: 250px;height: 50px;">
     <!--<h1> Data Collection </h1>
     {% if tasks|length < 1%}
     <h4>There is no data selected.</h4>
@@ -73,6 +328,85 @@
         if (document.body.style.backgroundColor != "white"){
             document.body.style.backgroundColor = "white";
         }
+        //Default is Austin, TX
+        state_select.value = "TX";
+        city_select.value = 89;
+
+        //set timeout for 100ms to load the FAQ
+        setTimeout(function(){
+            //FAQ Neatness
+            //If aria_expanded is true for one of the FAQ's, then the other FAQ's should be false
+            faq_section = document.getElementById("accordion");
+            //for each <a>, if aria_expanded is true, then set all other faq's aria_expanded to false
+            //each child <a> is a faq
+            //get all faq's, remember to only get the <a> tags
+            faq_list = faq_section.getElementsByTagName("a");
+            for (let faq of faq_list){
+                faq.onclick = function(){
+                    //if aria_expanded is true, then set all other faq's aria_expanded to false
+                    if (faq.getAttribute("aria-expanded") == "false"){
+                        for (let other_faq of faq_list){
+                            if (other_faq != faq){                
+                                other_faq.setAttribute("aria-expanded", "false");
+                                //get content of aria-controls
+                                let content_id = other_faq.getAttribute("aria-controls");
+                                //set class with id content_id to collapsing
+                                document.getElementById(content_id).setAttribute("class", "collapse");
+                                //document.getElementById(content_id).style.height = "0px";
+                                //play the collapse animation that is called by the transition in the CSS
+
+                                //add the class collapsed to the <a> class
+                                //do not remove the current class
+                                other_faq.setAttribute("class", other_faq.getAttribute("class") + " collapsed");
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }, 100);
+
+        function force_c() {
+          //get id help and set mouse hover to not click
+          document.getElementById("help").style.pointerEvents = "none";
+
+        }
+
+        function enable_c() {
+
+          //get id help and set mouse hover to not click
+          document.getElementById("help").style.pointerEvents = "auto";
+
+        }
+
+        //mobile view
+        //if the screen is less than 768px, get all input-boxes
+        if (window.innerWidth < 768){
+          //get class content and set marginTop to 70%
+          document.getElementsByClassName("content")[0].style.marginTop = "70%";
+          input_boxes = document.getElementsByClassName("input-box");
+          //for the first input-box, set the width to 50% and right to 30%
+          input_boxes[0].style.width = "50%";
+          input_boxes[0].style.right = "30%";
+          //for the second input-box, set the width to 37.5%, right to 10%, and position to fixed
+          input_boxes[1].style.width = "37.5%";
+          input_boxes[1].style.right = "10%";
+          input_boxes[1].style.position = "fixed";
+          //for the third input-box, set right to 16%
+          input_boxes[2].style.right = "16%";
+          //for class button-3, set position to fixed, right to 10%, margin-top to 5%
+          document.getElementsByClassName("button-3")[0].style.position = "fixed";
+          document.getElementsByClassName("button-3")[0].style.right = "10%";
+          document.getElementsByClassName("button-3")[0].style.marginTop = "5%";
+          //for id versionb, set width to max-content
+          //set timeout for 10ms for FAQ
+          setTimeout(function(){
+            document.getElementById("versionb").style.width = "max-content";
+            document.getElementById("versionb").style.left = "0";
+          }, 10);
+        }
+
+
     </script>
     <!---<iframe class="map", src="/map" width="600" height="600"></iframe>--->
 

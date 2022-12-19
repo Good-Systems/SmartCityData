@@ -1,6 +1,6 @@
 ﻿City,State-Abbr.,API-site,Working
-Anchorage,AK,gis.data.alaska.gov?q=anchorage,arcgiscustom
-Fairbanks,AK,gis.data.alaska.gov?q=fairbanks,arcgiscustom
+Anchorage,AK,muniorg.hub.arcgis.com,arcgiscustom
+Fairbanks,AK,gis.data.alaska.gov?q=fairbanks,arcgis
 Juneau,AK,gis.data.alaska.gov?q=juneau,arcgiscustom
 Birmingham,AL,data.birminghamal.gov,ckan
 Huntsville,AL,gis-huntsvilleal.opendata.arcgis.com,arcgis
@@ -163,11 +163,13 @@ Summit County,OH,data-summitgis.opendata.arcgis.com,arcgis
 Toledo,OH,data.toledo.gov,arcgis
 Norman,OK,data-normanok.opendata.arcgis.com,arcgis
 Oklahoma,OK,data.ok.gov,ckan
-Oklahoma City,OK,data.ok.gov?q=Oklahoma%20City,ckan
+Oklahoma City,OK,data.ok.gov,ckan
+Owasso,OK,city-of-owasso-gis-cityofowasso.hub.arcgis.com,arcgis
 Tulsa,OK,gis2-cityoftulsa.opendata.arcgis.com,arcgis
 Jackson County,OR,gis.jacksoncounty.org,arcgis
 Oregon,OR,data.oregon.gov,socrata
 Portland,OR,data.oregon.gov,socrata
+Bethlehem,PA,maps-bethlehem-pa.opendata.arcgis.com,arcgis
 Philadelphia,PA,opendataphilly.org,ckan
 Cranston,RI,geohub-cranston.hub.arcgis.com,arcgis
 Providence,RI,data.providenceri.gov,socrata
@@ -211,7 +213,4 @@ Madison,WI,data-cityofmadison.opendata.arcgis.com,arcgis
 Milwaukee,WI,gis-mclio.opendata.arcgis.com,arcgis
 Sauk County,WI,data-saukgis.opendata.arcgis.com,arcgis
 Bridgeport,WV,data-cobwv.opendata.arcgis.com,arcgis
-Jefferson County,WV,od-jcwvgis.opendata.arcgis.com,arcgiscustom
-Raleigh County,WV,data-brcmetrogis.opendata.arcgis.com,arcgiscustom
 Casper,WY,data-cityofcasper.opendata.arcgis.com,arcgis
-Cheyenne,WY,data.geospatialhub.org?q=Cheyenne,arcgiscustom

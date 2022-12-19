@@ -91,6 +91,8 @@ def generateName(x, api_name, topic_name):
             domain_name += q + '%20' + topic_name
         if topic_name != "" and q == '':
             domain_name += "?q=" + topic_name
+        print("Found domain name:")
+        print(domain_name)
     return domain_name
 
 
@@ -155,6 +157,8 @@ def searchArcGis(a, b, c):
 
 
 def mainprogram(a, b, c):
+    global api_name
+
     # stoprg = 0
     # Find the request site
     request_site = search_Socrata(a, b, c)
@@ -170,6 +174,17 @@ def mainprogram(a, b, c):
     # Scorata URL
     # request_site = 'https://api.us.socrata.com/api/catalog/v1' + city_domain
     # print(request_site)
+    arcgiscity = False
+    if (api_name == 'arcgis'):
+        if "?q=" in request_site:
+            print("?Q= ON REQUEST SITE" + request_site)
+            #remove the ?q= to the next / in the url
+            #so request_site should go from gis.data.alaska.gov?q=juneau/api/feed/dcat-ap/2.0.1.json to gis.data.alaska.gov/api/feed/dcat-ap/2.0.1.json
+            #remove the ?q= + a from the url
+            request_site = request_site.split("?q=")[0] + "/api/feed/dcat-ap/2.0.1.json"
+            print("NEW REQUEST SITE: " + request_site)
+            arcgiscity = True
+            
 
     # RIDB
     # request_site = 'https://ridb.recreation.gov/api/v1/'
@@ -187,7 +202,16 @@ def mainprogram(a, b, c):
     # get data from the request
     data = request.data
     # get the json file from the request data
-    data = json.loads(request.data)
+    backup = False
+    try:
+        data = json.loads(request.data)
+    except:
+        #We will use our Backup Database
+        backup = True
+        arcgiscity = True
+        api_name = 'arcgiscustom'
+        request_site = "https://hub.arcgis.com/api/v3/search"
+
     #datastring = str(data)
     # print("Data")
     # print(data)
@@ -228,37 +252,127 @@ def mainprogram(a, b, c):
         #if item['dct:title'].find(topic_name) != -1 and item['dct:description'].find(topic_name) != -1:
         #    delete item
         for item in data['dcat:dataset']:
-            if item['dct:title'].find(topic_name) == -1 and item['dct:description'].find(topic_name) == -1:
-                data['dcat:dataset'].remove(item)
+            if topic_name != '':
+                if item['dct:title'].find(topic_name) == -1 and item['dct:description'].find(topic_name) == -1:
+                    data['dcat:dataset'].remove(item)
+            if arcgiscity:
+                if item['dct:title'].find(a) == -1 and item['dct:description'].find(a) == -1:
+                    data['dcat:dataset'].remove(item)
+            #if ?q= is in the url, remove it and get the name after it
+            
+            
 
 
 
 
-    if api_name == 'arcgiscustom':
+    if api_name == 'arcgiscustom' or backup:
         #request_site = "https://opendata.arcgis.com/api/v3/search"
         topic_name = c
-        postData = {
-            "agg": {
-                "fields": "downloadable,hasApi,source,tags,type,access"
-            },
-            "fields": {
-                "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
-            },
-            # "catalog": {
-            #     "orgId": "any(qvkbeam7Wirps6zC)"
-            # }#,
-        #    "q": topic_name
-        }
-        options = {
-            "method": 'POST',
-            "body": postData,
-            "json": True,
-            "url": request_site
-        }
-        request = requests.post(request_site, headers={'Content-Type': 'application/json'}, json=postData)
-        #request = requests.post(request_site)
-        print(request.text)
+        # postData = {
+        #     "agg": {
+        #         "fields": "downloadable,hasApi,source,tags,type,access"
+        #     },
+        #     "fields": {
+        #         "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+        #     },
+        #     # "catalog": {
+        #     #     "orgId": "any(qvkbeam7Wirps6zC)"
+        #     # }#,
+        # #    "q": topic_name
+        # }
+        # options = {
+        #     "method": 'POST',
+        #     "body": postData,
+        #     "json": True,
+        #     "url": request_site
+        # }
+        #Below are the official V3 API parameters
+            # "parameters": {
+            #     "query": "search term",
+            #     "filter": "filter applied to search. Example: 'filter[tags]=airports'",
+            #     "page[size]": "Number of resources per page. Example: 'page[size]=25' ",
+            #     "page[number]": "The page number for the resources. Example: 'page[number]=2'"
+            # }
+        #ARCGIS ORGID Grabber
+        # To get the orgid for a specific ArcGIS site
+        # Go to detroitmi.maps.arcgis.com/sharing/rest/portals/self?culture=en&f=pjson
+        # Go to masoncityiowa.maps.arcgis.com/sharing/rest/portals/self?culture=en&f=pjson
+        # Get "id" from the JSON response
+        # For example, the ID for Detroit Michigan is qvkbeam7Wirps6zC
+        # For example, the ID for Mason City Iowa is 84FpxbPitJq31AWu
+        # Then, replace the orgId in the postData below with the ID for the city you want to search
+        #request_site_org will be request_site without anything past the first . in the URL
+        if "hub.arcgis.com" in request_site:
+            if (not backup):
+                request_site_org = request_site.split(".")[0]
+                requestOrg = request_site_org + ".maps.arcgis.com/sharing/rest/portals/self?culture=en&f=pjson"
+                # Gett "id" from the JSON response
+                org_id = requests.get(requestOrg).json()['id']
+                print("Org ID: " + org_id)
+            else:
+                org_id = ""
+
+            if (not backup):
+                if topic_name != "":
+                    postData = {
+                        "agg": {
+                            "fields": "downloadable,hasApi,source,tags,type,access",
+                            "size": "100"
+                        },
+                        "fields": {
+                            "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+                        },
+                        "catalog": {
+                            "orgId": "any(" + org_id + ")"
+                        },
+                        "q": topic_name
+                    }
+                else:
+                    postData = {
+                        "agg": {
+                            "fields": "type,access,source,categories,license,tags,region,sector",
+                            "size": "100"
+                        },
+                        "fields": {
+                            "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+                        },
+                        "catalog": {
+                            "orgId": "any(" + org_id + ")"
+                        },
+                        "q": a
+                }
+            else:
+                if topic_name != "":
+                    postData = {
+                        "agg": {
+                            "fields": "downloadable,hasApi,source,tags,type,access",
+                            "size": "100"
+                        },
+                        "fields": {
+                            "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+                        },
+                        "q": a + " " + topic_name
+                    }
+                else:
+                    postData = {
+                        "agg": {
+                            "fields": "type,access,source,categories,license,tags,region,sector",
+                            "size": "100"
+                        },
+                        "fields": {
+                            "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+                        },
+                        "q": a
+                }
+
+            #request_site = request_site
+            request = requests.post(request_site, headers={'Content-Type': 'application/json'}, json=postData)
+        else:
+            request = requests.post(request_site)
+        print("Requesting from:" + request_site)
+        #print(request.text)
         data = json.loads(request.text)
+        
 
         meta = pd.json_normalize(data['meta'])
         # if data['next'] != None:, request_site = data['next'] and append contents of data to current data
@@ -284,9 +398,16 @@ def mainprogram(a, b, c):
         except:
             print("No more pages")
 
-
-
-
+        for item in data['data']:
+            if item.get('name') == None:
+                data['data'].remove(item)
+                continue
+            if topic_name != '':
+                if item['name'].find(topic_name) == -1 and item['searchDescription'].find(topic_name) == -1:
+                   data['data'].remove(item)
+            if arcgiscity:
+                if item['name'].find(a) == -1 and item['searchDescription'].find(a) == -1:
+                    data['data'].remove(item)
 
     # if "error" in datastring:
     #     if api_name == 'socrata':
@@ -322,8 +443,6 @@ def mainprogram(a, b, c):
     #         if "error" in datastring:
     #             print("ArcGis Error AGAIN")
     #             return None
-
-
 
 
 
@@ -493,6 +612,11 @@ def mainprogram(a, b, c):
             a['Popularity'] = results_df['resource.download_count']
             # set display none for popularity
             a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        if 'resource.page_views.page_views_total' in results_df.columns:
+            a['Popularity'] = results_df['resource.page_views.page_views_total']
+            # set display none for popularity
+            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        
         #url = requests.get(results_df['permalink'])
         #soup = BeautifulSoup(url.content, 'html.parser')
         #a['Desc'] = soup
@@ -506,6 +630,11 @@ def mainprogram(a, b, c):
         # ['resource.name']
         a = pd.DataFrame(data, columns=['Name'], index=None)
      # CKAN
+        print("results_df['title'] is", results_df['title'])
+        # if results_df['url'] is null, then the url is located at the key "url" inside the dictionary named "resources"
+
+        if results_df['url'].isnull().values.any():
+            results_df['url'] = results_df['resources'].apply(lambda x: x[0]['url'])
      #   Final displayed data frame Name & More Infor
         a['Name'] = results_df['title']
         a['Name'] = '<a href="' + results_df['url'] + '">' + results_df['title'] + '</a>'
@@ -516,6 +645,11 @@ def mainprogram(a, b, c):
         # httpString = "http"
         # a = a[a['More Info'].str.contains(httpString) == True]
         # a = a.dropna()
+        print("CKAN")
+        print(a.to_string())
+        #if results_df['notes'] is null, set it to ''
+        if results_df['notes'].isnull().any():
+            results_df['notes'] = ''
         results_df['notes'] = results_df['notes'].str.replace(r'\r', ' ', regex=True)
         results_df['notes'] = results_df['notes'].str.replace(r'\n', ' ', regex=True)
         results_df['notes'] = results_df['notes'].str.replace(r'<[^>]*>', ' ', regex=True)
@@ -678,6 +812,11 @@ def mainprogram(a, b, c):
             #remove all spaces before periods
             results_df['dct:description'][index] = results_df['dct:description'][index].replace(' .', '.')
 
+            print("AAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBB")
+            print(results_df['dct:description'][index])
+            if results_df['dct:description'][index] is None or results_df['dct:description'][index] == '' or "description" in results_df['dct:description'][index]:
+                results_df['dct:description'][index] = 'No description was provided.'
+
         a['Name'] += '<br>' + results_df['dct:description']
 
 
@@ -685,8 +824,12 @@ def mainprogram(a, b, c):
 
         if 'dct:modified' in results_df.columns:
             a['Last Updated'] = results_df['dct:modified']
-            # set display none for last updated
             a['Last Updated'] = '<span style="display:none;">' + a['Last Updated'] + '</span>'
+
+        if 'dct:issued' in results_df.columns:
+            a['Last Updated'] = results_df['dct:issued']
+            # set display none for last updated
+            a['Last Updated'] = '<span style="display:none;">' + str(a['Last Updated']) + '</span>'
         #if 'dct:'
 
 
@@ -694,6 +837,11 @@ def mainprogram(a, b, c):
             a['Popularity'] = results_df['dct:accrualPeriodicity']
             # set display none for popularity
             a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        else:
+            a['Popularity'] = 'Not Available'
+            # set display none for popularity
+            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        
 
         return a
     # results_df.to_csv('results_test.csv')

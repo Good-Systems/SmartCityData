@@ -12,6 +12,7 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 
 from datacollectionapp import *
 
+from spellchecker import SpellChecker
 # wiki for cities
 import requests
 from bs4 import BeautifulSoup
@@ -23,6 +24,11 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SECRET_KEY'] = 'SECRET_KEY'
 db = SQLAlchemy(app)
+#The "name" column of database db should be ordered alphabetically
+# We can order the database by city name
+from sqlalchemy import asc
+#Order the database city by name alphabetically
+
 
 #useful abbreviations as a global variable
 states = {"AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California", "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware", "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa", "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont", "VA": "Virginia", "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming"}
@@ -30,12 +36,12 @@ states = {"AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "C
 citycsv = pd.read_csv('city_api_list.csv', index_col=False)
 citycsv = citycsv.drop(citycsv[(citycsv.Working != "Yes")].index)
 
-
 class City(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     state = db.Column(db.String(2))
     name = db.Column(db.String(50))
     #cityurl = db.Column(db.String(1000))
+
 
     def __repr__(self):
         return '{}'.format(self.state)
@@ -44,6 +50,38 @@ class City(db.Model):
 def choice_query():
     return City.query.distinct()
 
+mispelt = ''
+def spellcheck(size=2):
+    if size > 5:
+        return ''
+    #Spell check implementation
+    spell = SpellChecker(distance=size)
+    # find those words that may be misspelled
+    carray = request.form['content_topic'].split()
+    print("HEY")
+    print(carray)
+    print("HEY2")
+    misspelled = spell.unknown(carray)
+    tofix = []
+    for word in misspelled:
+        # Get the one `most likely` answer
+        print(spell.correction(word))
+        # add to mispell fix list
+        tofix.append(spell.correction(word))
+        # replace the word in mispelled array with the corrected word
+        carray[carray.index(word)] = spell.correction(word)
+
+    #if carray is equal to request.form['content_topic'], set mispelt to ''
+    if carray == request.form['content_topic'].split():
+        mispelt = ''
+    #elif carray has None in it
+    elif None in carray:
+        return spellcheck(size+1)
+    else:
+        mispelt = ' '.join(carray)
+    #this will be the word we ask the user to confirm
+    print("Did you mean " + mispelt + "?")
+    return mispelt
 
 class Form(FlaskForm):
     # state = QuerySelectField(query_factory=choice_query,allow_blank=True)
@@ -57,7 +95,7 @@ def index():
     form = Form()
 
     form.city.choices = [(city.id, city.name)
-                         for city in City.query.filter_by(state='AL').all()]
+                         for city in City.query.filter_by(state='TX').order_by(asc(City.name)).all()]
 
     if request.method == 'POST':
         city = City.query.filter_by(id=form.city.data).first()
@@ -68,6 +106,8 @@ def index():
         m = folium.Map(location=[lat, lon], zoom_start=14)
         m.save('templates/map.html')
         # returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
+
+        mispelt = spellcheck()
 
         # if returnlist is None or returnlist.size == 0:
         #
@@ -86,9 +126,9 @@ def index():
                 return render_template('index.html', form=form)
             if returnlist.size == 0:
                 print("REACH THE ZERO SIZE")
-                return render_template('index.html', form=form)
+                return render_template('dataresults.html', form=form, city=city.name, state=form.state.data, topic=request.form['content_topic'], tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values, citydetails=citydetails(city.name, form.state.data), lat=citydetails(city.name, form.state.data, True), ms = mispelt)
             return render_template('index.html', form=form)
-        return render_template('dataresults.html', form=form, city=city.name, state=form.state.data, topic=request.form['content_topic'], tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values, citydetails=citydetails(city.name, form.state.data), lat=citydetails(city.name, form.state.data, True))
+        return render_template('dataresults.html', form=form, city=city.name, state=form.state.data, topic=request.form['content_topic'], tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values, citydetails=citydetails(city.name, form.state.data), lat=citydetails(city.name, form.state.data, True), ms = mispelt)
 
 
     # tables=[returnlist.to_html(classes='data')], titles=returnlist.columns.values
@@ -131,6 +171,8 @@ def citydetails(city, state, latlon = False):
     wikistr2 = "https://en.wikipedia.org/wiki/" + curCity
     wikistr3 = "https://en.wikipedia.org/wiki/" + curCity + ",_" + states[curState]
     print(wikistr)
+    print(wikistr2)
+    print(wikistr3)
 
     if latlon:
         # Use Beautiful Soup to scrape the wikipedia page for span class latitude and assign it to latitude
@@ -206,10 +248,17 @@ def citydetails(city, state, latlon = False):
         btag = ptag.find('b')
         # get the text of the <b> tag
         btagtext = btag.text
+        # To make sure we are on the correct page, we will try to find the city name on the page anywhere and set it to a variable.
+        # If the city name is not on the page, the variable will be unable to be set and we will be thrown to the exception.
+        is_city_on_page = soup.find(text=cityWithSpace)
+        #if is_city_on_page is None, throw an exception
+        if is_city_on_page is None:
+            print("City not found on page")
+            raise Exception('City not found on page')
     except:
         # if the above fails, try the following
         print("WE ARE IN THE EXCEPTION")
-        soup = BeautifulSoup(requests.get(wikistr2).text, 'html.parser')
+        soup = BeautifulSoup(requests.get(wikistr3).text, 'html.parser')
         #iterate through the <p> tags until you find one that starts with a <b> tag
         for ptag in soup.find_all('p', {'class': None}):
             try:
@@ -262,7 +311,7 @@ def map():
 
 @app.route('/city/<state>')
 def city(state):
-    cities = City.query.filter_by(state=state).all()
+    cities = City.query.filter_by(state=state).order_by(City.name).all()
     cityArray = []
     for city in cities:
         cityObj = {}
