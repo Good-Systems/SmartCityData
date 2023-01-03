@@ -253,10 +253,10 @@ def mainprogram(a, b, c):
         #    delete item
         for item in data['dcat:dataset']:
             if topic_name != '':
-                if item['dct:title'].find(topic_name) == -1 and item['dct:description'].find(topic_name) == -1:
+                if item['dct:title'].find(topic_name) == -1 and item['dct:description'].find(topic_name) == -1 and topic_name in item['dcat:keyword']:
                     data['dcat:dataset'].remove(item)
             if arcgiscity:
-                if item['dct:title'].find(a) == -1 and item['dct:description'].find(a) == -1:
+                if item['dct:title'].find(a) == -1 and item['dct:description'].find(a) and a in item['dcat:keyword']:
                     data['dcat:dataset'].remove(item)
             #if ?q= is in the url, remove it and get the name after it
             
@@ -730,7 +730,12 @@ def mainprogram(a, b, c):
      # ArcGis
      #   Final displayed data frame Name & More Infor
         #a['Name'] = results_df['dct:title']
-        a['Name'] = '<a href="' + results_df['dct:identifier'] + '">' + results_df['dct:title'] + '</a>'
+        #get the id= afarom the results_df['dct:identifier']
+        id = results_df['dct:identifier'].str.split('id=', expand=True)[1].str.split('&', expand=True)[0]
+        print("ID:")
+        print(id)
+        a['Name'] = '<a href="javascript:;" onclick="arcgis_preview(\'' + id + '\')">' + results_df['dct:title'] + '</a>'
+        #a['Name'] = '<a href="' + results_df['dct:identifier'] + '">' + results_df['dct:title'] + '</a>'
         #a['More Info'] = results_df['dct:identifier']
         #a['Keywords'] = results_df['dcat:keyword']
         #a['Index'] = results_df['Index']
@@ -838,9 +843,55 @@ def mainprogram(a, b, c):
             # set display none for popularity
             a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
         else:
-            a['Popularity'] = 'Not Available'
+            try:
+                # fetch("https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json")
+                # //https://www.arcgis.com/sharing/rest/content/items/fb38ba78520f40a0bd1c2b78e1e636dd?f=json
+                # //read the json response
+                # //add CORS header to the response
+                # .then(response => {
+                #     console.log("The data is being fetched!")
+                #     return response.json()
+                # }).then(data => {
+                #     console.log("The data has been fetched!")
+                #     console.log(data)
+                #     console.log(data.type)
+                # Above is the javascript code for the fetch request, below is the python code
+                #"dct:identifier": "https://www.arcgis.com/home/item.html?id=575bd48fb01c44899334301c8e6da015&sublayer=0"
+                #"dct:identifier": "https://www.arcgis.com/home/item.html?id=d8396beb7f4f48a0a3911c9545fb5c70
+                #Above are two different dct:identifier for the arcgis item
+                arcgis_id = results_df['dct:identifier'].str.split('id=', expand=True)[1]
+                if '&' in arcgis_id[1]:
+                    arcgis_id = arcgis_id.str.split('&', expand=True)[0]
+                fetch_url = "https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json"
+                print("fetch_url", fetch_url)
+                
+                #Retrieve the json response
+                #tell requests that the data is a Series
+                #We need to do this because fetch_url is a Series
+                #for item in fetch_url Series
+                dataSeries = pd.Series()
+                for i in fetch_url:
+
+                    response = requests.get(i)
+                    data3 = response.json()
+                    print("Heck yeah")
+                    print("data", data3)
+                    #append data3 to a new series
+                    dataSeries = dataSeries.append(pd.Series(data3['numViews']), ignore_index=True)
+            
+
+                a['Popularity'] = dataSeries
+                # set display none for popularity
+                a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+            except:
+                print("Error in fetching the json response")
+
+
+
+
+            #a['Popularity'] = 'Not Available'
             # set display none for popularity
-            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+            #a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
         
 
         return a
