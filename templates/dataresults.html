@@ -16,11 +16,8 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <!-- why would u overwrite my stylesheet with datatables stylesheet? -->
     <!-- stylesheets are cumulative. not replacement. -->
-    <title>Document</title>
+    <title>SmartCityData</title>
 </head>
-<<<<<<< Updated upstream
-<body><div class="header" style="
-=======
 <body>
     <div class="flex-child right" style="max-width: 100%;position: fixed;width: 42%;right: 0px;">
         <iframe class="map", src="/CityData/map" style="height: 100vh; width: 87vh; border-style: none;"></iframe>
@@ -28,17 +25,13 @@
         <p> {{ citydetails }} </p>-->
     </div>
     <div class="header" style="
->>>>>>> Stashed changes
     display: flex;
 ">
 <div class="logo">
 <a href="/CityData/" title="Go to SmartCityData Home" id="logo" style="display: block;">
-<<<<<<< Updated upstream
-=======
 <!--orange logo-->
 <!--<img src="https://user-images.githubusercontent.com/96705270/210301232-3307cd6d-7d6c-4f19-a3d2-a1e41d5191c9.png" style="-->
 <!--blue logo-->
->>>>>>> Stashed changes
 <img src="https://user-images.githubusercontent.com/96705270/205528524-4c5e9c31-9716-4a70-9370-8178592ea432.png" style="
     height: 1%;
     top: 50px;
@@ -125,6 +118,13 @@
         }
         updateURL()
 
+        function spellCorrect() {
+            content_topic1 = document.getElementById('content');
+            content_topic1.value = "{{ ms }}";
+            let form = state_select.parentElement.parentElement;
+            form.submit();
+        }
+    
         //wait for 100ms
         setTimeout(function(){
             //if the mispelt word is not empty, then add in a <p> with a "Did you mean: " and the mispelt word
@@ -135,7 +135,7 @@
                 newURL = newURL.split("?t=")[0] + "?t=" + msunderscore
                 //remove any hashtags
                 //newURL = newURL.split("#")[0] + newURL.split("#")[1]
-                mispelt.innerHTML = "Did you mean: " + "<a href='" + newURL + "'><b>{{ ms }}</b></a>" + "?";
+                mispelt.innerHTML = "Did you mean: " + "<a onclick='spellCorrect()' href='#'><b>{{ ms }}</b></a>" + "?";
                 //append it as last child of <form> element
                 document.querySelector("form").appendChild(mispelt);
                 
@@ -186,6 +186,8 @@
                 });
             });
         }
+
+        
     </script>
 </div>
 <div class="flex-container">
@@ -193,7 +195,7 @@
     <div class="header" style="display: flex;">
         <span class="horizental-line"></span>
     <!--add Sort By dropdown in top right of child-->
-        <div class="input-box active-grey" style="scale: 0.87;float: right;display: block;min-width: 15%">
+        <div class="input-box active-grey" style="scale: 0.87;float: right;display: block;min-width: 116px">
             <label class="input-label">Sort By</label>
         <select class="input-1" onclick="CheckSort()" id="sortby" name="sortby"><option value="Relevance">Relevance</option><option value="Date">Date</option><option value="Popularity">Popularity</option></select>
         </div>
@@ -271,20 +273,238 @@
 
         </script>
         </div>
-<div class="flex-child right" style="margin-top: 100px;
-background-color: white;
-border-radius: 20px;
-height: 120%;
-/*border: groove;*/
-max-width: 415px;">
-    <iframe class="map", src="/CityData/map" width="400" height="400" style="margin-top: 5px; margin-left: 5px; margin-right: 5px; border-style: none; border-radius: 15px;"></iframe>
-    <h2 style="margin-bottom: -10px"> {{ city }}, {{ state }}</h2>
-    <p> {{ citydetails }} </p>
-</div>
         </div>
     </body>
     <!--Download: <input type='text' name='selectdata' id ='content'> <input type = "submit" onclick="download()"> <input type="button" value="Go back!" onclick="history.back()"> <form> </form>-->
     <script>
+        
+        //SOCRATA example, blocked due to SAME-ORIGIN policy & file:// redirect
+        // console.log("Starting to load map!")
+        // //get the element with class "map" and assign it to a variable
+        // var map = document.getElementsByClassName("map");
+        // //use jquery load to load https://data.austintexas.gov/Utilities-and-City-Services/Austin-311-Public-Data/xwdj-i9he #renderTypeContainer
+        // //and assign it to the variable map
+        // $(map).load("https://data.austintexas.gov/Utilities-and-City-Services/Austin-311-Public-Data/xwdj-i9he #renderTypeContainer");
+        // console.log("Finished loading map!")
+
+        //ARCGIS example
+        console.log("Starting to load map!")
+        var map = document.getElementsByClassName("map");
+        //set map to:
+        var flexchildright = document.getElementsByClassName("flex-child right");
+        //<style>.embed-container {position: relative; padding-bottom: 80%; height: 0; max-width: 100%;} .embed-container iframe, .embed-container object, .embed-container iframe{position: absolute; top: 0; left: 0; width: 100%; height: 100%;} small{position: absolute; z-index: 40; bottom: 0; margin-bottom: -15px;}</style><div class="embed-container"><iframe width="500" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" title="311 Service Request [2022]" src="//www.arcgis.com/apps/Embed/index.html?webmap=fb38ba78520f40a0bd1c2b78e1e636dd&extent=-86.3815,32.2939,-86.1279,32.4173&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light"></iframe></div>
+        //flexchildright[0].innerHTML = "<style>.embed-container {position: relative; padding-bottom: 80%; height: 0; max-width: 100%;} .embed-container iframe, .embed-container object, .embed-container iframe{position: absolute; top: 0; left: 0; width: 100%; height: 100%;} small{position: absolute; z-index: 40; bottom: 0; margin-bottom: -15px;}</style><div class='embed-container'><iframe width='500' height='400' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='311 Service Request [2022]' src='//www.arcgis.com/apps/Embed/index.html?webmap=fb38ba78520f40a0bd1c2b78e1e636dd&extent=-86.3815,32.2939,-86.1279,32.4173&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light'></iframe></div>";
+
+        map_link = "https://www.arcgis.com/home/item.html?id=fb38ba78520f40a0bd1c2b78e1e636dd"
+            
+        console.log("Hallo")
+
+        //webmap
+        //map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
+        //fb38ba78520f40a0bd1c2b78e1e636dd
+        //c664b20e039741a4aa95ea5577e2474d
+        //8186d5d1c23f4c458d255c70ce714e8b
+
+        //insights
+        //map_url = "https://insights.arcgis.com/#/view/" + map_id
+        //544778829c59452c9b504c0ffc8ccd46
+
+        //dashboard
+        //map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
+        //01d93c2299a34c28a90391c57bb2d384
+        //830c8cec6a4d43fca95bab20924be76b
+        //43ca31fb59074231a57165eb0d01538c
+        //cb84ff32651c423992d8e382425112f4
+
+        //point map
+        //map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
+        //20e950cd590a4e5bb6561d173ee6cf62&layerId=0"
+
+        //web app
+        //map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=eb2f86f83cdf4c6ebb38128f12b409e5"
+        //get the type of ARCGIS dataset ( webmap, feature layer, etc. )
+        
+        function arcgis_preview(id) {
+        console.log("The function has been called!")
+        //arcgis_id = "20e950cd590a4e5bb6561d173ee6cf62"
+        arcgis_id = id
+        //fetch the API
+        console.log("https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json")
+        
+        //if mobile (outerWidth < 768px) send the user to the above link 
+        if (window.outerWidth < 768) {
+            window.location.href = "https://www.arcgis.com/home/item.html?id=" + arcgis_id
+        }
+        
+        map_adjust = false
+        fetch("https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json")
+        //https://www.arcgis.com/sharing/rest/content/items/fb38ba78520f40a0bd1c2b78e1e636dd?f=json
+        //read the json response
+        //add CORS header to the response
+        .then(response => {
+            console.log("The data is being fetched!")
+            return response.json()
+        }).then(data => {
+            console.log("The data has been fetched!")
+            console.log(data)
+            console.log(data.type)
+            map_id = data.id
+            //if the type is a webmap
+            if (data.type == "Web Map") {
+                map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
+            }
+            else if (data.type == "Insights Page") {
+                map_url = "https://insights.arcgis.com/#/view/" + map_id
+            }
+            else if (data.type == "Dashboard") {
+                map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
+            }
+            else if (data.type == "Feature Service") {
+                map_adjust = true
+                map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
+            }
+            else if (data.type == "Web Mapping Application") {
+                map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=" + map_id
+            }
+            else if (data.type == "PDF") {
+                //             import boto3
+                // url = boto3.client('s3').generate_presigned_url(
+                // ClientMethod='get_object', 
+                // Params={'Bucket': 'BUCKET_NAME', 'Key': 'OBJECT_KEY'},
+                // ExpiresIn=3600)
+                //Above is the python code to generate a presigned url
+                //Below is the javascript code to generate a presigned url
+                // var S3Client = new AWS.S3({
+                //     apiVersion: '2006-03-01',
+                //     region: 'us-east-1' });
+                // // S3Client.command('s3 presign s3://ago-item-storage/' + map_id + '/' + data.name + ' --expires-in 3600', function(err, data) {
+                // //     if (err) {
+                // //         console.log(err)
+                // //     }
+                // //     else {
+                // //         console.log(data)
+                // //         map_url = data
+                // //     }
+                // // })
+                // //assign default credentials
+                // S3Client.config.credentials = new AWS.Credentials
+                
+                map_url = "https://ago-item-storage.s3.amazonaws.com/" + map_id + "/" + data.name
+
+                // S3Client.getSignedUrl('getObject', {
+                //     Bucket: 'ago-item-storage',
+                //     Key: map_id + '/' + data.name,
+                //     Expires: 3600
+                // }, function(err, url) {
+                //     if (err) {
+                //         console.log(err)
+                //     }
+                //     else {
+                //         console.log("XXX")
+                //         map_url = url
+                //     }
+                // })
+            }
+            console.log("The map url is: " + map_url)
+            //load the map
+            // if (map_adjust) {
+            //flexchildright[0].innerHTML = "<iframe style='width: 87vh; height: 100vh; border-style: none; margin-top:-56px;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='SmartCityData Preview' src='" + map_url + "'></iframe>"
+            // }
+            // else {
+            flexchildright[0].innerHTML = "<iframe style='width: 87vh; height: 100vh; border-style: none;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='SmartCityData Preview' src='" + map_url + "'></iframe>"
+            // }
+        })
+        }
+
+
+        console.log("ARCGIS JSON IS")
+        //console.log(arcgisjson)
+        //console.log(responsetext)
+        //map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + arcgis_id
+        // .then(response => response.json())
+        // //get the type of the dataset
+        // .then(data => {
+        //     console.log("The data has been fetched!")
+        //     console.log(data)
+        //     console.log(data.type)
+        //     map_id = data.id
+        //     //if the type is a webmap
+        //     if (data.type == "Web Map") {
+        //         map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
+        //     }
+        //     else if (data.type == "Insights Page") {
+        //         map_url = "https://insights.arcgis.com/#/view/" + map_id
+        //     }
+        //     else if (data.type == "Dashboard") {
+        //         map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
+        //     }
+        //     else if (data.type == "Feature Service") {
+        //         map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
+        //     }
+        //     else if (data.type == "Web Mapping Application") {
+        //         map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=" + map_id
+        //     }
+        // })
+
+        //fetch the HTML contents of map_link
+        // fetch(map_link)
+        // .then(response => response.text())
+        // .then(data => {
+        //     console.log("The data has been fetched!")
+        //     console.log(data)
+        // })
+        //the above code is correct, but the request is happening too fast
+        //so the only data that is being fetched is the loading screen, not the actual map
+        //To fix this, we need to wait for the page to load before we fetch the data
+        // fetch(map_link)
+        // .then(response => response.text())
+        // .then(data => {
+        //     setTimeout(function(){
+        //         console.log("The data has been fetched!")
+        //         console.log(data)
+        //     }, 1000);
+        // })
+        //stop with the bullshit solutions, i need to find a way to wait for the page to load
+        //before i fetch the data
+
+        //get the id of the map
+        //map_id = map_link.split("=")[1]
+
+        //append the id to the end of "https://www.arcgis.com/apps/Embed/index.html?webmap="
+        
+        //webmap
+        //map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
+        //fb38ba78520f40a0bd1c2b78e1e636dd
+        //c664b20e039741a4aa95ea5577e2474d
+        //8186d5d1c23f4c458d255c70ce714e8b
+
+        //insights
+        //map_url = "https://insights.arcgis.com/#/view/" + map_id
+        //544778829c59452c9b504c0ffc8ccd46
+
+        //dashboard
+        //map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
+        //01d93c2299a34c28a90391c57bb2d384
+        //830c8cec6a4d43fca95bab20924be76b
+        //43ca31fb59074231a57165eb0d01538c
+        //cb84ff32651c423992d8e382425112f4
+
+        //point map
+        //map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
+        //20e950cd590a4e5bb6561d173ee6cf62&layerId=0"
+
+        //web app
+        //map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=eb2f86f83cdf4c6ebb38128f12b409e5"
+
+        
+
+        //iframe the map_url and set it to the innerhtml of flexchildright
+        //flexchildright[0].innerHTML = "<iframe style='width: 87vh; height: 100vh; border-style: none;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='311 Service Request [2022]' src='" + map_url + "'></iframe>"
+
+    
+
+
+
         function download() {}
 
         //user adjusted page size
@@ -294,7 +514,8 @@ max-width: 415px;">
             $('.data').DataTable(
                 {
                     "pageLength": 25,
-                    "oLanguage": {"sSearch": "Filter: "}
+                    "oLanguage": {"sSearch": "Filter: "}//,
+                    //"scrollY": "50vh"
             //console.log("data tabled");
         })
         
@@ -380,7 +601,7 @@ max-width: 415px;">
             
     </script>
     
-    <footer style="position: absolute;"><div id="versionb" style="position: relative; left: 445%; top: -15px; width: 100%;">
+    <footer style="position: absolute;"><div id="versionb" style="position: relative; left: 175%; top: -15px; width: 100%;">
         
                     
         <a href="http://smartcity.tacc.utexas.edu" style="float: right; margin-right: 1rem; margin-top:0;">
@@ -532,6 +753,86 @@ max-width: 415px;">
             </span>
         </a></div></footer>
         <br></br>
+        <script>
+            console.log("Script is running")
+            //Mobile view
+            //if the window is less than 768px wide, then change the flex-direction to column
+            if (window.outerWidth < 768){
+                console.log("window is less than 768px wide")
+                //set the style of the element with class "query" to nothing
+                //wait 100 ms
+                setTimeout(function(){
+                    document.getElementsByClassName("query")[0].style = "";
+                    document.getElementsByClassName("query")[0].style.marginRight = "0px";
+                    document.getElementsByClassName("query")[0].style.marginLeft = "10%";
+                    document.getElementsByClassName("header")[0].style.flexDirection = "column";
+                    document.getElementsByClassName("logo")[0].style.height = "50px";
+                    document.getElementsByClassName("logo")[0].style.textAlign = "center";
+                    document.getElementsByClassName("button-3")[0].parentElement.style.textAlign = "center";
+                    document.getElementsByClassName("button-3")[0].parentElement.style.marginBottom = "-25px";
+                    document.getElementById("DataTables_Table_0_paginate").style.marginLeft = "-25px";
+                    //set element with class "right" to position: absolute
+                    document.getElementsByClassName("right")[0].style.position = "absolute";
+                    document.getElementsByClassName("right")[0].style.width = "100%"
+                    document.getElementsByClassName("right")[0].style.left = "0";
+                    //set display none
+                    document.getElementsByClassName("right")[0].style.display = "none";
+                    //set element with class "map" to height: 40vh;
+                    document.getElementsByClassName("map")[0].style.height = "40vh";
+                    //set element with id "versionb" style to ''
+                    //set element with id "versionb" position to relative, display to flex
+                    document.getElementById("versionb").style = "";
+                    document.getElementById("versionb").style.position = "relative";
+                    document.getElementById("versionb").style.display = "flex";
+                    
+
+                    var div = document.createElement("div");
+                    div.id = "MobileSettings";
+                    div.style.display = "flex";
+                    var parent = document.getElementById("DataTables_Table_0_wrapper");
+                    parent.insertBefore(div, parent.firstChild);
+                    var child1 = document.getElementById("DataTables_Table_0_length");
+                    child1.style.width = "50%";
+                    var child2 = document.getElementById("DataTables_Table_0_filter");
+                    child2.style.marginTop = "0";
+                    child2.children[0].children[0].style.maxWidth = "100px";
+                    var parent = document.getElementById("MobileSettings");
+                    parent.appendChild(child1);
+                    parent.appendChild(child2);
+
+                    //set a listener for scroll on the element with class "flex-container", call the function "mobileScroll"
+                     //get element of class "flex-container" and assign it to a variable
+                    document.addEventListener("scroll", mobileScroll);
+                    $(document.body).on('touchmove', mobileScroll);
+
+                    //call the function "mobileScroll"
+                    mobileScroll();
+
+                    console.log("successfully changed flex-direction to column")
+                }, 50);
+            }
+
+            //call mobile scroll every 0.5 seconds
+            //setInterval(mobileScroll, 500);
+            
+            //mobileScroll function
+            function mobileScroll(){
+                //console.log("mobileScroll function is running")
+                //calculate 40% of the window height
+                var height = window.outerHeight * 0.4;
+                //scrollY is 0 even with scrolling, so I have to use the scrollY of the element with class "flex-container"
+                scrollYelement = document.getElementsByClassName("flex-container")[0].offsetTop;
+                var scroll_top = Math.max( $("html").scrollTop(), $("body").scrollTop() )
+                //console.log("scroll_top: " + $("body").scrollTop())
+                document.getElementsByClassName("right")[0].style.top = (window.outerHeight - height) + $("body").scrollTop() + "px";
+            }  
+           
+            //set document height to outerHeight so that scrollY is not 0
+            //document.body.style.height = window.outerHeight + "px";  
+            //set html height to outerHeight so that scrollY is not 0
+            //document.documentElement.style.height = window.outerHeight + "px";
+
+        </script>
     
     <!--<iframe class="map", src="/CityData/map" width="600" height="600"></iframe>-->
 </div>
