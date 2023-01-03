@@ -24,3 +24,5 @@ urllib3==1.26.7
 Werkzeug==2.0.2
 WTForms==3.0.0
 WTForms-SQLAlchemy==0.3
+pyspellchecker==0.7.1
+beautifulsoup4==4.11.1

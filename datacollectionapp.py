@@ -4,6 +4,9 @@
 # API Key Secret
 # e48r6otlbnf9bt6qd6ymci5hudrbwbk582ulbccarit04orlr
 
+import html
+from html.entities import html5
+from html.parser import HTMLParser
 from re import T
 from telnetlib import AUTHENTICATION
 from sodapy import Socrata
@@ -13,6 +16,8 @@ import numpy as np
 from sqlalchemy import null
 import urllib3
 import json
+
+import requests
 
 api_name = ''
 
@@ -44,7 +49,7 @@ def search_Socrata(a, b, c):
         # var = ?search_context=austintexastransport
         var = '?search_context=' + str(x)
         var = var + '&q=' + str(topic_name)
-        print(var)
+        #print(var)
 
     else:
         print("City Not Found.")
@@ -56,11 +61,38 @@ def generateName(x, api_name, topic_name):
     domain_name = ''
     if(api_name == 'socrata'):
         domain_name = 'https://api.us.socrata.com/api/catalog/v1'
-        domain_name += '?search_context=' + x + '&q=' + str(topic_name)
+        domain_name += '?search_context=' + x
+        #if &q= already in url, add topic name to end of url after a %20
+        if '&q=' in domain_name:
+            domain_name += '%20' + topic_name
+        else:
+            domain_name += '&q=' + topic_name
     elif(api_name == 'ckan'):
-        domain_name = 'https://' + x + '/api/3/action/package_search?q=' + topic_name
-    else:
+        q = ''
+        if '?q=' in x:
+            #store ?q= to end of string into a variable and delete it from x
+            q = x[x.find('?q='):]
+            x = x[:x.find('?q=')]
+        domain_name = 'https://' + x + '/api/3/action/package_search'
+        if q != '':
+            domain_name += q + '%20' + topic_name
+        if topic_name != '' and q == '':
+            domain_name += '?q=' + topic_name
+    elif(api_name == 'arcgis'):
         domain_name = 'https://' + x + '/api/feed/dcat-ap/2.0.1.json'
+    else: #custom arcgis url
+        q = ''
+        if '?q=' in x:
+            #store ?q= to end of string into a variable and delete it from x
+            q = x[x.find('?q='):]
+            x = x[:x.find('?q=')]
+        domain_name = 'https://' + x + '/api/v3/search'
+        if q != '':
+            domain_name += q + '%20' + topic_name
+        if topic_name != "" and q == '':
+            domain_name += "?q=" + topic_name
+        print("Found domain name:")
+        print(domain_name)
     return domain_name
 
 
@@ -125,6 +157,7 @@ def searchArcGis(a, b, c):
 
 
 def mainprogram(a, b, c):
+    global api_name
 
     # stoprg = 0
     # Find the request site
@@ -141,28 +174,280 @@ def mainprogram(a, b, c):
     # Scorata URL
     # request_site = 'https://api.us.socrata.com/api/catalog/v1' + city_domain
     # print(request_site)
+    arcgiscity = False
+    if (api_name == 'arcgis'):
+        if "?q=" in request_site:
+            print("?Q= ON REQUEST SITE" + request_site)
+            #remove the ?q= to the next / in the url
+            #so request_site should go from gis.data.alaska.gov?q=juneau/api/feed/dcat-ap/2.0.1.json to gis.data.alaska.gov/api/feed/dcat-ap/2.0.1.json
+            #remove the ?q= + a from the url
+            request_site = request_site.split("?q=")[0] + "/api/feed/dcat-ap/2.0.1.json"
+            print("NEW REQUEST SITE: " + request_site)
+            arcgiscity = True
+            
 
     # RIDB
     # request_site = 'https://ridb.recreation.gov/api/v1/'
-
+    print("Site: " + request_site)
     # ArcGis
     #request_site = 'https://glendaleaz-cog-gis.hub.arcgis.com/api/feed/dcat-ap/2.0.1.json'
+    #do not check the SSL certificate, I know my links are secure
+    http = urllib3.PoolManager()
+    #request = http.request('GET', request_site)
+    
     request = http.request('GET', request_site)
-
     print("Request")
-    print(request)
-
+    #print(request)
     #response_body = urlopen(request).read()
     # get data from the request
     data = request.data
     # get the json file from the request data
-    data = json.loads(request.data)
+    backup = False
+    try:
+        data = json.loads(request.data)
+    except:
+        #We will use our Backup Database
+        backup = True
+        arcgiscity = True
+        api_name = 'arcgiscustom'
+        request_site = "https://hub.arcgis.com/api/v3/search"
 
-    # datastring = str(data)
+    #datastring = str(data)
     # print("Data")
     # print(data)
 
+    # ARCGIS backup data
+    # load in arcgislookup.json as a dictionary
+    # here is what arcgislookup looks like
+    # {'search': 'hub.arcgis.com', 'result': {'count': 3400, 'records': [{'domain': 'gcc-map-covid-19-sb-county-gaviotacoast.hub.arcgis.com', 'firstSeen': 1586736000, 'lastSeen': 1607299200}]}}
+    
+    #set city to lowercase(a)
+    # city = a.lower()
+    # arcgis_sites = []
+    # ARCbackup = False
+    # with open('arcgislookup.json') as f:
+    #     arcgislookup = json.load(f)
+    #     # for item in result.records:
+    #     # search domain for city name,
+    #     # if city name is found, get the domain and add it to arcgis_sites list
+    #     for item in arcgislookup['result']['records']:
+    #         if item['domain'].find(city) != -1:
+    #             print("Found ArcGIS site")
+    #             print("Domain: " + item['domain'])
+    #             arcgis_sites.append(item['domain'])
+    #         else:
+    #             print("No ArcGIS site found")
+    #             print("Domain: " + item['domain'])
+    # if len(arcgis_sites) > 0:
+    #     ARCbackup = True
+
+    #     topic_name = c
+        
+    #     for site in arcgis_sites:
+    if api_name == 'arcgis':
+        topic_name = c
+        # remove any entries from the data that do not contain the topic name
+        #data['dcat:dataset']
+        #for item in data['dcat:dataset']:
+        #if item['dct:title'].find(topic_name) != -1 and item['dct:description'].find(topic_name) != -1:
+        #    delete item
+        for item in data['dcat:dataset']:
+            if topic_name != '':
+                if item['dct:title'].find(topic_name) == -1 and item['dct:description'].find(topic_name) == -1 and topic_name in item['dcat:keyword']:
+                    data['dcat:dataset'].remove(item)
+            if arcgiscity:
+                if item['dct:title'].find(a) == -1 and item['dct:description'].find(a) and a in item['dcat:keyword']:
+                    data['dcat:dataset'].remove(item)
+            #if ?q= is in the url, remove it and get the name after it
+            
+            
+
+
+
+
+    if api_name == 'arcgiscustom' or backup:
+        #request_site = "https://opendata.arcgis.com/api/v3/search"
+        topic_name = c
+        # postData = {
+        #     "agg": {
+        #         "fields": "downloadable,hasApi,source,tags,type,access"
+        #     },
+        #     "fields": {
+        #         "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+        #     },
+        #     # "catalog": {
+        #     #     "orgId": "any(qvkbeam7Wirps6zC)"
+        #     # }#,
+        # #    "q": topic_name
+        # }
+        # options = {
+        #     "method": 'POST',
+        #     "body": postData,
+        #     "json": True,
+        #     "url": request_site
+        # }
+        #Below are the official V3 API parameters
+            # "parameters": {
+            #     "query": "search term",
+            #     "filter": "filter applied to search. Example: 'filter[tags]=airports'",
+            #     "page[size]": "Number of resources per page. Example: 'page[size]=25' ",
+            #     "page[number]": "The page number for the resources. Example: 'page[number]=2'"
+            # }
+        #ARCGIS ORGID Grabber
+        # To get the orgid for a specific ArcGIS site
+        # Go to detroitmi.maps.arcgis.com/sharing/rest/portals/self?culture=en&f=pjson
+        # Go to masoncityiowa.maps.arcgis.com/sharing/rest/portals/self?culture=en&f=pjson
+        # Get "id" from the JSON response
+        # For example, the ID for Detroit Michigan is qvkbeam7Wirps6zC
+        # For example, the ID for Mason City Iowa is 84FpxbPitJq31AWu
+        # Then, replace the orgId in the postData below with the ID for the city you want to search
+        #request_site_org will be request_site without anything past the first . in the URL
+        if "hub.arcgis.com" in request_site:
+            if (not backup):
+                request_site_org = request_site.split(".")[0]
+                requestOrg = request_site_org + ".maps.arcgis.com/sharing/rest/portals/self?culture=en&f=pjson"
+                # Gett "id" from the JSON response
+                org_id = requests.get(requestOrg).json()['id']
+                print("Org ID: " + org_id)
+            else:
+                org_id = ""
+
+            if (not backup):
+                if topic_name != "":
+                    postData = {
+                        "agg": {
+                            "fields": "downloadable,hasApi,source,tags,type,access",
+                            "size": "100"
+                        },
+                        "fields": {
+                            "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+                        },
+                        "catalog": {
+                            "orgId": "any(" + org_id + ")"
+                        },
+                        "q": topic_name
+                    }
+                else:
+                    postData = {
+                        "agg": {
+                            "fields": "type,access,source,categories,license,tags,region,sector",
+                            "size": "100"
+                        },
+                        "fields": {
+                            "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+                        },
+                        "catalog": {
+                            "orgId": "any(" + org_id + ")"
+                        },
+                        "q": a
+                }
+            else:
+                if topic_name != "":
+                    postData = {
+                        "agg": {
+                            "fields": "downloadable,hasApi,source,tags,type,access",
+                            "size": "100"
+                        },
+                        "fields": {
+                            "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+                        },
+                        "q": a + " " + topic_name
+                    }
+                else:
+                    postData = {
+                        "agg": {
+                            "fields": "type,access,source,categories,license,tags,region,sector",
+                            "size": "100"
+                        },
+                        "fields": {
+                            "datasets": "id,name,created,modified,modifiedProvenance,searchDescription,recordCount,source,extent,owner,thumbnailUrl,type,url,xFrameOptions,contentSecurityPolicy,siteUrl,tags,collection,size,initiativeCategories,slug,startDate,venue,initiativeId,initiativeTitle,organizers,isAllDay,onlineLocation,timeZone"
+                        },
+                        "q": a
+                }
+
+            #request_site = request_site
+            request = requests.post(request_site, headers={'Content-Type': 'application/json'}, json=postData)
+        else:
+            request = requests.post(request_site)
+        print("Requesting from:" + request_site)
+        #print(request.text)
+        data = json.loads(request.text)
+        
+
+        meta = pd.json_normalize(data['meta'])
+        # if data['next'] != None:, request_site = data['next'] and append contents of data to current data
+        try: 
+            #set a countdown timer of 30 seconds
+            #if the timer runs out, stop the loop
+            timer = 5
+
+            while meta['next'].empty == False:
+                if timer == 0:
+                    break
+                request_site2 = meta['next']
+                print("Next request: ", request_site2[0])
+                request = http.request('GET', request_site2[0])
+                data2 = json.loads(request.data)
+                # we can't just add since both are dictionaries
+                data['data'] = data['data'] + data2['data']
+                #replace data meta with new meta
+                data['meta'] = data2['meta']
+                meta = pd.json_normalize(data['meta'])
+                #subtract 1 from timer every second, do not stop loop
+                timer = timer - 1
+        except:
+            print("No more pages")
+
+        for item in data['data']:
+            if item.get('name') == None:
+                data['data'].remove(item)
+                continue
+            if topic_name != '':
+                if item['name'].find(topic_name) == -1 and item['searchDescription'].find(topic_name) == -1:
+                   data['data'].remove(item)
+            if arcgiscity:
+                if item['name'].find(a) == -1 and item['searchDescription'].find(a) == -1:
+                    data['data'].remove(item)
+
     # if "error" in datastring:
+    #     if api_name == 'socrata':
+    #         print("Socrata Error")
+    #         return None
+    #     elif api_name == 'ckan':
+    #         print("Ckan Error")
+    #         return None
+    #     else:
+    #         print("ArcGis Error")
+    #         #if is ArcGis error,
+    #         #the site is using https://github.com/koopjs/koop-provider-hub-search
+    #         #The request must have at least one of the following filters: "id", "group", "orgid". If you provided a "site" option, ensure the site catalog has group and/or org information
+    #         #so we need to call tahe request again with one of the filters above
+    #         print("A")
+    #         #we need to get the site name
+    #         request_site = searchArcGis(a, b, c)
+    #         request = http.request('GET', request_site)
+
+            
+    #         print("B")
+    #         data = request.data
+    #         print("C")
+    #         print("DATA IS:")
+    #         print(data)
+    #         # get the json file from the request data
+    #         data = json.loads(request.data)
+    #         print("D")
+    #         datastring = str(data)
+    #         print("E")
+    #         print("Data2")
+    #         print(data)
+    #         if "error" in datastring:
+    #             print("ArcGis Error AGAIN")
+    #             return None
+
+
+
+
+
     #     # request_site = 'https://phoenixopendata.com/api/3/action/package_search?q=transport'
     #     request_site = searchCkan(a, b, c)
     #     request = http.request('GET', request_site)
@@ -193,6 +478,8 @@ def mainprogram(a, b, c):
         #     break
         if api_name == 'socrata':
             results_df = pd.json_normalize(data['results'])
+            print("Socrata")
+            #print(results_df)
             # if results_df.size == 0:
             #     return results_df
             # break
@@ -211,75 +498,497 @@ def mainprogram(a, b, c):
             # if results_df.size == 0:
             #     return results_df
             # break
+        elif api_name == 'arcgiscustom':
+            results_df = pd.json_normalize(data['data'])
         if results_df.size == 0:
             return results_df
         break
-    print(results_df.to_string())
+    #print(results_df.to_string())
     # Scorata
     if api_name == 'socrata':
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", results_df['resource.name'])
+        
+
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
-        a['Index'] = results_df['Index']
+        a = pd.DataFrame(data, columns=['Name'], index=None)
+        #a['Index'] = results_df['Index']
         # SCORATA
         # Final displayed data frame page NAME & More Info
         a['Name'] = results_df['resource.name']
-        a['More Info'] = results_df['permalink']
+        #a['More Info'] = results_df['permalink']
+        #set a['Name'] as results_df['resource.name'] with an href link to the more info
+        a['Name'] = '<a href="' + results_df['permalink'] + '">' + results_df['resource.name'] + '</a>'
+        #a['Name'] = results_df['permalink']
+        #a['Desc'] = "Description"
+        # if results_df['resource.description'] > 50 chars, shorten it
+        #a['Desc'] = results_df['resource.description']
+        #if resource.description does not exist, r3 = 'No Description'
+        #print("READ THIS RESOURCE DESC")
+        #print(results_df['resource.description'])
+        #print("READ THIS RESOURCE DESC")
+        #strip the tags from the description
+        results_df['resource.description'] = results_df['resource.description'].str.replace(r'\r', ' ', regex=True)
+        results_df['resource.description'] = results_df['resource.description'].str.replace(r'\n', ' ', regex=True)
+        results_df['resource.description'] = results_df['resource.description'].str.replace(r'<[^>]*>', ' ', regex=True)
+
+        for index, desc in results_df['resource.description'].items():
+
+            if desc is None or desc == '' or "http" in desc:
+                results_df['resource.description'][index] = 'No description was provided.'
+            
+            elif len(desc) > 99:
+                #print("MAX FOUND AT", results_df['resource.description'][index])
+                #split until end of 50th char and the first space after
+                r1 = desc[:100]
+                #remove the last word
+                r3 = r1.rsplit(' ', 1)[0]
+                #This is the stored value
+                try:
+                    r4 = r1.rsplit(' ', 1)[1]
+                except:
+                    r4 = ''
+                r1 = r3
+                if len(desc) > 199:
+                    r2 = r4 + desc[100:199]
+                    #remove the last word
+                    r2 = r2.rsplit(' ', 1)[0]
+                    r3 = r1 + '<br>' + r2 + '...'
+                else:
+                    r2 = r4 + desc[100:]
+                    r3 = r1 + '<br>' + r2
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif r3[-1] != '.':
+                    r3 = r3 + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                if "Data Update" in r3:
+                    r3 = r3[:r3.find("Data Update")]
+                elif "Update Frequency" in r3:
+                    r3 = r3[:r3.find("Update Frequency")]
+                
+                results_df['resource.description'][index] = r3
+            else:
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif desc[-1] != '.':
+                    desc = desc + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                try:
+                    if "Data Update" in r3:
+                        r3 = r3[:r3.find("Data Update")]
+                    elif "Update " in r3:
+                        r3 = r3[:r3.find("Update ")]
+                except:
+                    pass
+                    
+                results_df['resource.description'][index] = desc
+            #remove all spaces before periods
+            results_df['resource.description'][index] = results_df['resource.description'][index].replace(' .', '.')
+            #else:
+            #    print("NO MAX FOUND AT", results_df['resource.description'][index])
+            #    r3 = results_df['resource.description'][index]
+            #    results_df['resource.description'][index] = r3
+
+        
+
+            #r1 = results_df['resource.description'].str.split(' ', 
+        #a['Desc'] = results_df['resource.description'].str.split(' ', 1).str[0]
+        a['Name'] += '<br>' + results_df['resource.description']
+        
+        #a['Desc'] = results_df['resource.description']
+        if 'resource.updatedAt' in results_df.columns:
+            a['Last Updated'] = results_df['resource.updatedAt']
+            # set display none for last updated
+            a['Last Updated'] = '<span style="display:none;">' + a['Last Updated'] + '</span>'
+
+        if 'resource.download_count' in results_df.columns:
+            a['Popularity'] = results_df['resource.download_count']
+            # set display none for popularity
+            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        if 'resource.page_views.page_views_total' in results_df.columns:
+            a['Popularity'] = results_df['resource.page_views.page_views_total']
+            # set display none for popularity
+            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        
+        #url = requests.get(results_df['permalink'])
+        #soup = BeautifulSoup(url.content, 'html.parser')
+        #a['Desc'] = soup
+        #a['Desc'] = soup.find('meta', attrs={'name': 'description'})['content']
+
         return a
     if api_name == 'ckan':
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
+        a = pd.DataFrame(data, columns=['Name'], index=None)
      # CKAN
+        print("results_df['title'] is", results_df['title'])
+        # if results_df['url'] is null, then the url is located at the key "url" inside the dictionary named "resources"
+
+        if results_df['url'].isnull().values.any():
+            results_df['url'] = results_df['resources'].apply(lambda x: x[0]['url'])
      #   Final displayed data frame Name & More Infor
         a['Name'] = results_df['title']
-        a['More Info'] = results_df['url']
-        a['Index'] = results_df['Index']
-        print(a.to_string())
+        a['Name'] = '<a href="' + results_df['url'] + '">' + results_df['title'] + '</a>'
+        #a['More Info'] = results_df['url']
+        #a['Index'] = results_df['Index']
+        #print(a.to_string())
         # Drop the cell doesn't contain https
         # httpString = "http"
         # a = a[a['More Info'].str.contains(httpString) == True]
         # a = a.dropna()
-        a['Index'] = range(1, len(a)+1)
-        # After drop all invalid data, assign the Index
+        print("CKAN")
+        print(a.to_string())
+        #if results_df['notes'] is null, set it to ''
+        if results_df['notes'].isnull().any():
+            results_df['notes'] = ''
+        results_df['notes'] = results_df['notes'].str.replace(r'\r', ' ', regex=True)
+        results_df['notes'] = results_df['notes'].str.replace(r'\n', ' ', regex=True)
+        results_df['notes'] = results_df['notes'].str.replace(r'<[^>]*>', ' ', regex=True)
+
+        for index, desc in results_df['notes'].items():
+
+            if desc is None or desc == '' or "http" in desc:
+                results_df['notes'][index] = 'No description was provided.'
+
+            elif len(desc) > 99:
+                r1 = desc[:100]
+                #remove the last word
+                r3 = r1.rsplit(' ', 1)[0]
+                #This is the stored value
+                r4 = r1.rsplit(' ', 1)[1]
+                r1 = r3
+                if len(desc) > 199:
+                    r2 = r4 + desc[100:199]
+                    #remove the last word
+                    r2 = r2.rsplit(' ', 1)[0]
+                    r3 = r1 + '<br>' + r2 + '...'
+                else:
+                    r2 = r4 + desc[100:]
+                    r3 = r1 + '<br>' + r2
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif r3[-1] != '.':
+                    r3 = r3 + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                if "Data Update" in r3:
+                    r3 = r3[:r3.find("Data Update")]
+                elif "Update Frequency" in r3:
+                    r3 = r3[:r3.find("Update Frequency")]
+
+                results_df['notes'][index] = r3
+            else:
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif desc[-1] != '.':
+                    desc = desc + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                try:
+                    if "Data Update" in r3:
+                        r3 = r3[:r3.find("Data Update")]
+                    elif "Update " in r3:
+                        r3 = r3[:r3.find("Update ")]
+                except:
+                    pass
+
+                results_df['notes'][index] = desc
+
+            #remove all spaces before periods
+            results_df['notes'][index] = results_df['notes'][index].replace(' .', '.')
+
+        a['Name'] += '<br>' + results_df['notes']
+
+        if 'metadata_modified' in results_df.columns:
+            a['Last Updated'] = results_df['metadata_modified']
+            # set display none for last updated
+            a['Last Updated'] = '<span style="display:none;">' + a['Last Updated'] + '</span>'
+        if 'num_resources' in results_df.columns:
+            a['Popularity'] = results_df['num_resources']
+            # set display none for popularity
+            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+
         return a
     if api_name == 'arcgis':
-        print("REACH HERE")
+        #print("REACH HERE")
         results_df['Index'] = range(1, len(results_df)+1)
         # print(results_df.head())
         results_df.set_index('Index')
         # ['resource.name']
-        a = pd.DataFrame(data, columns=['Index', 'Name'], index=None)
+        a = pd.DataFrame(data, columns=['Name'], index=None)
      # ArcGis
      #   Final displayed data frame Name & More Infor
-        a['Name'] = results_df['dct:title']
-        a['More Info'] = results_df['dct:identifier']
-        a['Keywords'] = results_df['dcat:keyword']
-        a['Index'] = results_df['Index']
-        print(a.to_string())
+        #a['Name'] = results_df['dct:title']
+        #get the id= afarom the results_df['dct:identifier']
+        id = results_df['dct:identifier'].str.split('id=', expand=True)[1].str.split('&', expand=True)[0]
+        print("ID:")
+        print(id)
+        a['Name'] = '<a href="javascript:;" onclick="arcgis_preview(\'' + id + '\')">' + results_df['dct:title'] + '</a>'
+        #a['Name'] = '<a href="' + results_df['dct:identifier'] + '">' + results_df['dct:title'] + '</a>'
+        #a['More Info'] = results_df['dct:identifier']
+        #a['Keywords'] = results_df['dcat:keyword']
+        #a['Index'] = results_df['Index']
+        #print(a.to_string())
         # Drop the cell doesn't contain https
-        httpString = "http"
-        a = a[a['More Info'].str.contains(httpString) == True]
-        a = a.dropna()
-        # Drop all the things that do not contains the keywords
-        print(a['Keywords'].to_string)
-        print("Before Drop __________________")
-        a['Keywords'] = a['Keywords'].astype('str').str.upper()
-        print(a['Keywords'])
-        # a = a[a['Keywords'].str.contains(str(c)) == True]
-        a = a[a['Keywords'].str.contains(str.upper(c)) == True]
-        a = a.drop(a.columns[3], axis=1)
-        print("After Drop __________________")
+        #httpString = "http"
         #a = a[a['More Info'].str.contains(httpString) == True]
-        a['Index'] = range(1, len(a)+1)
+        #a = a.dropna()
+        # Drop all the things that do not contains the keywords
+        #print(a['Keywords'].to_string)
+        #print("Before Drop __________________")
+        #a['Keywords'] = a['Keywords'].astype('str').str.upper()
+        #print(a['Keywords'])
+        # a = a[a['Keywords'].str.contains(str(c)) == True]
+        #a = a[a['Keywords'].str.contains(str.upper(c)) == True]
+        #a = a.drop(a.columns[3], axis=1)
+        #print("After Drop __________________")
+        #a = a[a['More Info'].str.contains(httpString) == True]
+        #a['Index'] = range(1, len(a)+1)
         # After drop all invalid data, assign the Index
+
+        #strip the tags from the description
+        results_df['dct:description'] = results_df['dct:description'].str.replace(r'\r', '', regex=True)
+        results_df['dct:description'] = results_df['dct:description'].str.replace(r'\n', '', regex=True)
+        results_df['dct:description'] = results_df['dct:description'].str.replace(r'<[^>]*>', '', regex=True)
+
+        #reuse the exact same code from the Socrata section
+        for index, desc in results_df['dct:description'].items():
+
+            if desc is None or desc == '' or "http" in desc:
+                results_df['dct:description'][index] = 'No description was provided.'
+            
+            elif len(desc) > 99:
+                #print("MAX FOUND AT", results_df['resource.description'][index])
+                #split until end of 50th char and the first space after
+                r1 = desc[:100]
+                #remove the last word
+                r3 = r1.rsplit(' ', 1)[0]
+                #This is the stored value
+                r4 = r1.rsplit(' ', 1)[1]
+                r1 = r3
+                if len(desc) > 199:
+                    r2 = r4 + desc[100:199]
+                    #remove the last word
+                    r2 = r2.rsplit(' ', 1)[0]
+                    r3 = r1 + '<br>' + r2 + '...'
+                else:
+                    r2 = r4 + desc[100:]
+                    r3 = r1 + '<br>' + r2
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif r3[-1] != '.':
+                    r3 = r3 + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                if "Data Update" in r3:
+                    r3 = r3[:r3.find("Data Update")]
+                elif "Update Frequency" in r3:
+                    r3 = r3[:r3.find("Update Frequency")]
+                
+                results_df['dct:description'][index] = r3
+            else:
+                #adding a period to the end of the description, if not found
+                #if last char is a space, replace it with a period
+                if desc[-1] == ' ':
+                    desc = desc[:-1] + '.'
+                elif desc[-1] != '.':
+                    desc = desc + '.'
+                #remove all words after "Data Update" or "Update Frequency"
+                try:
+                    if "Data Update" in r3:
+                        r3 = r3[:r3.find("Data Update")]
+                    elif "Update " in r3:
+                        r3 = r3[:r3.find("Update ")]
+                except:
+                    pass    
+                results_df['dct:description'][index] = desc
+            #remove all spaces before periods
+            results_df['dct:description'][index] = results_df['dct:description'][index].replace(' .', '.')
+
+            print("AAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBB")
+            print(results_df['dct:description'][index])
+            if results_df['dct:description'][index] is None or results_df['dct:description'][index] == '' or "description" in results_df['dct:description'][index]:
+                results_df['dct:description'][index] = 'No description was provided.'
+
+        a['Name'] += '<br>' + results_df['dct:description']
+
+
+        print("request_site", request_site)
+
+        if 'dct:modified' in results_df.columns:
+            a['Last Updated'] = results_df['dct:modified']
+            a['Last Updated'] = '<span style="display:none;">' + a['Last Updated'] + '</span>'
+
+        if 'dct:issued' in results_df.columns:
+            a['Last Updated'] = results_df['dct:issued']
+            # set display none for last updated
+            a['Last Updated'] = '<span style="display:none;">' + str(a['Last Updated']) + '</span>'
+        #if 'dct:'
+
+
+        if 'dct:accrualPeriodicity' in results_df.columns:
+            a['Popularity'] = results_df['dct:accrualPeriodicity']
+            # set display none for popularity
+            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        else:
+            try:
+                # fetch("https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json")
+                # //https://www.arcgis.com/sharing/rest/content/items/fb38ba78520f40a0bd1c2b78e1e636dd?f=json
+                # //read the json response
+                # //add CORS header to the response
+                # .then(response => {
+                #     console.log("The data is being fetched!")
+                #     return response.json()
+                # }).then(data => {
+                #     console.log("The data has been fetched!")
+                #     console.log(data)
+                #     console.log(data.type)
+                # Above is the javascript code for the fetch request, below is the python code
+                #"dct:identifier": "https://www.arcgis.com/home/item.html?id=575bd48fb01c44899334301c8e6da015&sublayer=0"
+                #"dct:identifier": "https://www.arcgis.com/home/item.html?id=d8396beb7f4f48a0a3911c9545fb5c70
+                #Above are two different dct:identifier for the arcgis item
+                arcgis_id = results_df['dct:identifier'].str.split('id=', expand=True)[1]
+                if '&' in arcgis_id[1]:
+                    arcgis_id = arcgis_id.str.split('&', expand=True)[0]
+                #Double check to make sure all & are removed
+                for i in arcgis_id:
+                    if '&' in i:
+                        arcgis_id = arcgis_id.str.split('&', expand=True)[0]
+                fetch_url = "https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json"
+                print("fetch_url", fetch_url)
+                
+                #Retrieve the json response
+                #tell requests that the data is a Series
+                #We need to do this because fetch_url is a Series
+                #for item in fetch_url Series
+                dataSeries = pd.Series()
+                for i in fetch_url:
+                    response = requests.get(i)
+                    data3 = response.json()
+                    print("Heck yeah")
+                    print(i)
+                    print("data", data3)
+                    #if error in data3, append a 0 to the series
+                    if 'error' in data3:
+                        dataSeries = dataSeries.append(pd.Series(0), ignore_index=True)
+                    else:
+                        #append data3 to a new series
+                        dataSeries = dataSeries.append(pd.Series(data3['numViews']), ignore_index=True)
+            
+
+                a['Popularity'] = dataSeries
+                # set display none for popularity
+                a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+            except:
+                hey
+                print("Error in fetching the json response")
+
+
+
+
+            #a['Popularity'] = 'Not Available'
+            # set display none for popularity
+            #a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        
+
         return a
     # results_df.to_csv('results_test.csv')
     # print()
+    if api_name == 'arcgiscustom':
+        #print("REACH HERE")
+        results_df['Index'] = range(1, len(results_df)+1)
+        # print(results_df.head())
+        results_df.set_index('Index')
+        # ['resource.name']
+        a = pd.DataFrame(data, columns=['Name'], index=None)
+
+        a['Name'] = '<a href="' + results_df['links.itemPage'] + '">' + results_df['attributes.name'] + '</a>'
+
+        #strip the tags from the description
+        results_df['attributes.searchDescription'] = results_df['attributes.searchDescription'].str.replace(r'\r', '', regex=True)
+        results_df['attributes.searchDescription'] = results_df['attributes.searchDescription'].str.replace(r'\n', '', regex=True)
+        results_df['attributes.searchDescription'] = results_df['attributes.searchDescription'].str.replace(r'<[^>]*>', '', regex=True)
+
+        #reuse the exact same code from the Socrata section
+        for index, desc in results_df['attributes.searchDescription'].items():
+                
+                if desc is None or desc == '' or "http" in desc:
+                    results_df['attributes.searchDescription'][index] = 'No description was provided.'
+                
+                elif len(desc) > 99:
+                    #print("MAX FOUND AT", results_df['resource.description'][index])
+                    #split until end of 50th char and the first space after
+                    r1 = desc[:100]
+                    #remove the last word
+                    r3 = r1.rsplit(' ', 1)[0]
+                    #This is the stored value
+                    r4 = r1.rsplit(' ', 1)[1]
+                    r1 = r3
+                    if len(desc) > 199:
+                        r2 = r4 + desc[100:199]
+                        #remove the last word
+                        r2 = r2.rsplit(' ', 1)[0]
+                        r3 = r1 + '<br>' + r2 + '...'
+                    else:
+                        r2 = r4 + desc[100:]
+                        r3 = r1 + '<br>' + r2
+                    #adding a period to the end of the description, if not found
+                    #if last char is a space, replace it with a period
+                    if desc[-1] == ' ':
+                        desc = desc[:-1] + '.'
+                    elif r3[-1] != '.':
+                        r3 = r3 + '.'
+                    #remove all words after "Data Update" or "Update Frequency"
+                    if "Data Update" in r3:
+                        r3 = r3[:r3.find("Data Update")]
+                    elif "Update Frequency" in r3:
+                        r3 = r3[:r3.find("Update Frequency")]
+                    
+                    results_df['attributes.searchDescription'][index] = r3
+                else:
+                    #adding a period to the end of the description, if not found
+                    #if last char is a space, replace it with a period
+                    if desc[-1] == ' ':
+                        desc = desc[:-1] + '.'
+                    elif desc[-1] != '.':
+                        desc = desc + '.'
+                    #remove all words after "Data Update" or "Update Frequency"
+                    try:
+                        if "Data Update" in r3:
+                            r3 = r3[:r3.find("Data Update")]
+                        elif "Update " in r3:
+                            r3 = r3[:r3.find("Update ")]
+                    except:
+                        pass
+                    results_df['attributes.searchDescription'][index] = desc
+                #remove all spaces before periods
+                results_df['attributes.searchDescription'][index] = results_df['attributes.searchDescription'][index].replace(' .', '.')
+        a['Name'] += '<br>' + results_df['attributes.searchDescription']
+
+        if 'attributes.modified' in results_df.columns:
+            a['Last Updated'] = results_df['attributes.modified']
+            # set display none for last updated
+            #convert unix epoch to date
+            a['Last Updated'] = pd.to_datetime(a['Last Updated'], unit='ms')
+            a['Last Updated'] = a['Last Updated'].dt.strftime('%Y-%m-%d')
+            a['Last Updated'] = '<span style="display:none;">' + a['Last Updated'] + '</span>'
+        if 'attributes.recordCount' in results_df.columns:
+            a['Popularity'] = results_df['attributes.recordCount']
+            # set display none for popularity
+            a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+        return a
 
     '''
     #download the datasets process into a csv (need to move to a function)
