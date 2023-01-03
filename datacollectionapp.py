@@ -862,6 +862,10 @@ def mainprogram(a, b, c):
                 arcgis_id = results_df['dct:identifier'].str.split('id=', expand=True)[1]
                 if '&' in arcgis_id[1]:
                     arcgis_id = arcgis_id.str.split('&', expand=True)[0]
+                #Double check to make sure all & are removed
+                for i in arcgis_id:
+                    if '&' in i:
+                        arcgis_id = arcgis_id.str.split('&', expand=True)[0]
                 fetch_url = "https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json"
                 print("fetch_url", fetch_url)
                 
@@ -871,19 +875,24 @@ def mainprogram(a, b, c):
                 #for item in fetch_url Series
                 dataSeries = pd.Series()
                 for i in fetch_url:
-
                     response = requests.get(i)
                     data3 = response.json()
                     print("Heck yeah")
+                    print(i)
                     print("data", data3)
-                    #append data3 to a new series
-                    dataSeries = dataSeries.append(pd.Series(data3['numViews']), ignore_index=True)
+                    #if error in data3, append a 0 to the series
+                    if 'error' in data3:
+                        dataSeries = dataSeries.append(pd.Series(0), ignore_index=True)
+                    else:
+                        #append data3 to a new series
+                        dataSeries = dataSeries.append(pd.Series(data3['numViews']), ignore_index=True)
             
 
                 a['Popularity'] = dataSeries
                 # set display none for popularity
                 a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
             except:
+                hey
                 print("Error in fetching the json response")
 
 
