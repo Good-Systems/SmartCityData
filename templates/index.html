@@ -24,9 +24,11 @@
 
 
 states = {"AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California", "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware", "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa", "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont", "VA": "Virginia", "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming"}
+cities = {0: "null", 1: 'Anchorage', 2: 'Montgomery', 3: 'Chandler', 4: 'Glendale', 5: 'Mesa', 6: 'Phoenix', 7: 'Scottsdale', 8: 'Tempe', 9: 'Tucson', 10: 'Los Angeles', 11: 'Anaheim', 12: 'Bakersfield', 13: 'Berkeley', 14: 'Chula Vista', 15: 'Fremont', 16: 'Long Beach', 17: 'Oakland', 18: 'Riverside', 19: 'Sacramento', 20: 'San Bernardino', 21: 'San Diego', 22: 'San Francisco', 23: 'San Jose', 24: 'San Mateo', 25: 'Santa Clara', 26: 'Colorado', 27: 'Aurora', 28: 'Denver', 29: 'Connecticut', 30: 'Hartford', 31: 'Wellington', 32: 'Miami', 33: 'Jacksonville', 34: 'Orlando', 35: 'Tampa', 36: 'Atlanta', 37: 'Honolulu', 38: 'Iowa', 39: 'Boise', 40: 'Chicago', 41: 'Illinois', 42: 'Cook County', 43: 'Fort Wayne', 44: 'South Bend', 45: 'Olathe', 46: 'Kansas City', 47: 'Wichita', 48: 'Lexington', 49: 'Louisville', 50: 'New Orleans', 51: 'Baton Rouge', 52: 'Boston', 53: 'Cambridge', 54: 'Somerville', 55: 'Baltimore', 56: 'Maryland', 57: 'Howard County', 58: 'Prince Georges County', 59: 'Detroit', 60: 'Michigan', 61: 'Austin', 62: 'Minneapolis', 63: 'St. Paul', 64: 'Missouri', 65: 'Kansas City', 66: 'St. Louis', 67: 'Raleigh', 68: 'Charlotte', 69: 'Greensboro', 70: 'Winston-Salem', 71: 'Lincoln', 72: 'Omaha', 73: 'Jersey City', 74: 'Newark', 75: 'Albuquerque', 76: 'Las Vegas', 77: 'Henderson', 78: 'Reno', 79: 'New York City', 80: 'Buffalo', 81: 'Cincinnati', 82: 'Columbus', 83: 'Oklahoma', 84: 'Tulsa', 85: 'Oregon', 86: 'Portland', 87: 'Philadelphia', 88: 'Nashville', 89: 'Austin', 90: 'Arlington', 91: 'Fort Worth', 92: 'Houston', 93: 'Dallas', 94: 'Lubbock', 95: 'Plano', 96: 'San Antonio', 97: 'Chesapeake', 98: 'Norfolk', 99: 'Virginia Beach', 100: 'Seattle', 101: 'Washington', 102: 'Madison', 103: 'Milwaukee', 104: 'Durham', 105: 'Sauk County', 106: 'Dunwoody', 107: 'Dover', 108: 'Wilmington', 109: 'Memphis', 110: 'Montgomery County', 111: 'King County', 112: 'Thurston County', 113: 'Spokane County', 114: 'Tacoma', 115: 'Clark County', 116: 'Birmingham', 117: 'Huntsville', 118: 'Tuscaloosa', 119: 'Little Rock', 120: 'Fayetteville', 121: 'Fayetteville', 122: 'Colorado Springs', 123: 'Fort Collins', 124: 'Thornton', 125: 'Arvada', 126: 'Westminster', 127: 'Pueblo', 128: 'Centennial', 129: 'Boulder', 130: 'Greeley', 131: 'Bridgeport', 132: 'New Haven', 133: 'Norwalk', 134: 'Frederick County', 135: 'New Castle', 136: 'St. Petersburg', 137: 'Port St. Lucie', 138: 'Tallahassee', 139: 'Cape Coral', 140: 'Fort Lauderdale', 141: 'Broward County', 142: 'Augusta', 144: 'Savannah', 145: 'Fairbanks', 146: 'Juneau', 147: 'Hot Springs', 148: 'Conway', 149: 'Harrison County', 150: 'Hilo', 151: 'Nampa', 152: 'Meridian', 153: 'Springfield', 154: 'Peoria', 155: 'Peoria County', 156: 'Naperville', 157: 'Indianapolis', 158: 'Bloomington', 159: 'Evansville', 160: 'Des Moines', 161: 'Linn County', 162: 'Dubuque', 163: 'Sioux Falls', 164: 'Mason City', 165: 'Topeka', 166: 'Johnson County', 167: 'Olathe', 168: 'Lawrence', 169: 'St. Charles County', 170: 'Portland', 171: 'Lansing', 172: 'Grand Rapids', 173: 'Jackson', 174: 'Jackson County', 175: 'Jackson County', 176: 'Gulfport', 177: 'Helena', 178: 'Bozeman', 179: 'Missoula', 180: 'Grand Island', 181: 'Bellevue', 182: 'Nashua', 183: 'Brookhaven', 184: 'Bismarck', 185: 'Minot', 186: 'Grand Forks', 187: 'Cuyahoga County', 188: 'Toledo', 189: 'Summit County', 190: 'Kent', 191: 'Lorain County', 192: 'Norman', 193: 'Shawnee', 194: 'Oklahoma City', 195: 'San Juan County', 196: 'Providence', 197: 'Cranston', 198: 'Cumberland County', 199: 'Charleston', 200: 'Horry County', 201: 'Columbia', 202: 'Greenville', 203: 'Hilton Head Island', 204: 'Sumter County', 205: 'Aiken', 206: 'Brookings', 207: 'Salt Lake City', 208: 'Salt Lake County', 209: 'Logan', 210: 'Cedar City', 211: 'Burlington', 212: 'Montpelier', 213: 'Stowe', 217: 'Casper', 218: 'Owasso', 219: 'Bethlehem'}
 state = ""
 city = ""
 topic = ""
+
 function readURL() {
     //if ? in url, we will read the values
     //if ("?" in window.location.href)
@@ -39,9 +41,54 @@ function readURL() {
           url = url.replace("_", " ");
         }
         console.log(url)
+        //api url example http://localhost:5000/?s=Texas?c=Austin?t=Housing?q=json
         state = url.split("?s=")[1].split("?c=")[0];
-        city = url.split("?c=")[1].split("?t=")[0];
+        city5 = url.split("?c=")[1].split("?t=")[0];
         topic = url.split("?t=")[1];
+        query = "";
+        //API Query Service for SmartCityData
+        if (topic.indexOf("?q=") > -1) {
+          document.body.style.display = "none";
+          document.head.innerHTML = '<meta name="robots" content="noindex"><meta name="color-scheme" content="light dark">';
+        
+          topic = topic.split("?q=")[0];
+          query = topic.split("?q=")[1];
+          //need to set page contents to the api_builder return
+          //manually call form.submit with the state,city,topic values
+          form = document.getElementById("form");
+          console.log("form is", form)
+          //if form is null, we wait until its not null
+          if (form == null) {
+            setTimeout(function(){
+              readURL();
+            }, 100);
+            return;
+          }
+          form.state.value = Object.keys(states).find(key => states[key] === state);
+          state_select = document.getElementById('state');
+          state_select.onchange();
+          setTimeout( function(){
+            //we will run this 3 times for duplicate city names
+            ran = 3;
+            form.city.value = "";
+            while (ran > 0 && form.city.value == "") {
+              aaa = Object.keys(cities).find(key => cities[key] === city5);
+              form.city.value = Object.keys(cities).find(key => cities[key] === city5);
+              delete cities[aaa]
+              ran--;
+            }
+
+            console.log("City is " + city5 + "")
+            console.log("Form city is " + form.city.value + "")
+
+            form.content.value = topic;
+            console.log("Actual vals are state: " + state + ", city: " + city5 + ", topic: " + topic + ", query: " + query + "")
+            console.log("Submitting form with values state: " + form.state.value + ", city: " + form.city.value + ", topic: " + form.content.value + ", query: " + query + "")
+            form.submit();
+          }, 200);
+
+          return
+        }
         console.log("State: " + state)
         console.log("City: " + city)
         console.log("Topic: " + topic)
@@ -64,6 +111,22 @@ function readURL() {
 
 
         readURLrecurse();
+      }
+      else if(window.location.href.indexOf("api") > -1)
+      {
+        try {
+        basic_url = window.location.href.split("/api")[0];
+        if (window.location.href == basic_url + "/api")
+        {
+          console.log("API page")
+          return;
+        }
+        else
+          window.location.href = "https://smartcity.tacc.utexas.edu/CityData/api"
+        }
+        catch(err) {
+          window.location.href = "https://smartcity.tacc.utexas.edu/CityData/api"
+        }
       }
     }
 
@@ -142,7 +205,7 @@ function readURLrecurse() {
       }
       console.log("URL read")
     }
-readURL()
+//readURL() // <---- Deprecated Loading Menu + Reading URL with index.html instead of Django/Flask call
 
 </script>
 <!--Start of Help Section-->
@@ -286,7 +349,7 @@ readURL()
     </table>
     {% endif %}  -->
 
-    <form method = 'POST'>
+    <form id="form" method = 'POST'>
         {{ form.csrf_token }}
         <p>
             <div class="input-box active-grey" style="display:inline-block">

@@ -17,10 +17,55 @@ from sqlalchemy import null
 import urllib3
 import json
 
+# Testing out speed of requests vs urllib3 vs scrapy
+# I decided to use scrapy from testing out speeds
+# For 100 URL requests
+# urllib3 -> 28.297308 s
+# requests -> 28.1786405 s
+# scrapy -> 1.4110803 s
+import scrapy
+from scrapy.crawler import CrawlerRunner
+from scrapy.spiders.init import InitSpider
+from twisted.internet import reactor
 import requests
 
 api_name = ''
+smartcitydata_api = {}
 
+#ArcGis Popularity variables
+fetch_url = []
+dataSeries = pd.Series()
+temp = []
+#SCRAPY (For Quick ArcGIS API)
+class ArcGisPopularity(InitSpider):
+    name = "scrapythescraper"
+    global temp
+
+    def __init__(self, *args, **kwargs):
+        self.start_requests()
+
+    def start_requests(self):
+        #print("DATA SERIES IS")
+        #print(dataSeries)
+        for url in fetch_url:
+           #print("DE")
+           yield scrapy.Request(url, callback=self.parse, dont_filter=True)
+  
+    def parse(self, response):
+        jsonresponse = json.loads(response.body)
+        #Error handling
+        if 'error' in jsonresponse:
+            id = response.url[response.url.rfind('/') + 1:response.url.find('?f=')]
+            numViews = 0
+            temp.append((id, numViews))
+            return numViews
+        id = jsonresponse['id']
+        numViews = jsonresponse['numViews']
+        #print(temp)
+        temp.append((id, numViews))
+        #print(numViews)
+        return numViews
+#END SCRAPY
 
 def search_Socrata(a, b, c):
     print("Input fields or NA")
@@ -28,6 +73,9 @@ def search_Socrata(a, b, c):
     city = a
     state = b
     topic_name = c
+    #if underscore in city name, replace with space
+    #if '_' in city:
+    #    city = city.replace('_', ' ')
     city_api_list = pd.read_csv("city_api_list.csv", index_col=False)
     # if city_api_list.loc[city_api_list['City'].str.contains(city)] != None:
     if city_api_list["City"].eq(city).any() and city_api_list["State-Abbr."].eq(state).any():
@@ -52,6 +100,7 @@ def search_Socrata(a, b, c):
         #print(var)
 
     else:
+        print(city)
         print("City Not Found.")
         var = ''
     return var
@@ -62,7 +111,7 @@ def generateName(x, api_name, topic_name):
     if(api_name == 'socrata'):
         domain_name = 'https://api.us.socrata.com/api/catalog/v1'
         domain_name += '?search_context=' + x
-        #if &q= already in url, add topic name to end of url after a %20
+        #if &q= already in url, adding topic name to end of url after a %20
         if '&q=' in domain_name:
             domain_name += '%20' + topic_name
         else:
@@ -70,7 +119,7 @@ def generateName(x, api_name, topic_name):
     elif(api_name == 'ckan'):
         q = ''
         if '?q=' in x:
-            #store ?q= to end of string into a variable and delete it from x
+            #storing ?q= to end of string into a variable and delete it from x
             q = x[x.find('?q='):]
             x = x[:x.find('?q=')]
         domain_name = 'https://' + x + '/api/3/action/package_search'
@@ -78,12 +127,17 @@ def generateName(x, api_name, topic_name):
             domain_name += q + '%20' + topic_name
         if topic_name != '' and q == '':
             domain_name += '?q=' + topic_name
+        #Fixing # of datasets returned
+        if '?q=' not in domain_name:
+            domain_name += '?q=&rows=100'
+        else:
+            domain_name += '&rows=100'
     elif(api_name == 'arcgis'):
         domain_name = 'https://' + x + '/api/feed/dcat-ap/2.0.1.json'
     else: #custom arcgis url
         q = ''
         if '?q=' in x:
-            #store ?q= to end of string into a variable and delete it from x
+            #storing ?q= to end of string into a variable and delete it from x
             q = x[x.find('?q='):]
             x = x[:x.find('?q=')]
         domain_name = 'https://' + x + '/api/v3/search'
@@ -156,7 +210,7 @@ def searchArcGis(a, b, c):
     return var
 
 
-def mainprogram(a, b, c):
+def mainprogram(a, b, c, scdapi):
     global api_name
 
     # stoprg = 0
@@ -520,7 +574,7 @@ def mainprogram(a, b, c):
         a['Name'] = results_df['resource.name']
         #a['More Info'] = results_df['permalink']
         #set a['Name'] as results_df['resource.name'] with an href link to the more info
-        a['Name'] = '<a href="' + results_df['permalink'] + '">' + results_df['resource.name'] + '</a>'
+        a['Name'] = '<a href="javascript:;" onclick="socrata_preview(\'' + results_df['permalink'] + '\')">' + results_df['resource.name'] + '</a>'
         #a['Name'] = results_df['permalink']
         #a['Desc'] = "Description"
         # if results_df['resource.description'] > 50 chars, shorten it
@@ -571,7 +625,8 @@ def mainprogram(a, b, c):
                 elif "Update Frequency" in r3:
                     r3 = r3[:r3.find("Update Frequency")]
                 
-                results_df['resource.description'][index] = r3
+                if not scdapi: # API -> Full Description # Web -> Shortened Description
+                    results_df['resource.description'][index] = r3
             else:
                 #adding a period to the end of the description, if not found
                 #if last char is a space, replace it with a period
@@ -617,6 +672,11 @@ def mainprogram(a, b, c):
             # set display none for popularity
             a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
         
+        #Custom SmartCity Data API Creation
+        print("Calling API")
+        if scdapi:
+            return api_builder(a)
+
         #url = requests.get(results_df['permalink'])
         #soup = BeautifulSoup(url.content, 'html.parser')
         #a['Desc'] = soup
@@ -632,12 +692,102 @@ def mainprogram(a, b, c):
      # CKAN
         print("results_df['title'] is", results_df['title'])
         # if results_df['url'] is null, then the url is located at the key "url" inside the dictionary named "resources"
-
+        print("URL BEFORE")
+        #print(results_df['resources']['0-100'])
+        pdframe = []
+        for i in (results_df['resources']):
+            pdframe.append(i[0]['url'])
+        #Convert array to pandas dataframe
+        results_df['url'] = pdframe
+        
         if results_df['url'].isnull().values.any():
             results_df['url'] = results_df['resources'].apply(lambda x: x[0]['url'])
+
+        #AWS FIX
+        #while results_df['url'].str.contains "/dataset/185ac735-10d9-4ea8-9e87-a7c48a750ada/resource/8082433c-b5d9-4037-b5ed-8cf8ac79be04"
+        #where the ids can be any string of characters, the only consistent part is the /dataset/ and /resource/
+        while results_df['url'].str.contains("/download/").any():
+            #find the first line that contains /dataset/
+            index = results_df['url'][results_df['url'].str.contains("/download/")].index[0]
+            print("Found AWS URL on line", index)
+            #url will have layers={} at the end, we want the {} to be stored
+            print("URL IS", results_df['url'][index])
+            #Remoe anything after the first slash after /resource/ not including /resource/
+            #https://data.birminghamal.gov/dataset/0416b4d2-8c6c-4c72-8b06-1212c38d6217/resource/0f471f6a-fd5c-4da3-8d2f-bff2fb64ae9d/download/birminghamaleconomic.csv
+            #should become
+            #https://data.birminghamal.gov/dataset/0416b4d2-8c6c-4c72-8b06-1212c38d6217/resource/0f471f6a-fd5c-4da3-8d2f-bff2fb64ae9d
+            aws_url = results_df['url'][index][:results_df['url'][index].find("/download/")]
+            print("AWS URL IS", aws_url)
+            results_df['url'][index] = aws_url
+
+        
+        #ARCGIS CROSSREFERENCE FIX
+        while results_df['url'].str.contains("maps.arcgis.com").any():
+            #find the first line that contains arcgis.com
+            index = results_df['url'][results_df['url'].str.contains("maps.arcgis.com")].index[0]
+            print("Found ARCGIS URL on line", index)
+            #url will have layers={} at the end, we want the {} to be stored
+            print("URL IS", results_df['url'][index])
+            id = results_df['url'][index][results_df['url'][index].find("=")+1:]
+            while "&" in id:
+                id = id[:id.find("&")]
+            print("ID IS", id)
+            results_df['url'][index] = "ARCGIS" + id
+
+        while results_df['url'].str.contains("hub.arcgis.com").any():
+            #find the first line that contains arcgis.com
+            index = results_df['url'][results_df['url'].str.contains("hub.arcgis.com")].index[0]
+            print("Found ARCGIS URL on line", index)
+            #fix the URL to api feed
+            #get rid of everything after the .com
+            arcgis_url = results_df['url'][index][:results_df['url'][index].find(".com")+4]
+            arcgis_url = arcgis_url + "/api/feed/dcat-ap/2.0.1.json"
+            print("ARC GIS URL IS", arcgis_url)
+            #fetch the json
+            arcgis_json = requests.get(arcgis_url).json()
+
+            print(arcgis_json['dcat:dataset'][0]['dct:identifier'].split("id=")[1])
+
+            arcgis_dict = {}
+            for i in arcgis_json['dcat:dataset']:
+                arcgis_id = i['dct:identifier'].split("id=")[1]
+                while "&" in arcgis_id:
+                    arcgis_id = arcgis_id.split("&")[0]
+                #append {i['@id']: arcgis_id} to arcgis_dict
+                arcgis_dict[i['@id']] = arcgis_id
+            print(arcgis_dict)
+
+            #Replace all urls with the arcgis_dict value if the key matches
+            for i in results_df['url']:
+                if i in arcgis_dict:
+                    print("FOUND MATCH")
+                    print(arcgis_dict[i])
+                    #get index of i
+                    index = results_df['url'][results_df['url'] == i].index[0]
+                    results_df['url'][index] = "ARCGIS" + arcgis_dict[i]
+                    print("URL AFTER", results_df['url'][index])
+        
+
      #   Final displayed data frame Name & More Infor
         a['Name'] = results_df['title']
-        a['Name'] = '<a href="' + results_df['url'] + '">' + results_df['title'] + '</a>'
+        a['Name'] = '<a href="javascript:;" onclick="ckan_preview(\'' + results_df['url'] + '\')">' + results_df['title'] + '</a>'
+        #'<a href="javascript:;" onclick="arcgis_preview(\'' + id + '\')">' + results_df['dct:title'] + '</a>'
+
+
+        print("URLS")
+        print(results_df['url'])
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         #a['More Info'] = results_df['url']
         #a['Index'] = results_df['Index']
         #print(a.to_string())
@@ -685,8 +835,9 @@ def mainprogram(a, b, c):
                     r3 = r3[:r3.find("Data Update")]
                 elif "Update Frequency" in r3:
                     r3 = r3[:r3.find("Update Frequency")]
-
-                results_df['notes'][index] = r3
+                
+                if not scdapi: # API -> Full Description # Web -> Shortened Description
+                    results_df['notes'][index] = r3
             else:
                 #adding a period to the end of the description, if not found
                 #if last char is a space, replace it with a period
@@ -718,6 +869,11 @@ def mainprogram(a, b, c):
             a['Popularity'] = results_df['num_resources']
             # set display none for popularity
             a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+
+        #Custom SmartCity Data API Creation
+        print("Calling API")
+        if scdapi:
+            return api_builder(a)
 
         return a
     if api_name == 'arcgis':
@@ -797,7 +953,8 @@ def mainprogram(a, b, c):
                 elif "Update Frequency" in r3:
                     r3 = r3[:r3.find("Update Frequency")]
                 
-                results_df['dct:description'][index] = r3
+                if not scdapi: # API -> Full Description # Web -> Shortened Description
+                    results_df['dct:description'][index] = r3
             else:
                 #adding a period to the end of the description, if not found
                 #if last char is a space, replace it with a period
@@ -826,24 +983,31 @@ def mainprogram(a, b, c):
 
 
         print("request_site", request_site)
+        # print("results_df columns", results_df.columns)
 
         if 'dct:modified' in results_df.columns:
+            # print("dct:modified in results_df.columns")
             a['Last Updated'] = results_df['dct:modified']
             a['Last Updated'] = '<span style="display:none;">' + a['Last Updated'] + '</span>'
 
-        if 'dct:issued' in results_df.columns:
-            a['Last Updated'] = results_df['dct:issued']
-            # set display none for last updated
-            a['Last Updated'] = '<span style="display:none;">' + str(a['Last Updated']) + '</span>'
+        # if 'dct:issued' in results_df.columns:
+        #     print("dct:issued in results_df.columns")
+        #     a['Last Updated'] = results_df['dct:issued']
+        #     # set display none for last updated
+        #     a['Last Updated'] = '<span style="display:none;">' + str(a['Last Updated']) + '</span>'
         #if 'dct:'
-
+        # print("a[\'Last Updated\']", a['Last Updated'])
 
         if 'dct:accrualPeriodicity' in results_df.columns:
             a['Popularity'] = results_df['dct:accrualPeriodicity']
             # set display none for popularity
             a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+
         else:
             try:
+                global fetch_url
+                global dataSeries
+                global temp
                 # fetch("https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json")
                 # //https://www.arcgis.com/sharing/rest/content/items/fb38ba78520f40a0bd1c2b78e1e636dd?f=json
                 # //read the json response
@@ -862,46 +1026,104 @@ def mainprogram(a, b, c):
                 arcgis_id = results_df['dct:identifier'].str.split('id=', expand=True)[1]
                 if '&' in arcgis_id[1]:
                     arcgis_id = arcgis_id.str.split('&', expand=True)[0]
-                #Double check to make sure all & are removed
-                for i in arcgis_id:
-                    if '&' in i:
-                        arcgis_id = arcgis_id.str.split('&', expand=True)[0]
                 fetch_url = "https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json"
                 print("fetch_url", fetch_url)
+                #Save fetch_url to a file
+                # with open("fetch_url.txt", "w") as f:
+                #    f.write(fetch_url.to_csv(index=False, header=False))
                 
                 #Retrieve the json response
                 #tell requests that the data is a Series
                 #We need to do this because fetch_url is a Series
                 #for item in fetch_url Series
-                dataSeries = pd.Series()
-                for i in fetch_url:
-                    response = requests.get(i)
-                    data3 = response.json()
-                    print("Heck yeah")
-                    print(i)
-                    print("data", data3)
-                    #if error in data3, append a 0 to the series
-                    if 'error' in data3:
-                        dataSeries = dataSeries.append(pd.Series(0), ignore_index=True)
-                    else:
-                        #append data3 to a new series
-                        dataSeries = dataSeries.append(pd.Series(data3['numViews']), ignore_index=True)
-            
+                # dataSeries1 = pd.Series()
+                #This puts a ~25 second delay on site
+                #Set time = 0
+                #use timer to calculate how long it will take to fetch all the data
+                #start timer
+                # start = time.perf_counter()
+                # for i in fetch_url:
+                #     response = requests.get(i)
+                #     data3 = response.json()['numViews']
+                #     print(type(data3))
+                #     print("Heck yeah")
+                #     print("data", data3)
+                #     #append data3 to a new series
+                #     dataSeries1 = dataSeries1.append(pd.Series(data3), ignore_index=True)
+                # end = time.perf_counter()
+                # #end timer
+                # timeTime = end - start
+                # print("Time with REQUESTS", timeTime)
+                #With Scrapy
+                
+                settings = {}
+                settings['ITEM_PIPELINES'] = {'__main__.ArcGisPopularity': 1}
+                settings['LOG_DISABLED'] = True
+                runner = CrawlerRunner(settings=settings)
+                deferred = runner.crawl(ArcGisPopularity)
+                deferred.addBoth(lambda _: reactor.stop())
+
+                try:
+                    reactor.run()
+                except Exception as e:
+                    #print(e)
+                    import sys
+                    del sys.modules['twisted.internet.reactor']
+                    #from twisted.internet import reactor
+                    from twisted.internet import default
+                    default.install()
+
+                # print("DataSeries")
+                # print(dataSeries)
+
+                # print("ID")
+                # print(id)
+                # print the maximum number of views in temp
+                print("Max views", max(temp, key=lambda item:item[1]))
+
+                for i in id:
+                    tempindex = [index for index, (id_str,views) in enumerate(temp) if id_str == i]
+                    #print("tempindex", tempindex)
+                    if tempindex:
+                        view1 = temp[tempindex[0]][1]
+                        views = int(view1)
+                        dataSeries = dataSeries.append(pd.Series(views), ignore_index=True) 
+
+                #There is a missing id. Find the missing id that exists in dataSeries id but not in temp id
+                for i in id:
+                    #id is a dataframe with one column of all the ids
+                    #temp is a list of tuples with the id and the number of views
+                    #Find the id that exists in id but not in temp
+                    tempindex = [index for index, (id_str,views) in enumerate(temp) if id_str == i]
+                    if not tempindex:
+                        print("Missing id", i)
+
+
+
+                print("DataSeries")
+                print(dataSeries)
+
+                # print("DataSeries1")
+                # print(dataSeries1)
 
                 a['Popularity'] = dataSeries
+                #a['Popularity'] = dataSeries1
                 # set display none for popularity
                 a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
-            except:
-                hey
+
+            except Exception as e:
+                print("Specific error: ", e)
                 print("Error in fetching the json response")
-
-
-
 
             #a['Popularity'] = 'Not Available'
             # set display none for popularity
             #a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
-        
+
+        #Custom SmartCity Data API Creation
+        print("Calling API")
+        if scdapi:
+            # print("Calling arcgis api builder with a" + str(a['Last Updated']))
+            return api_builder(a)
 
         return a
     # results_df.to_csv('results_test.csv')
@@ -956,7 +1178,8 @@ def mainprogram(a, b, c):
                     elif "Update Frequency" in r3:
                         r3 = r3[:r3.find("Update Frequency")]
                     
-                    results_df['attributes.searchDescription'][index] = r3
+                    if not scdapi: # API -> Full Description # Web -> Shortened Description
+                        results_df['attributes.searchDescription'][index] = r3
                 else:
                     #adding a period to the end of the description, if not found
                     #if last char is a space, replace it with a period
@@ -988,6 +1211,13 @@ def mainprogram(a, b, c):
             a['Popularity'] = results_df['attributes.recordCount']
             # set display none for popularity
             a['Popularity'] = '<span style="display:none">' + a['Popularity'].astype(str) + '</span>'
+
+
+        #Custom SmartCity Data API Creation
+        print("Calling API")
+        if scdapi:
+            return api_builder(a)
+    
         return a
 
     '''
@@ -1016,6 +1246,68 @@ def mainprogram(a, b, c):
             print("Downloaded", y)  
     
      '''
+
+#Custom API builder for SmartCityData
+def api_builder(a):
+    global smartcitydata_api
+    print(a)
+    print("API Builder has been reached")
+    #a['Name'], a['Last Updated'], a['Popularity']
+    #URL is everything between (\' and \')
+    url = a['Name'].str.extract(r'(?<=\')(.*?)(?=\')', expand=False)
+    #print(url)
+    #Title is everything between > and </a>
+    title = a['Name'].str.extract(r'(?<=>)(.*?)(?=</a>)', expand=False)
+    #print(title)
+    #Description is everything after the first <br>
+    desc = a['Name'].str.extract(r'(?<=<br>)(.*?)(?=$)', expand=False)
+    #take out any remaining <br> tags
+    desc = desc.str.replace(r'<br>', ' ', regex=True)
+    #print(desc)
+    #Last Updated is everything between > and </span>
+    print(a['Last Updated'])
+    updated = a['Last Updated'].str.extract(r'(?<=>)(.*?)(?=</span>)', expand=False)
+    print("UPDATED is:")
+    print(updated)
+    #print(updated)
+    #Popularity is everything between > and </span>
+    popularity = a['Popularity'].str.extract(r'(?<=>)(.*?)(?=</span>)', expand=False)
+    #print(popularity)
+    #Create a new json file with the data
+    #The json file will have the following format:
+    #{"data":[{"title":"title","url":"url","description":"description","last_updated":"last_updated","popularity":"popularity"}]}
+    #for each item in the dataframe
+
+    newjson = {"data":[]}
+    for i in range(len(a)):
+        newjson["data"].append({"title":title[i], "url":url[i], "description":desc[i], "last_updated":updated[i], "views":popularity[i]})
+    newcsv = pd.DataFrame(newjson["data"])
+
+    #Now I have both JSON and CSV
+    #smartcitydata_api = newjson
+    #print("SmartCityData API:")
+    #print(smartcitydata_api)
+
+    #HTML Prettify
+    newhtml = newcsv.to_html()
+
+    #JSON Prettify
+    newjson = json.dumps(newjson, indent=4)
+    #print(newjson)
+    newjson.replace('\n', '<br>')
+    
+    #CSV Prettify
+    newcsv = newcsv.to_csv()
+    # Since CSV is string format, we have to remove index column manually
+    for line in newcsv.splitlines():
+        prevline = line
+        line = line[line.find(',')+1:]
+        newcsv = newcsv.replace(prevline, line)
+    #print(newcsv)
+
+
+    return newjson, newcsv, newhtml
+
 
 
 def downloaddata(a):

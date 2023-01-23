@@ -16,11 +16,11 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <!-- why would u overwrite my stylesheet with datatables stylesheet? -->
     <!-- stylesheets are cumulative. not replacement. -->
-    <title>SmartCityData</title>
+    <title>Smart City Data Collection</title>
 </head>
 <body>
     <div class="flex-child right" style="max-width: 100%;position: fixed;width: 42%;right: 0px;">
-        <iframe class="map", src="/CityData/map" style="height: 100vh; width: 87vh; border-style: none;"></iframe>
+        <iframe id="preview" class="map", src="/CityData/map" style="height: 100vh; width: 87vh; border-style: none;"></iframe>
         <!--<h2 style="margin-bottom: -10px"> {{ city }}, {{ state }}</h2>
         <p> {{ citydetails }} </p>-->
     </div>
@@ -45,11 +45,11 @@
         <p>
             </p><div class="input-box active-grey" style="display:inline-block">
                 <label class="input-label">State</label>
-            <select class="input-1" id="state" name="state"><option value="AL">Alabama</option><option value="AK">Alaska</option><option value="AZ">Arizona</option><option value="AR">Arkansas</option><option value="CA">California</option><option value="CO">Colorado</option><option value="CT">Connecticut</option><option value="DE">Delaware</option><option value="FL">Florida</option><option value="GA">Georgia</option><option value="HI">Hawaii</option><option value="ID">Idaho</option><option value="IL">Illinois</option><option value="IN">Indiana</option><option value="IA">Iowa</option><option value="KS">Kansas</option><option value="KY">Kentucky</option><option value="LA">Louisiana</option><option value="ME">Maine</option><option value="MD">Maryland</option><option value="MA">Massachusetts</option><option value="MI">Michigan</option><option value="MN">Minnesota</option><option value="MS">Mississippi</option><option value="MO">Missouri</option><option value="MT">Montana</option><option value="NE">Nebraska</option><option value="NV">Nevada</option><option value="NH">New Hampshire</option><option value="NJ">New Jersey</option><option value="NM">New Mexico</option><option value="NY">New York</option><option value="NC">North Carolina</option><option value="ND">North Dakota</option><option value="OH">Ohio</option><option value="OK">Oklahoma</option><option value="OR">Oregon</option><option value="PA">Pennsylvania</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option><option value="SD">South Dakota</option><option value="TN">Tennessee</option><option value="TX">Texas</option><option value="UT">Utah</option><option value="VT">Vermont</option><option value="VA">Virginia</option><option value="WA">Washington</option><option value="WV">West Virginia</option><option value="WI">Wisconsin</option><option value="WY">Wyoming</option></select>
+            <select class="input-1" id="state" name="state" onblur="updateURL()"><option value="AL">Alabama</option><option value="AK">Alaska</option><option value="AZ">Arizona</option><option value="AR">Arkansas</option><option value="CA">California</option><option value="CO">Colorado</option><option value="CT">Connecticut</option><option value="DE">Delaware</option><option value="FL">Florida</option><option value="GA">Georgia</option><option value="HI">Hawaii</option><option value="ID">Idaho</option><option value="IL">Illinois</option><option value="IN">Indiana</option><option value="IA">Iowa</option><option value="KS">Kansas</option><option value="KY">Kentucky</option><option value="LA">Louisiana</option><option value="ME">Maine</option><option value="MD">Maryland</option><option value="MA">Massachusetts</option><option value="MI">Michigan</option><option value="MN">Minnesota</option><option value="MS">Mississippi</option><option value="MO">Missouri</option><option value="MT">Montana</option><option value="NE">Nebraska</option><option value="NV">Nevada</option><option value="NH">New Hampshire</option><option value="NJ">New Jersey</option><option value="NM">New Mexico</option><option value="NY">New York</option><option value="NC">North Carolina</option><option value="ND">North Dakota</option><option value="OH">Ohio</option><option value="OK">Oklahoma</option><option value="OR">Oregon</option><option value="PA">Pennsylvania</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option><option value="SD">South Dakota</option><option value="TN">Tennessee</option><option value="TX">Texas</option><option value="UT">Utah</option><option value="VT">Vermont</option><option value="VA">Virginia</option><option value="WA">Washington</option><option value="WV">West Virginia</option><option value="WI">Wisconsin</option><option value="WY">Wyoming</option></select>
             </div>  
              <div class="input-box active-grey" style="display:inline-block">
                 <label class="input-label">City</label>
-             <select class="input-1" id="city" name="city"><option value="2">{{ city }}</option></select> 
+             <select class="input-1" id="city" name="city" onblur="updateURL()"><option value="2">{{ city }}</option></select> 
              </div>
 
             <!--<input type='text' name='content_topic' id ='content'> -->
@@ -57,10 +57,38 @@
                 <label class="input-label">Topic</label>
                 <input type="text" name="content_topic" id="content" class="input-1" onfocus="setFocus(true)" onblur="setFocus(false)">
             </div>
-            <input class="button-3" type="submit">
+            <input class="button-3" onclick="updateURL()" type="submit">
         <p></p>
     </form>
     <script>
+        //API ASAP
+        function api_reader() {
+            if (window.location.href.indexOf("?q=") > -1) {
+                console.log("API Reader is running");
+                var type = window.location.href.split("?q=")[1];
+                if (type == "json")
+                {
+                    api_text = "{{ api[0]|api_format }}"
+                }
+                else if (type == "csv")
+                {
+                    api_text = "{{ api[1]|api_format }}"
+                }
+                else if (type == "html")
+                {
+                    api_text = "{{ api[2]|api_format }}"
+                }
+                    console.log("Loading JSON")
+                    console.log("API")
+                    document.body.innerHTML = "<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">" + api_text + "</pre>";
+                    //replace everything within <head> with <meta name="color-scheme" content="light dark">
+                    document.head.innerHTML = "<meta name=\"color-scheme\" content=\"light dark\">";
+                    //stop page from executing anything after this
+                    window.stop();
+            }
+        }
+        api_reader()
+
         function setFocus(on) {
             var element = document.activeElement;
             if (on) {
@@ -323,9 +351,209 @@
         //web app
         //map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=eb2f86f83cdf4c6ebb38128f12b409e5"
         //get the type of ARCGIS dataset ( webmap, feature layer, etc. )
+
+
+        function ckan_preview(url) {
+            console.log(url)
+            
+            //ArcGis CrossReference FIX
+            if (url.indexOf("ARCGIS") != -1) {
+                id = url.replace("ARCGIS", "")
+                arcgis_preview(id)
+                return
+            }
+
+            url = url.replace(/\/download\/.*/g, "")
+            console.log(url)
+
+            try {
+            fetch(url)
+            .then(response => response.text())
+            .then(data =>
+            {
+                //find the data-id="id" and set id equal to it
+                console.log("DATA")
+                console.log(data)
+                try {
+                id = data.match(/data-id="(.*)"/)[1]
+                }
+                catch(err) {
+                    console.log("Failed to view CKAN dataset, falling to backup")
+                    map[0].src = url
+                    map[0].style.marginTop = "-40px"
+                    return
+                }
+                console.log("ID is", id)
+                //set iframe src
+                wurl = url + "/view/" + id
+
+                console.log("Complete URL is", wurl)
+                map[0].src = wurl
+                
+
+            })
+            }
+            catch(err) {
+                console.log("Failed to view CKAN dataset, falling to backup")
+                map[0].src = url
+                map[0].style.marginTop = "-40px"
+                return
+            }
+            //If map marginTop is -40px, set it to 0px
+            setTimeout(function() {
+                if (map[0].style.marginTop == "-40px") {
+                    map[0].style.marginTop = "0px"
+                }
+            }, 500)
+
+        }
+
+
+        function socrata_preview(url) {
+            console.log("Socrata preview has been called!")
+            console.log("ORIGINAL LINK: ", url)
+            //get the URL of the dataset up to the first "/"
+            //https://data.austintexas.gov/id/xwdj-i9he
+            //https://data.hartford.gov/d/4q3w-7z2n
+            cityurl = url.split("/")
+            //The last element of the array is the dataset ID
+            console.log("cityurl is", cityurl)
+            //get the ID of the dataset
+            id = cityurl[cityurl.length - 1]
+            cityurl = cityurl[2]
+            console.log("id is", id)
+            console.log("address: https://" + cityurl + "/id/" + id)
+            
+            console.log("We will use https://" + cityurl + "/w/" + id)
+            wurl = "https://" + cityurl + "/w/" + id
+
+            //get element with class map and set src=to the wurl
+            map[0].src = wurl
+            
+            //getting the correct Socrata data type
+            // data_url = "https://" + cityurl + "/views/" + id
+            // console.log("data_url is", data_url)
+            // //fetch the contents of the data_url and return as a json file
+            // fetch(data_url)
+            // .then(response => response.json())
+            // .then(data =>
+            // {
+            //     console.log(data)
+            //     data_json = data
+            //     data_type = data_json["assetType"]
+            //     console.log("data_type is", data_type)
+            
+            
+            // console.log("Running the if statement with data_type = ", data_type)
+            // if (data_type == "dataset")
+            // {
+            //correct format: https://data.texas.gov/resource/jrea-zgmq.json
+            // api_url = "https://" + cityurl + "/resource/" + id + ".json"
+            // //fetch the contents of the api_url and return as a json file 
+            // fetch(api_url)
+            // .then(response => response.json())
+            // .then(data => 
+            // {
+            //     console.log(data)
+            //     //we will set the json variable here
+            //     json = data
+            //     //we will convert the json to a html table here, then display it in the preview iframe section
+            //     //create a table
+            //     var table = document.createElement("table");
+            //     //create a header row
+            //     var header = table.createTHead();
+            //     //what does td stand for in an html table?
+            //     //td stands for table data
+            //     //make the style of the table data "border: 1px solid #ddd;padding: 8px;"
+            //     table.style = "border: 1px solid #ddd;padding: 8px;"
+
+            //     var row = header.insertRow(0);
+                
+            //     row.style = "padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #166ED4;color: white;border: 1px solid #ddd;padding: 8px;"
+            //     //create a header cell for each column
+            //     for (var key in json[0]) {
+            //         var cell = row.insertCell();
+            //         cell.innerHTML = key;
+            //     }
+            //     //create a row for each row in the json
+            //     for (var i = 0; i < json.length; i++) {
+            //         var row = table.insertRow();
+            //         //the rows should have the styles:
+            //         //tr:nth-child(even){background-color: #f2f2f2;}
+            //         //tr:hover {background-color: #ddd;}
+            //         if (i % 2 == 0) {
+            //             row.style = "background-color: #f2f2f2;"
+            //         }
+            //         row.onmouseover = function() {
+            //             this.style = "background-color: #ddd;"
+            //         }
+            //         row.onmouseout = function() {
+            //             if (i % 2 == 0) {
+            //                 this.style = "background-color: #f2f2f2;"
+            //             }
+            //             else {
+            //                 this.style = "background-color: white;"
+            //             }
+            //         }
+            //         //create a cell for each column in the json
+            //         for (var key in json[i]) {
+            //             var cell = row.insertCell();
+            //             cell.innerHTML = json[i][key];
+            //         }
+            //     }
+                
+            //     table.style.display = "block";
+            //     size = getSize(table);
+            //     theight = size[0]
+            //     twidth = size[1]
+            //     console.log("table width is", twidth)
+            //     console.log("table height is", theight)
+            //     console.log("window innerheight is", window.innerHeight)
+            //     if (theight > window.innerHeight) {
+            //         console.log("Resizing table!")
+            //         table.style.height = window.innerHeight + "px";
+            //         table.style.width = twidth + "px";
+            //         table.style.overflowY = "scroll";
+            //         console.log("Resized table!")
+            //     }
+            //     if (twidth > window.innerWidth * 0.4) {
+            //         console.log("Resizing table!")
+            //         table.style.width = window.innerWidth * 0.4 + "px";
+            //         table.style.overflowX = "scroll";
+            //         console.log("Resized table!")
+            //     }
+
+            //     //add the table to the preview iframe
+            //     flexchildright[0].innerHTML = table.outerHTML;
+                
+            // })
+            
+            // //we will set the json variable here
+            // .catch(error => console.log(error))
+            // console.log("Done displaying data!")
+            // }
+
+            // }
+            // )
+            // .catch(error => console.error(error))
+            
+
+        }
+
+        function getSize(element)
+        {
+            element.style.visibility = "hidden";
+            document.body.appendChild(element);
+            var height = element.offsetHeight + 0;
+            var width = element.children[0].offsetWidth + 0;
+            document.body.removeChild(element);
+            element.style.visibility = "visible";
+            return [height, width];
+        }
+
         
         function arcgis_preview(id) {
-        console.log("The function has been called!")
+        console.log("Arcgis preview has been called!")
         //arcgis_id = "20e950cd590a4e5bb6561d173ee6cf62"
         arcgis_id = id
         //fetch the API
@@ -350,69 +578,78 @@
             console.log(data.type)
             map_id = data.id
             //if the type is a webmap
-            if (data.type == "Web Map") {
-                map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
-            }
-            else if (data.type == "Insights Page") {
-                map_url = "https://insights.arcgis.com/#/view/" + map_id
-            }
-            else if (data.type == "Dashboard") {
-                map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
-            }
-            else if (data.type == "Feature Service") {
-                map_adjust = true
-                map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
-            }
-            else if (data.type == "Web Mapping Application") {
-                map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=" + map_id
-            }
-            else if (data.type == "PDF") {
-                //             import boto3
-                // url = boto3.client('s3').generate_presigned_url(
-                // ClientMethod='get_object', 
-                // Params={'Bucket': 'BUCKET_NAME', 'Key': 'OBJECT_KEY'},
-                // ExpiresIn=3600)
-                //Above is the python code to generate a presigned url
-                //Below is the javascript code to generate a presigned url
-                // var S3Client = new AWS.S3({
-                //     apiVersion: '2006-03-01',
-                //     region: 'us-east-1' });
-                // // S3Client.command('s3 presign s3://ago-item-storage/' + map_id + '/' + data.name + ' --expires-in 3600', function(err, data) {
-                // //     if (err) {
-                // //         console.log(err)
-                // //     }
-                // //     else {
-                // //         console.log(data)
-                // //         map_url = data
-                // //     }
-                // // })
-                // //assign default credentials
-                // S3Client.config.credentials = new AWS.Credentials
+            // if (data.type == "Web Map") {
+            //     map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
+            // }
+            // else if (data.type == "Insights Page") {
+            //     map_url = "https://insights.arcgis.com/#/view/" + map_id
+            // }
+            // else if (data.type == "Dashboard") {
+            //     map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
+            // }
+            // else if (data.type == "Feature Service") {
+            //     map_adjust = true
+            //     map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
+            // }
+            // else if (data.type == "Web Mapping Application") {
+            //     map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=" + map_id
+            // }
+            // else if (data.type == "PDF") {
+            //     //             import boto3
+            //     // url = boto3.client('s3').generate_presigned_url(
+            //     // ClientMethod='get_object', 
+            //     // Params={'Bucket': 'BUCKET_NAME', 'Key': 'OBJECT_KEY'},
+            //     // ExpiresIn=3600)
+            //     //Above is the python code to generate a presigned url
+            //     //Below is the javascript code to generate a presigned url
+            //     // var S3Client = new AWS.S3({
+            //     //     apiVersion: '2006-03-01',
+            //     //     region: 'us-east-1' });
+            //     // // S3Client.command('s3 presign s3://ago-item-storage/' + map_id + '/' + data.name + ' --expires-in 3600', function(err, data) {
+            //     // //     if (err) {
+            //     // //         console.log(err)
+            //     // //     }
+            //     // //     else {
+            //     // //         console.log(data)
+            //     // //         map_url = data
+            //     // //     }
+            //     // // })
+            //     // //assign default credentials
+            //     // S3Client.config.credentials = new AWS.Credentials
                 
-                map_url = "https://ago-item-storage.s3.amazonaws.com/" + map_id + "/" + data.name
+            //     map_url = "https://ago-item-storage.s3.amazonaws.com/" + map_id + "/" + data.name
 
-                // S3Client.getSignedUrl('getObject', {
-                //     Bucket: 'ago-item-storage',
-                //     Key: map_id + '/' + data.name,
-                //     Expires: 3600
-                // }, function(err, url) {
-                //     if (err) {
-                //         console.log(err)
-                //     }
-                //     else {
-                //         console.log("XXX")
-                //         map_url = url
-                //     }
-                // })
-            }
-            console.log("The map url is: " + map_url)
+            //     // S3Client.getSignedUrl('getObject', {
+            //     //     Bucket: 'ago-item-storage',
+            //     //     Key: map_id + '/' + data.name,
+            //     //     Expires: 3600
+            //     // }, function(err, url) {
+            //     //     if (err) {
+            //     //         console.log(err)
+            //     //     }
+            //     //     else {
+            //     //         console.log("XXX")
+            //     //         map_url = url
+            //     //     }
+            //     // })
+            // }
+            // console.log("The map url is: " + map_url)
             //load the map
             // if (map_adjust) {
             //flexchildright[0].innerHTML = "<iframe style='width: 87vh; height: 100vh; border-style: none; margin-top:-56px;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='SmartCityData Preview' src='" + map_url + "'></iframe>"
             // }
             // else {
-            flexchildright[0].innerHTML = "<iframe style='width: 87vh; height: 100vh; border-style: none;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='SmartCityData Preview' src='" + map_url + "'></iframe>"
-            // }
+            
+            //flexchildright[0].innerHTML = "<iframe style='width: 87vh; height: 100vh; border-style: none;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='SmartCityData Preview' src='" + map_url + "'></iframe>"
+            
+            console.log("Failed to load ArcGis, falling back to backup")
+            fallback_url = "https://hub.arcgis.com/datasets/" + map_id
+            console.log("Fallback URL:" + fallback_url)
+
+            //map[0].src = fallback_url
+            flexchildright[0].innerHTML = "<iframe id='preview' class='map' style='width: 87vh; margin-top: -40px; height: 110vh; border-style: none;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='SmartCityData Preview' src='" + fallback_url + "'></iframe>"
+            
+
         })
         }
 
