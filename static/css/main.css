@@ -6,6 +6,8 @@ body {
     font-family: 'Roboto', sans-serif;
     /*font-size: 20px;
     font-weight: 400;*/
+    height: 100%;
+    overflow: auto;
 }
 
 table, th, td {
@@ -91,6 +93,8 @@ margin-top: 20%;
 body {
   font-family: "open sans", roboto, arial, sans-seif;
   background: #fff;
+  height: 100%;
+  overflow: auto;
 }
 
 input {

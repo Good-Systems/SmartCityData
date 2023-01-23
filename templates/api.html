@@ -1,844 +1,225 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
-
-    <!-- import jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- import datatables js -->
-    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <!-- import aws-cli-js -->
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.48.min.js"></script>
-    <!-- import datatables css -->
-    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-    <!-- why would u overwrite my stylesheet with datatables stylesheet? -->
-    <!-- stylesheets are cumulative. not replacement. -->
-    <title>Smart City Data Collection</title>
-</head>
-<body>
-    <div class="flex-child right" style="max-width: 100%;position: fixed;width: 42%;right: 0px;">
-        <iframe id="preview" class="map", src="/map" style="height: 100vh; width: 87vh; border-style: none;"></iframe>
-        <!--<h2 style="margin-bottom: -10px"> {{ city }}, {{ state }}</h2>
-        <p> {{ citydetails }} </p>-->
-    </div>
-    <div class="header" style="
-    display: flex;
-">
-<div class="logo">
-<a href="/" title="Go to SmartCityData Home" id="logo" style="display: block;">
-<!--orange logo-->
-<!--<img src="https://user-images.githubusercontent.com/96705270/210301232-3307cd6d-7d6c-4f19-a3d2-a1e41d5191c9.png" style="-->
-<!--blue logo-->
-<img src="https://user-images.githubusercontent.com/96705270/205528524-4c5e9c31-9716-4a70-9370-8178592ea432.png" style="
-    height: 1%;
-    top: 50px;
-    left: 20px;
-    position: relative;
-    /* width: 100%; */
-    margin-right: 50px;
-"></a></div>
-    <form method="POST" style="margin-top: 15px;">
-        <input id="csrf_token" name="csrf_token" type="hidden" value="IjIwMzRkMTVkOTRlYzcwNDQ4ZmYzY2Y3MWUxMWQ2NjA4ZjgyM2Y1YTYi.Yyu_6Q.4W6LugrPJJQhkUcW16iuRFqwXfI">
-        <p>
-            </p><div class="input-box active-grey" style="display:inline-block">
-                <label class="input-label">State</label>
-            <select class="input-1" id="state" name="state" onblur="updateURL()"><option value="AL">Alabama</option><option value="AK">Alaska</option><option value="AZ">Arizona</option><option value="AR">Arkansas</option><option value="CA">California</option><option value="CO">Colorado</option><option value="CT">Connecticut</option><option value="DE">Delaware</option><option value="FL">Florida</option><option value="GA">Georgia</option><option value="HI">Hawaii</option><option value="ID">Idaho</option><option value="IL">Illinois</option><option value="IN">Indiana</option><option value="IA">Iowa</option><option value="KS">Kansas</option><option value="KY">Kentucky</option><option value="LA">Louisiana</option><option value="ME">Maine</option><option value="MD">Maryland</option><option value="MA">Massachusetts</option><option value="MI">Michigan</option><option value="MN">Minnesota</option><option value="MS">Mississippi</option><option value="MO">Missouri</option><option value="MT">Montana</option><option value="NE">Nebraska</option><option value="NV">Nevada</option><option value="NH">New Hampshire</option><option value="NJ">New Jersey</option><option value="NM">New Mexico</option><option value="NY">New York</option><option value="NC">North Carolina</option><option value="ND">North Dakota</option><option value="OH">Ohio</option><option value="OK">Oklahoma</option><option value="OR">Oregon</option><option value="PA">Pennsylvania</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option><option value="SD">South Dakota</option><option value="TN">Tennessee</option><option value="TX">Texas</option><option value="UT">Utah</option><option value="VT">Vermont</option><option value="VA">Virginia</option><option value="WA">Washington</option><option value="WV">West Virginia</option><option value="WI">Wisconsin</option><option value="WY">Wyoming</option></select>
-            </div>  
-             <div class="input-box active-grey" style="display:inline-block">
-                <label class="input-label">City</label>
-             <select class="input-1" id="city" name="city" onblur="updateURL()"><option value="2">{{ city }}</option></select> 
-             </div>
-
-            <!--<input type='text' name='content_topic' id ='content'> -->
-            <div class="input-box" style="display:inline-block">
-                <label class="input-label">Topic</label>
-                <input type="text" name="content_topic" id="content" class="input-1" onfocus="setFocus(true)" onblur="setFocus(false)">
-            </div>
-            <input class="button-3" onclick="updateURL()" type="submit">
-        <p></p>
-    </form>
-    <script>
-        //API ASAP
-        function api_reader() {
-            if (window.location.href.indexOf("?q=") > -1) {
-                console.log("API Reader is running");
-                var type = window.location.href.split("?q=")[1];
-                if (type == "json")
-                {
-                    api_text = "{{ api[0]|api_format }}"
-                }
-                else if (type == "csv")
-                {
-                    api_text = "{{ api[1]|api_format }}"
-                }
-                else if (type == "html")
-                {
-                    api_text = "{{ api[2]|api_format }}"
-                }
-                    console.log("Loading JSON")
-                    console.log("API")
-                    document.body.innerHTML = "<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">" + api_text + "</pre>";
-                    //replace everything within <head> with <meta name="color-scheme" content="light dark">
-                    document.head.innerHTML = "<meta name=\"color-scheme\" content=\"light dark\">";
-                    //stop page from executing anything after this
-                    window.stop();
-            }
-        }
-        api_reader()
-
-        function setFocus(on) {
-            var element = document.activeElement;
-            if (on) {
-                setTimeout(function () {
-                element.parentNode.classList.add("focus");
-                });
-            } else {
-                let box = document.querySelector(".input-box");
-                box.classList.remove("focus");
-                $("input").each(function () {
-                var $input = $(this);
-                var $parent = $input.closest(".input-box");
-                if ($input.val()) $parent.addClass("focus");
-                else $parent.removeClass("focus");
-                });
-            }
-        }
-        //set the current state and city to the selected state and city
-        state = { state : "{{ state }}" };
-        city1 = { city : "{{ city }}" };
-        topic = { topic : "{{ topic }}" };
-        console.log("The state is: " + state.state);
-        console.log("The city is: " + city1.city);
-        console.log("The topic is: " + topic.topic);
-        //Set the current selection of the input to the selected state and city
-        document.getElementById("state").value = state.state;
-        //set the text inside the topic input to the selected topic
-        document.getElementById("content").value = topic.topic;
-        if (topic.topic != "") {
-            document.getElementById("content").parentNode.classList.add("focus");
-        }
-
-        //update URL
-        states = {"AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California", "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware", "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa", "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont", "VA": "Virginia", "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming"}
-        function updateURL() {
-            //We have the state, city1, and topic, just need to append to URL
-            console.log("Updating URL")
-            console.log(window.location.href)
-            //We will append the state, then value of city, then topic
-            //let city_select = document.getElementById('city');
-            console.log("State is: " + states[state.state])
-            
-            //if there is a # in the URL then remove it
-            if (window.location.href.includes("#")) {
-                window.history.replaceState({}, null, window.location.href.split("#")[0])
-            }
-
-            newURL = window.location.href.split("?")[0] + "?s=" + states[state.state].toString() + "?c=" + city1.city + "?t=" + topic.topic
-            
-            console.log(newURL)
-            //replace all spaces with _
-            newURL = newURL.replace(" ", "_")
-            console.log(newURL)
-            window.history.replaceState({}, null, newURL);
-        }
-        updateURL()
-
-        function spellCorrect() {
-            content_topic1 = document.getElementById('content');
-            content_topic1.value = "{{ ms }}";
-            let form = state_select.parentElement.parentElement;
-            form.submit();
-        }
-    
-        //wait for 100ms
-        setTimeout(function(){
-            //if the mispelt word is not empty, then add in a <p> with a "Did you mean: " and the mispelt word
-            if ("{{ ms }}" != ""){
-                console.log("Adding in mispelt word");
-                let mispelt = document.createElement("p");
-                msunderscore = "{{ ms }}".replace(" ", "_")
-                newURL = newURL.split("?t=")[0] + "?t=" + msunderscore
-                //remove any hashtags
-                //newURL = newURL.split("#")[0] + newURL.split("#")[1]
-                mispelt.innerHTML = "Did you mean: " + "<a onclick='spellCorrect()' href='#'><b>{{ ms }}</b></a>" + "?";
-                //append it as last child of <form> element
-                document.querySelector("form").appendChild(mispelt);
-                
-            }
-        }, 100);
-        //console.log ms from flask
-        console.log("mispelt word is {{ ms }}");
-
-
-        //document.getElementById("city").value = "{{ city }}";
-        //the value of city name is still not being set for the city.
-        //set text of the city input to city.city, not value alone
-        
-
-        //set dropdown to be cities in the selected state
-        let state_select = document.getElementById('state');
-        let city_select = document.getElementById('city');
-        let content_topic = document.getElementById('topic');
-        state = state_select.value;
-        optionval = 2;
-        fetch('/city/'+state).then(function(response){
-                response.json().then(function(data){
-                    let optionHTML = '';
-
-                    for (let city of data.cities){
-                        optionHTML += '<option value="' + city.id + '">' + city.name + '</option>';
-                        if (city.name == city1.city){
-                            optionval = city.id;
-                        }
-                    }
-                    city_select.innerHTML = optionHTML;
-                    $("#city").val(optionval);
-                    console.log("Success");
-                });
-            });
-        
-        state_select.onchange = function() {
-            state = state_select.value;
-            
-            fetch('/city/'+state).then(function(response){
-                response.json().then(function(data){
-                    let optionHTML = '';
-
-                    for (let city of data.cities){
-                        optionHTML += '<option value="' + city.id + '">' + city.name + '</option>';
-                    }
-                    city_select.innerHTML = optionHTML;
-                });
-            });
-        }
-
-        
-    </script>
-</div>
-<div class="flex-container">
-<div class="flex-child query" style="margin-left: 225px; max-width: 43.4%;">
-    <div class="header" style="display: flex;">
-        <span class="horizental-line"></span>
-    <!--add Sort By dropdown in top right of child-->
-        <div class="input-box active-grey" style="scale: 0.87;float: right;display: block;min-width: 116px">
-            <label class="input-label">Sort By</label>
-        <select class="input-1" onclick="CheckSort()" id="sortby" name="sortby"><option value="Relevance">Relevance</option><option value="Date">Date</option><option value="Popularity">Popularity</option></select>
-        </div>
-        <script>
-            function CheckSort() {
-                var sortby = document.getElementById("sortby");
-                var selectedValue = sortby.options[sortby.selectedIndex].value;
-                //console.log(selectedValue);
-            }
-
-        </script>
-        </div>
-    <!--<h1>State: {{ state }}, City: {{ city }}, Topic: {{ topic }} Details: {{ citydetails }}</h1>-->
-    <body>
-        {% for table in tables %}
-        {% autoescape off %}
-            <!--{{titles[loop.index]}}-->
-            {{table | replace("&lt;", "<") | replace("&gt;", ">")}}
-    
-        {% endautoescape %}
-        {% endfor %}
-        <script>
-            var tables = document.getElementsByTagName("table");
-            for (var i = 0; i < tables.length; i++) {
-                tables[i].setAttribute("border", "0");
-            }
-            //add display="none" to thead
-            var theads = document.getElementsByTagName("thead");
-            for (var i = 0; i < theads.length; i++) {
-                theads[i].setAttribute("style", "display: none;");
-            }
-            //if string in table has href, set style line-height to be 40px and font-size to be large
-            var hrefs = document.getElementsByTagName("a");
-            //if parent of href is a <td>
-            for (var i = 0; i < hrefs.length; i++) {
-                if (hrefs[i].parentElement.tagName == "TD") {
-                    hrefs[i].setAttribute("style", "line-height: 40px; font-size: large;");
-                }
-            }
-            //find table with id "DataTables_Table_0" set the table "style="margin-left: -25px;""
-            //set timeout for 100 ms
-            function setTableLeft() {
-            try {
-            setTimeout(function() {
-                var table = document.getElementById("DataTables_Table_0");
-                if (table == null) {
-                    setTableLeft();
-                } else {
-                    table.setAttribute("style", "margin-left: -25px;");
-                }
-                }, 1);
-            }
-            catch(err) {
-                setTableLeft();
-            }
-            }
-            setTableLeft();
-            
-            //if table is empty (has no content within tbody), set the inside of tbody to the following:
-            //<p>Your search query "happy" did not match any documents.</p><br><p>Suggestions:</p><ul><li>Make sure all words are spelled correctly.</li><li>Try different keywords.</li><li>Try more general keywords.</li></ul>
-            //wait until table is generated so wait 100ms
-            topic = { topic : "{{ topic }}" };
-            setTimeout(function() {
-                console.log("Function ran after 100ms")
-                var tbodys = document.getElementsByTagName("tbody");
-                for (var i = 0; i < tbodys.length; i++) {
-                    //if tbody does not contain any td
-                    //how do i run contains on an innerHTML? It says it is not a function
-                    if (tbodys[i].innerHTML.indexOf("td") == -1) {
-                        console.log("Table is empty")
-                        tbodys[i].innerHTML = "<p>Your search query <b>\"" + topic.topic + "\"</b> did not match any documents.</p><br><p>Suggestions:</p><ul><li>Make sure all words are spelled correctly.</li><li>Try different keywords.</li><li>Try more general keywords.</li></ul>";
-                    }
-                }
-            }, 10);
-
-        </script>
-        </div>
-        </div>
-    </body>
-    <!--Download: <input type='text' name='selectdata' id ='content'> <input type = "submit" onclick="download()"> <input type="button" value="Go back!" onclick="history.back()"> <form> </form>-->
-    <script>
-        
-        //SOCRATA example, blocked due to SAME-ORIGIN policy & file:// redirect
-        // console.log("Starting to load map!")
-        // //get the element with class "map" and assign it to a variable
-        // var map = document.getElementsByClassName("map");
-        // //use jquery load to load https://data.austintexas.gov/Utilities-and-City-Services/Austin-311-Public-Data/xwdj-i9he #renderTypeContainer
-        // //and assign it to the variable map
-        // $(map).load("https://data.austintexas.gov/Utilities-and-City-Services/Austin-311-Public-Data/xwdj-i9he #renderTypeContainer");
-        // console.log("Finished loading map!")
-
-        //ARCGIS example
-        console.log("Starting to load map!")
-        var map = document.getElementsByClassName("map");
-        //set map to:
-        var flexchildright = document.getElementsByClassName("flex-child right");
-        //<style>.embed-container {position: relative; padding-bottom: 80%; height: 0; max-width: 100%;} .embed-container iframe, .embed-container object, .embed-container iframe{position: absolute; top: 0; left: 0; width: 100%; height: 100%;} small{position: absolute; z-index: 40; bottom: 0; margin-bottom: -15px;}</style><div class="embed-container"><iframe width="500" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" title="311 Service Request [2022]" src="//www.arcgis.com/apps/Embed/index.html?webmap=fb38ba78520f40a0bd1c2b78e1e636dd&extent=-86.3815,32.2939,-86.1279,32.4173&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light"></iframe></div>
-        //flexchildright[0].innerHTML = "<style>.embed-container {position: relative; padding-bottom: 80%; height: 0; max-width: 100%;} .embed-container iframe, .embed-container object, .embed-container iframe{position: absolute; top: 0; left: 0; width: 100%; height: 100%;} small{position: absolute; z-index: 40; bottom: 0; margin-bottom: -15px;}</style><div class='embed-container'><iframe width='500' height='400' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='311 Service Request [2022]' src='//www.arcgis.com/apps/Embed/index.html?webmap=fb38ba78520f40a0bd1c2b78e1e636dd&extent=-86.3815,32.2939,-86.1279,32.4173&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light'></iframe></div>";
-
-        map_link = "https://www.arcgis.com/home/item.html?id=fb38ba78520f40a0bd1c2b78e1e636dd"
-            
-        console.log("Hallo")
-
-        //webmap
-        //map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
-        //fb38ba78520f40a0bd1c2b78e1e636dd
-        //c664b20e039741a4aa95ea5577e2474d
-        //8186d5d1c23f4c458d255c70ce714e8b
-
-        //insights
-        //map_url = "https://insights.arcgis.com/#/view/" + map_id
-        //544778829c59452c9b504c0ffc8ccd46
-
-        //dashboard
-        //map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
-        //01d93c2299a34c28a90391c57bb2d384
-        //830c8cec6a4d43fca95bab20924be76b
-        //43ca31fb59074231a57165eb0d01538c
-        //cb84ff32651c423992d8e382425112f4
-
-        //point map
-        //map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
-        //20e950cd590a4e5bb6561d173ee6cf62&layerId=0"
-
-        //web app
-        //map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=eb2f86f83cdf4c6ebb38128f12b409e5"
-        //get the type of ARCGIS dataset ( webmap, feature layer, etc. )
-
-
-        function ckan_preview(url) {
-            console.log(url)
-            
-            //ArcGis CrossReference FIX
-            if (url.indexOf("ARCGIS") != -1) {
-                id = url.replace("ARCGIS", "")
-                arcgis_preview(id)
-                return
-            }
-
-            url = url.replace(/\/download\/.*/g, "")
-            console.log(url)
-
-            try {
-            fetch(url)
-            .then(response => response.text())
-            .then(data =>
-            {
-                //find the data-id="id" and set id equal to it
-                console.log("DATA")
-                console.log(data)
-                try {
-                id = data.match(/data-id="(.*)"/)[1]
-                }
-                catch(err) {
-                    console.log("Failed to view CKAN dataset, falling to backup")
-                    map[0].src = url
-                    map[0].style.marginTop = "-40px"
-                    return
-                }
-                console.log("ID is", id)
-                //set iframe src
-                wurl = url + "/view/" + id
-
-                console.log("Complete URL is", wurl)
-                map[0].src = wurl
-                
-
-            })
-            }
-            catch(err) {
-                console.log("Failed to view CKAN dataset, falling to backup")
-                map[0].src = url
-                map[0].style.marginTop = "-40px"
-                return
-            }
-            //If map marginTop is -40px, set it to 0px
-            setTimeout(function() {
-                if (map[0].style.marginTop == "-40px") {
-                    map[0].style.marginTop = "0px"
-                }
-            }, 500)
-
-        }
-
-
-        function socrata_preview(url) {
-            console.log("Socrata preview has been called!")
-            console.log("ORIGINAL LINK: ", url)
-            //get the URL of the dataset up to the first "/"
-            //https://data.austintexas.gov/id/xwdj-i9he
-            //https://data.hartford.gov/d/4q3w-7z2n
-            cityurl = url.split("/")
-            //The last element of the array is the dataset ID
-            console.log("cityurl is", cityurl)
-            //get the ID of the dataset
-            id = cityurl[cityurl.length - 1]
-            cityurl = cityurl[2]
-            console.log("id is", id)
-            console.log("address: https://" + cityurl + "/id/" + id)
-            
-            console.log("We will use https://" + cityurl + "/w/" + id)
-            wurl = "https://" + cityurl + "/w/" + id
-
-            //get element with class map and set src=to the wurl
-            map[0].src = wurl
-            
-            //getting the correct Socrata data type
-            // data_url = "https://" + cityurl + "/views/" + id
-            // console.log("data_url is", data_url)
-            // //fetch the contents of the data_url and return as a json file
-            // fetch(data_url)
-            // .then(response => response.json())
-            // .then(data =>
-            // {
-            //     console.log(data)
-            //     data_json = data
-            //     data_type = data_json["assetType"]
-            //     console.log("data_type is", data_type)
-            
-            
-            // console.log("Running the if statement with data_type = ", data_type)
-            // if (data_type == "dataset")
-            // {
-            //correct format: https://data.texas.gov/resource/jrea-zgmq.json
-            // api_url = "https://" + cityurl + "/resource/" + id + ".json"
-            // //fetch the contents of the api_url and return as a json file 
-            // fetch(api_url)
-            // .then(response => response.json())
-            // .then(data => 
-            // {
-            //     console.log(data)
-            //     //we will set the json variable here
-            //     json = data
-            //     //we will convert the json to a html table here, then display it in the preview iframe section
-            //     //create a table
-            //     var table = document.createElement("table");
-            //     //create a header row
-            //     var header = table.createTHead();
-            //     //what does td stand for in an html table?
-            //     //td stands for table data
-            //     //make the style of the table data "border: 1px solid #ddd;padding: 8px;"
-            //     table.style = "border: 1px solid #ddd;padding: 8px;"
-
-            //     var row = header.insertRow(0);
-                
-            //     row.style = "padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #166ED4;color: white;border: 1px solid #ddd;padding: 8px;"
-            //     //create a header cell for each column
-            //     for (var key in json[0]) {
-            //         var cell = row.insertCell();
-            //         cell.innerHTML = key;
-            //     }
-            //     //create a row for each row in the json
-            //     for (var i = 0; i < json.length; i++) {
-            //         var row = table.insertRow();
-            //         //the rows should have the styles:
-            //         //tr:nth-child(even){background-color: #f2f2f2;}
-            //         //tr:hover {background-color: #ddd;}
-            //         if (i % 2 == 0) {
-            //             row.style = "background-color: #f2f2f2;"
-            //         }
-            //         row.onmouseover = function() {
-            //             this.style = "background-color: #ddd;"
-            //         }
-            //         row.onmouseout = function() {
-            //             if (i % 2 == 0) {
-            //                 this.style = "background-color: #f2f2f2;"
-            //             }
-            //             else {
-            //                 this.style = "background-color: white;"
-            //             }
-            //         }
-            //         //create a cell for each column in the json
-            //         for (var key in json[i]) {
-            //             var cell = row.insertCell();
-            //             cell.innerHTML = json[i][key];
-            //         }
-            //     }
-                
-            //     table.style.display = "block";
-            //     size = getSize(table);
-            //     theight = size[0]
-            //     twidth = size[1]
-            //     console.log("table width is", twidth)
-            //     console.log("table height is", theight)
-            //     console.log("window innerheight is", window.innerHeight)
-            //     if (theight > window.innerHeight) {
-            //         console.log("Resizing table!")
-            //         table.style.height = window.innerHeight + "px";
-            //         table.style.width = twidth + "px";
-            //         table.style.overflowY = "scroll";
-            //         console.log("Resized table!")
-            //     }
-            //     if (twidth > window.innerWidth * 0.4) {
-            //         console.log("Resizing table!")
-            //         table.style.width = window.innerWidth * 0.4 + "px";
-            //         table.style.overflowX = "scroll";
-            //         console.log("Resized table!")
-            //     }
-
-            //     //add the table to the preview iframe
-            //     flexchildright[0].innerHTML = table.outerHTML;
-                
-            // })
-            
-            // //we will set the json variable here
-            // .catch(error => console.log(error))
-            // console.log("Done displaying data!")
-            // }
-
-            // }
-            // )
-            // .catch(error => console.error(error))
-            
-
-        }
-
-        function getSize(element)
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SmartCityData API Documentation</title>
+<base href=".">
+<link rel="canonical" href="https://smartcity.tacc.utexas.edu/SmartCity/api/">
+<meta name="description" content="The SmartCityData API lets you integrate open data seamlessly from hundreds of U.S. cities in one location.">
+<meta property="og:description" content="The SmartCityData API lets you integrate open data seamlessly from hundreds of U.S. cities in one location.">
+<meta property="og:image" content="https://user-images.githubusercontent.com/96705270/211680861-0cc0c0ad-a9cf-4987-875d-2ef41197a6a2.png">
+<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="1200">
+<meta property="og:site_name" content="SmartCityData API">
+<meta property="og:title" content="SmartCityData API">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://smartcity.tacc.utexas.edu/SmartCity/api/">
+<meta name="title" content="SmartCityData API">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="The SmartCityData API lets you integrate open data seamlessly from hundreds of U.S. cities in one location.">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/96705270/211680861-0cc0c0ad-a9cf-4987-875d-2ef41197a6a2.png">
+<meta name="twitter:title" content="SmartCityData API">
+<meta name="viewport" content="width=device-width, initial-scale=1" data-keep="true">
+<meta name="apple-mobile-web-app-capable" content="yes" data-keep="true">
+<link rel="apple-touch-icon" sizes="180x180" href="https://user-images.githubusercontent.com/96705270/211680861-0cc0c0ad-a9cf-4987-875d-2ef41197a6a2.png">
+<link rel="icon" type="image/png" href="https://user-images.githubusercontent.com/96705270/211680861-0cc0c0ad-a9cf-4987-875d-2ef41197a6a2.png" sizes="32x32">
+<link rel="icon" type="image/png" href="https://user-images.githubusercontent.com/96705270/211680861-0cc0c0ad-a9cf-4987-875d-2ef41197a6a2.png" sizes="16x16">
+<link rel="mask-icon" href="https://user-images.githubusercontent.com/96705270/211680861-0cc0c0ad-a9cf-4987-875d-2ef41197a6a2.png" color="#000000">
+<link rel="shortcut icon" href="https://user-images.githubusercontent.com/96705270/211680861-0cc0c0ad-a9cf-4987-875d-2ef41197a6a2.png">
+<meta name="theme-color" content="#ffffff" data-keep="true"><link type="text/plain" rel="author" href="https://www.seanhlewis.me/">
+<script type="text/javascript">
+    </script><script type="application/ld+json">
         {
-            element.style.visibility = "hidden";
-            document.body.appendChild(element);
-            var height = element.offsetHeight + 0;
-            var width = element.children[0].offsetWidth + 0;
-            document.body.removeChild(element);
-            element.style.visibility = "visible";
-            return [height, width];
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "SmartCityData API",
+            "url": "https://smartcity.tacc.utexas.edu/CityData/api/"
         }
+    </script><link rel="stylesheet" href="../static/css/api.min.css"></head>
+    <body class="webp"><noscript>
+        <style>
+            #PageContainer {
+                display: none;
+            }
+        </style>
+        <div>
+            <h2>
+                Javascript is disabled
+            </h2>
+            <div>
+                Please enable javascript and refresh the page.
+            </div>
+        </div>
+    </noscript>
+    <div id="PageContainer" style="overflow: hidden;">
+        <div class="Page">
+            <main class="Page_content" id="Content" role="main">
+                <div class="SmartCity_container" style="overflow-y: visible;">
+                    <div style="position: relative;">
+                        <div class="SmartCityBg smartcityapi" style="background-image: linear-gradient(rgb(0, 192, 234) 32.84vw, rgb(0, 70, 160));">
+                        <a href="https://smartcity.tacc.utexas.edu/CityData"><img src="https://user-images.githubusercontent.com/96705270/211681680-b83cf429-9378-4fd2-92ee-05c4a296600b.png" style="
+    text-align: center;
+    display: flex;
+    width: 300px;
+"></a>
+                            <div class="SmartCityBg_with_gradient" style="">
+                                <div class="gradient" style="background-image: linear-gradient(rgba(253, 174, 217, 0), rgb(0, 192, 234));"></div>
+                            </div>
+                        </div>
+                        <div class="smartCitysite-container smartcityapi" style="background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255) 20rem);border-radius: 75px;">
+                            
+                            <section class="PageSection SmartCitysiteTextBlock">
+                                <div class="SmartCitysiteTextBlock_background smartcityapi">
+                                    <div class="container-fluid">
+                                        <div class="row SmartCitysiteTextBlock_column_container">
+                                            <div class="col-xs-12 col-sm-3 SmartCitysiteTextBlock_image_container" style="order: 1;top: 45px;left: 50px;">
+                                                <div class="SmartCitysiteTextBlock_inner">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-10 col-sm-6 col-sm-offset-0 SmartCitysiteTextBlock_text_container" style="order: 2;text-align: left;width: 50%;left: -20%;">
+                                                <h2 class="TextHeader Text-theme-smartcityapi SmartCitysiteTextBlock_header">
+                                                    <div style="z-index: 100000; display: block;">
+                                                        <div style="display: flex; justify-content: center; flex-grow: 1; width: 100%; flex-direction: column;">
+                                                            <div disabled="" disable="disable" class="editableContent" contenteditable="false">
+                                                                <div style="margin-bottom: 15px; color: rgb(33, 71, 87); font-size: 0.8em;">
+                                                                    <div style="margin-bottom: 105px;font-size: 0.8em;"><span style="font-size: 47.6px;font-family: system-ui;">Get City Datasets by Query</span><div style="background-color: #F6F8F9;border-radius: 15px;font-size: 25px;width: max-content;padding: 10px;position: absolute;margin-top: 15px;" id="getcustomset"><button onclick="copyToClipboard()" style="
+    width: 55px;
+    display: flex;
+    float: left;
+    border: none;
+"><img src="https://user-images.githubusercontent.com/96705270/211684134-852d4d2f-e520-40b0-87b6-26b5261b239d.png" style="
+    width: 55px;
+    float: left;
+    display: flex;
+"></button>
+<script>
+    function copyToClipboard() {
+        var textToCopy = document.getElementById("textToCopy");
+        var textArea = document.createElement("textarea");
+        textArea.value = textToCopy.textContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("Copy");
+        textArea.remove();
 
-        
-        function arcgis_preview(id) {
-        console.log("Arcgis preview has been called!")
-        //arcgis_id = "20e950cd590a4e5bb6561d173ee6cf62"
-        arcgis_id = id
-        //fetch the API
-        console.log("https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json")
-        
-        //if mobile (outerWidth < 768px) send the user to the above link 
-        if (window.outerWidth < 768) {
-            window.location.href = "https://www.arcgis.com/home/item.html?id=" + arcgis_id
-        }
-        
-        map_adjust = false
-        fetch("https://www.arcgis.com/sharing/rest/content/items/" + arcgis_id + "?f=json")
-        //https://www.arcgis.com/sharing/rest/content/items/fb38ba78520f40a0bd1c2b78e1e636dd?f=json
-        //read the json response
-        //add CORS header to the response
-        .then(response => {
-            console.log("The data is being fetched!")
-            return response.json()
-        }).then(data => {
-            console.log("The data has been fetched!")
-            console.log(data)
-            console.log(data.type)
-            map_id = data.id
-            //if the type is a webmap
-            // if (data.type == "Web Map") {
-            //     map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
-            // }
-            // else if (data.type == "Insights Page") {
-            //     map_url = "https://insights.arcgis.com/#/view/" + map_id
-            // }
-            // else if (data.type == "Dashboard") {
-            //     map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
-            // }
-            // else if (data.type == "Feature Service") {
-            //     map_adjust = true
-            //     map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
-            // }
-            // else if (data.type == "Web Mapping Application") {
-            //     map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=" + map_id
-            // }
-            // else if (data.type == "PDF") {
-            //     //             import boto3
-            //     // url = boto3.client('s3').generate_presigned_url(
-            //     // ClientMethod='get_object', 
-            //     // Params={'Bucket': 'BUCKET_NAME', 'Key': 'OBJECT_KEY'},
-            //     // ExpiresIn=3600)
-            //     //Above is the python code to generate a presigned url
-            //     //Below is the javascript code to generate a presigned url
-            //     // var S3Client = new AWS.S3({
-            //     //     apiVersion: '2006-03-01',
-            //     //     region: 'us-east-1' });
-            //     // // S3Client.command('s3 presign s3://ago-item-storage/' + map_id + '/' + data.name + ' --expires-in 3600', function(err, data) {
-            //     // //     if (err) {
-            //     // //         console.log(err)
-            //     // //     }
-            //     // //     else {
-            //     // //         console.log(data)
-            //     // //         map_url = data
-            //     // //     }
-            //     // // })
-            //     // //assign default credentials
-            //     // S3Client.config.credentials = new AWS.Credentials
-                
-            //     map_url = "https://ago-item-storage.s3.amazonaws.com/" + map_id + "/" + data.name
-
-            //     // S3Client.getSignedUrl('getObject', {
-            //     //     Bucket: 'ago-item-storage',
-            //     //     Key: map_id + '/' + data.name,
-            //     //     Expires: 3600
-            //     // }, function(err, url) {
-            //     //     if (err) {
-            //     //         console.log(err)
-            //     //     }
-            //     //     else {
-            //     //         console.log("XXX")
-            //     //         map_url = url
-            //     //     }
-            //     // })
-            // }
-            // console.log("The map url is: " + map_url)
-            //load the map
-            // if (map_adjust) {
-            //flexchildright[0].innerHTML = "<iframe style='width: 87vh; height: 100vh; border-style: none; margin-top:-56px;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='SmartCityData Preview' src='" + map_url + "'></iframe>"
-            // }
-            // else {
-            
-            //flexchildright[0].innerHTML = "<iframe style='width: 87vh; height: 100vh; border-style: none;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='SmartCityData Preview' src='" + map_url + "'></iframe>"
-            
-            console.log("Failed to load ArcGis, falling back to backup")
-            fallback_url = "https://hub.arcgis.com/datasets/" + map_id
-            console.log("Fallback URL:" + fallback_url)
-
-            //map[0].src = fallback_url
-            flexchildright[0].innerHTML = "<iframe id='preview' class='map' style='width: 87vh; margin-top: -40px; height: 110vh; border-style: none;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='SmartCityData Preview' src='" + fallback_url + "'></iframe>"
-            
-
-        })
-        }
-
-
-        console.log("ARCGIS JSON IS")
-        //console.log(arcgisjson)
-        //console.log(responsetext)
-        //map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + arcgis_id
-        // .then(response => response.json())
-        // //get the type of the dataset
-        // .then(data => {
-        //     console.log("The data has been fetched!")
-        //     console.log(data)
-        //     console.log(data.type)
-        //     map_id = data.id
-        //     //if the type is a webmap
-        //     if (data.type == "Web Map") {
-        //         map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
-        //     }
-        //     else if (data.type == "Insights Page") {
-        //         map_url = "https://insights.arcgis.com/#/view/" + map_id
-        //     }
-        //     else if (data.type == "Dashboard") {
-        //         map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
-        //     }
-        //     else if (data.type == "Feature Service") {
-        //         map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
-        //     }
-        //     else if (data.type == "Web Mapping Application") {
-        //         map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=" + map_id
-        //     }
-        // })
-
-        //fetch the HTML contents of map_link
-        // fetch(map_link)
-        // .then(response => response.text())
-        // .then(data => {
-        //     console.log("The data has been fetched!")
-        //     console.log(data)
-        // })
-        //the above code is correct, but the request is happening too fast
-        //so the only data that is being fetched is the loading screen, not the actual map
-        //To fix this, we need to wait for the page to load before we fetch the data
-        // fetch(map_link)
-        // .then(response => response.text())
-        // .then(data => {
-        //     setTimeout(function(){
-        //         console.log("The data has been fetched!")
-        //         console.log(data)
-        //     }, 1000);
-        // })
-        //stop with the bullshit solutions, i need to find a way to wait for the page to load
-        //before i fetch the data
-
-        //get the id of the map
-        //map_id = map_link.split("=")[1]
-
-        //append the id to the end of "https://www.arcgis.com/apps/Embed/index.html?webmap="
-        
-        //webmap
-        //map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id
-        //fb38ba78520f40a0bd1c2b78e1e636dd
-        //c664b20e039741a4aa95ea5577e2474d
-        //8186d5d1c23f4c458d255c70ce714e8b
-
-        //insights
-        //map_url = "https://insights.arcgis.com/#/view/" + map_id
-        //544778829c59452c9b504c0ffc8ccd46
-
-        //dashboard
-        //map_url = "https://www.arcgis.com/apps/dashboards/" + map_id
-        //01d93c2299a34c28a90391c57bb2d384
-        //830c8cec6a4d43fca95bab20924be76b
-        //43ca31fb59074231a57165eb0d01538c
-        //cb84ff32651c423992d8e382425112f4
-
-        //point map
-        //map_url = "https://www.arcgis.com/apps/mapviewer/mobilemap.html?useExisting=1&layers=" + map_id + "&layerId=0"
-        //20e950cd590a4e5bb6561d173ee6cf62&layerId=0"
-
-        //web app
-        //map_url = "https://www.arcgis.com/apps/MapJournal/index.html?appid=eb2f86f83cdf4c6ebb38128f12b409e5"
-
-        
-
-        //iframe the map_url and set it to the innerhtml of flexchildright
-        //flexchildright[0].innerHTML = "<iframe style='width: 87vh; height: 100vh; border-style: none;' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' title='311 Service Request [2022]' src='" + map_url + "'></iframe>"
-
+        var copyText = document.getElementById("copytoclip");
+        copyText.style.display = "block";
+        setTimeout(function(){ copyText.style.display = "none"; }, 2000);
+    }
+</script>
+<p id="textToCopy" style="
+    display: flex;
+    padding-left: 15px;
+    margin-bottom: 0px;
+    font-family: system-ui;
+    font-size: 17px;
+    position: relative;
+    top: 7px;
+">https://smartcity.tacc.utexas.edu/CityData/<b>?s=&lt;state&gt;?c=&lt;city&gt;?t=&lt;topic&gt;?q=&lt;query_type&gt;</b></p></div><p id="copytoclip" style="
+    position: absolute;
+    letter-spacing: -0.28px;
+    word-spacing: -0.28px;
+    font-size: 15px;
+    font-family: system-ui;
+    color: darkorange;
+    top: 14%;
+    left: 25px;
+    display: none;
+">Copied URL to clipboard</p><font style="
+    letter-spacing: -0.28px;
+    word-spacing: -0.28px;
+    font-size: 20px;
+    position: absolute;
+    left: 95%;
+    top: 60%;
+    font-family: system-ui;
+"><div style="
+    width: 600px;
+">
+<span class="example add">
+    <h3>Response Example:</h3>
     
-
-
-
-        function download() {}
-
-        //user adjusted page size
-        var pageSize = 25;
-
-        $(document).ready( function () {
-            $('.data').DataTable(
-                {
-                    "pageLength": 25,
-                    "oLanguage": {"sSearch": "Filter: "}//,
-                    //"scrollY": "50vh"
-            //console.log("data tabled");
-        })
-        
-        $("select[name='DataTables_Table_0_length']").change(function(){
-            pageSize = $(this).val();
-        });
-
-        $("select[name='sortby']").change(function(){
-        var value = $(this).val();
-            if(value == "Date"){
-                console.log("Sorting by Date")
-                // reload table
-                $('.data').DataTable().destroy();
-                $('.data').DataTable(
-                    {
-                        "pageLength": pageSize,
-                        "oLanguage": {"sSearch": "Filter: "},
-                        "order": [[1, "desc"]]
-                    }
-                );
-                // Do your function here
-                $("select[name='DataTables_Table_0_length']").change(function(){
-                    pageSize = $(this).val();
-                });
-            }
-            else if (value == "Popularity"){
-                console.log("Sorting by Popularity")
-                // reload table
-                $('.data').DataTable().destroy();
-                $('.data').DataTable(
-                    {
-                        "pageLength": pageSize,
-                        "oLanguage": {"sSearch": "Filter: "},
-                        "order": [[2, "desc"]]
-                    }
-                );
-                // Do your function here
-                $("select[name='DataTables_Table_0_length']").change(function(){
-                    pageSize = $(this).val();
-                });
-            }
-            else{
-                console.log("Sorting by Relevance")
-                // reload table
-                $('.data').DataTable().destroy();
-                $('.data').DataTable(
-                    {
-                        "pageLength": pageSize,
-                        "oLanguage": {"sSearch": "Filter: "}
-                    }
-                );
-                // Do your function here
-                $("select[name='DataTables_Table_0_length']").change(function(){
-                    pageSize = $(this).val();
-                });
-            }
-        });
-        });
-
-        $('.data').on('page.dt', function () {$('html, body').animate({scrollTop: 0}, 300);});
-
-
-        //for all hrefs in the table, only underline when hovering over the text
-        var hrefs = document.getElementsByTagName("a");
-        //only get the hrefs inside of the table
-        for (var i = 0; i < hrefs.length; i++) {
-            if (hrefs[i].parentElement.tagName == "TD") {
-                hrefs[i].style.textDecoration = "none";
-                //set the font size to 20px and font weight to 400
-                hrefs[i].style.fontSize = "20px";
-                hrefs[i].style.fontWeight = "400";
-                //if hovering over the text, underline it
-                hrefs[i].addEventListener("mouseover", function() {
-                this.style.textDecoration = "underline";
-                });
-                //if mouse leaves the text, remove underline
-                hrefs[i].addEventListener("mouseout", function() {
-                this.style.textDecoration = "none";
-                });
-
-            }
-        }
-            
-    </script>
+    <span class="element">1. </span>{<br><span class="element">2.</span><span class="tab1"></span><span class="attribute">"title"</span>:<span class="value">"Household Affordability",</span>
+    <br><span class="element">3.</span><span class="tab1" style="
+"></span><span class="attribute">"url"</span>:<span class="value">"https://data.austintexas.gov/stories/s/czit-acu8",</span>
+    <br><span class="element">4.</span><span class="tab1"></span><span class="attribute">"description"</span>:<span class="value">"View the results of the indicators associated with the Develop and Maintain Household Affordability throughout Austin Priority Program of Imagine Austin.",</span>
+    <br><span class="element">5.</span><span class="tab1"></span><span class="attribute">"last_updated"</span>:<span class="value">"2018-08-21T20:59:01.019Z",</span>
+    <br><span class="element">6.</span><span class="tab1"></span><span class="attribute">"views"</span>:<span class="value">"33182"</span>
+    <br><span class="element">7.</span> }</span></div></font><font style="
+    letter-spacing: -0.28px;
+    word-spacing: -0.28px;
+    font-size: 20px;
+    position: absolute;
+    left: 95%;
+    top: 20%;
+    font-family: system-ui;
+"><div style="
+    width: 600px;
+">
+<span class="example add">
+    <h3>Request Example:</h3>
     
-    <footer style="position: absolute;"><div id="versionb" style="position: relative; left: 175%; top: -15px; width: 100%;">
+    <span class="element">1. </span><span class="attribute">fetch</span><span class="value">("https://smartcitydata.tacc.utexas.edu/CityData/?s=Texas?c=Austin?t=House?q=json")</span><br><span class="element">2.</span><span class="attribute"> .then</span><span class="value">(response =&gt; response.json())</span>
+    <br><span class="element">3.</span><span class="attribute"> .then</span><span class="value">(data =&gt;
+</span>
+    <br><span class="element">4.</span><span class="value"> {</span><span class="tab1"></span>
+    <br><span class="element">5.</span><span class="tab1"></span><span class="attribute">console.log</span><span class="value">(data);</span>
+    <br><span class="element">6.</span><span class="tab1"></span><span class="element">// any additional code</span>
+    <br><span class="element">7.</span> }</span></div></font><br></div>
+                                                                    <span style="font-size: 47.6px;margin-top: 250px;font-family: system-ui;">Request</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </h2>
+                                                <div class="TextBody Text-theme-smartcityapi SmartCitysiteTextBlock_body" style="
+    width: 90%;
+">
+                                                    <div style="z-index: 100000; color: rgb(104, 49, 39); display: block;">
+                                                        <div style="display: flex; justify-content: center; flex-grow: 1; width: 100%; flex-direction: column;">
+                                                            <div disabled="" disable="disable" class="editableContent" contenteditable="false">
+                                                                <font style="letter-spacing: -0.28px;word-spacing: -0.28px;color: rgb(33, 71, 87);font-family: system-ui;">
+                                                                    <span style="font-size: 30.6px;margin-top: 25px;">Path Parameters</span><br><div><span style="letter-spacing: -0.28px;word-spacing: -0.28px;font-weight: bold;">state</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;font-style: italic;">string</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;float: right;color: darkorange;">required</span><br><span style="letter-spacing: -0.28px; word-spacing: -0.28px;">U.S. state to query</span></div>
+                                                                <div><span style="letter-spacing: -0.28px;word-spacing: -0.28px;font-weight: bold;">city</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;font-style: italic;">string</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;float: right;color: darkorange;">required</span><br><span style="letter-spacing: -0.28px; word-spacing: -0.28px;">U.S. city to query</span></div><div><span style="letter-spacing: -0.28px;word-spacing: -0.28px;font-weight: bold;">topic</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;font-style: italic;">string</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;float: right;color: darkorange;">required</span><br><span style="letter-spacing: -0.28px; word-spacing: -0.28px;">Subject to query</span></div><div style="
+    margin-bottom: 25px;
+"><span style="letter-spacing: -0.28px;word-spacing: -0.28px;font-weight: bold;">query type</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;font-style: italic;">string</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;float: right;color: darkorange;">required</span><br><span style="letter-spacing: -0.28px; word-spacing: -0.28px;">Data response type</span></div><span style="font-size: 47.6px;">Responses</span><div style="display: inline-flex;margin-left: 105px;position: relative;top: -7px;">
+    <label id="two" class="radio">
+  <input type="radio" name="response_code" value="200" checked="">
+  <span>200</span>
+</label>
+<label id="four" class="radio">
+  <input type="radio" name="response_code" value="404">
+  <span>404</span>
+</label>
+<script>
+    var two = document.getElementById("two");
+    var four = document.getElementById("four");
+    two.addEventListener("click", function(){
+        document.getElementById("200").style.display = "block";
+        document.getElementById("404").style.display = "none";
+    });
+    four.addEventListener("click", function(){
+        document.getElementById("200").style.display = "none";
+        document.getElementById("404").style.display = "block";
+    });
+</script>
+</div></font>
+                                                                <div style="letter-spacing: -0.28px; word-spacing: -0.28px; color: rgb(33, 71, 87);"><br></div>
+                                                                <div id="200" style="letter-spacing: -0.28px;word-spacing: -0.28px;color: rgb(33, 71, 87);margin-bottom: 25px;font-family: system-ui;">Data accessed successfully</div><div id="404" style="display: none; letter-spacing: -0.28px;word-spacing: -0.28px;color: rgb(33, 71, 87);margin-bottom: 25px;font-family: system-ui;">Data not accessible or invalid URL</div><font style="letter-spacing: -0.28px;word-spacing: -0.28px;color: rgb(33, 71, 87);font-family: system-ui;"><span style="font-size: 47.6px;color: rgb(33, 71, 87);">Body</span><div style="
+    margin-top: 25px;
+"><span style="letter-spacing: -0.28px;word-spacing: -0.28px;font-weight: bold;">title</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;font-style: italic;">string</span><br><span style="letter-spacing: -0.28px; word-spacing: -0.28px;">Name of dataset</span></div>
+                                                            <div><span style="letter-spacing: -0.28px;word-spacing: -0.28px;font-weight: bold;">url</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;font-style: italic;">string</span><br><span style="letter-spacing: -0.28px; word-spacing: -0.28px;">Accessible dataset URL</span></div><div><span style="letter-spacing: -0.28px;word-spacing: -0.28px;font-weight: bold;">description</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;font-style: italic;">string</span><br><span style="letter-spacing: -0.28px; word-spacing: -0.28px;">Detailed description of dataset</span></div><div><span style="letter-spacing: -0.28px;word-spacing: -0.28px;font-weight: bold;">last updated</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;font-style: italic;">string</span><br><span style="letter-spacing: -0.28px; word-spacing: -0.28px;">Date dataset was last updated</span></div><div><span style="letter-spacing: -0.28px;word-spacing: -0.28px;font-weight: bold;">views</span><span style="letter-spacing: -0.28px;word-spacing: -0.28px;padding-left: 15px;font-style: italic;">string</span><br><span style="letter-spacing: -0.28px; word-spacing: -0.28px;">Amount of clicks the dataset has</span></div></font></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-0 col-sm-3 SmartCitysiteTextBlock_image_container" style="order: 3;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section><footer style="z-index: 1000; position: absolute;bottom: 100px;right: 50%;"><div id="versionb" style="position: relative; left: 175%; top: -15px; width: 100%;">
         
                     
         <a href="http://smartcity.tacc.utexas.edu" style="float: right; margin-right: 1rem; margin-top:0;">
@@ -989,89 +370,17 @@
                 </svg>
             </span>
         </a></div></footer>
-        <br></br>
-        <script>
-            console.log("Script is running")
-            //Mobile view
-            //if the window is less than 768px wide, then change the flex-direction to column
-            if (window.outerWidth < 768){
-                console.log("window is less than 768px wide")
-                //set the style of the element with class "query" to nothing
-                //wait 100 ms
-                setTimeout(function(){
-                    document.getElementsByClassName("query")[0].style = "";
-                    document.getElementsByClassName("query")[0].style.marginRight = "0px";
-                    document.getElementsByClassName("query")[0].style.marginLeft = "10%";
-                    document.getElementsByClassName("header")[0].style.flexDirection = "column";
-                    document.getElementsByClassName("logo")[0].style.height = "50px";
-                    document.getElementsByClassName("logo")[0].style.textAlign = "center";
-                    document.getElementsByClassName("button-3")[0].parentElement.style.textAlign = "center";
-                    document.getElementsByClassName("button-3")[0].parentElement.style.marginBottom = "-25px";
-                    document.getElementById("DataTables_Table_0_paginate").style.marginLeft = "-25px";
-                    //set element with class "right" to position: absolute
-                    document.getElementsByClassName("right")[0].style.position = "absolute";
-                    document.getElementsByClassName("right")[0].style.width = "100%"
-                    document.getElementsByClassName("right")[0].style.left = "0";
-                    //set display none
-                    document.getElementsByClassName("right")[0].style.display = "none";
-                    //set element with class "map" to height: 40vh;
-                    document.getElementsByClassName("map")[0].style.height = "40vh";
-                    //set element with id "versionb" style to ''
-                    //set element with id "versionb" position to relative, display to flex
-                    document.getElementById("versionb").style = "";
-                    document.getElementById("versionb").style.position = "relative";
-                    document.getElementById("versionb").style.display = "flex";
-                    
-
-                    var div = document.createElement("div");
-                    div.id = "MobileSettings";
-                    div.style.display = "flex";
-                    var parent = document.getElementById("DataTables_Table_0_wrapper");
-                    parent.insertBefore(div, parent.firstChild);
-                    var child1 = document.getElementById("DataTables_Table_0_length");
-                    child1.style.width = "50%";
-                    var child2 = document.getElementById("DataTables_Table_0_filter");
-                    child2.style.marginTop = "0";
-                    child2.children[0].children[0].style.maxWidth = "100px";
-                    var parent = document.getElementById("MobileSettings");
-                    parent.appendChild(child1);
-                    parent.appendChild(child2);
-
-                    //set a listener for scroll on the element with class "flex-container", call the function "mobileScroll"
-                     //get element of class "flex-container" and assign it to a variable
-                    document.addEventListener("scroll", mobileScroll);
-                    $(document.body).on('touchmove', mobileScroll);
-
-                    //call the function "mobileScroll"
-                    mobileScroll();
-
-                    console.log("successfully changed flex-direction to column")
-                }, 50);
-            }
-
-            //call mobile scroll every 0.5 seconds
-            //setInterval(mobileScroll, 500);
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                }
+            </main>
             
-            //mobileScroll function
-            function mobileScroll(){
-                //console.log("mobileScroll function is running")
-                //calculate 40% of the window height
-                var height = window.outerHeight * 0.4;
-                //scrollY is 0 even with scrolling, so I have to use the scrollY of the element with class "flex-container"
-                scrollYelement = document.getElementsByClassName("flex-container")[0].offsetTop;
-                var scroll_top = Math.max( $("html").scrollTop(), $("body").scrollTop() )
-                //console.log("scroll_top: " + $("body").scrollTop())
-                document.getElementsByClassName("right")[0].style.top = (window.outerHeight - height) + $("body").scrollTop() + "px";
-            }  
-           
-            //set document height to outerHeight so that scrollY is not 0
-            //document.body.style.height = window.outerHeight + "px";  
-            //set html height to outerHeight so that scrollY is not 0
-            //document.documentElement.style.height = window.outerHeight + "px";
-
-        </script>
-    
-    <!--<iframe class="map", src="/map" width="600" height="600"></iframe>-->
-</div>
-</body>
-</html>
+            
+        </div>
+    </div>
+</body></html>

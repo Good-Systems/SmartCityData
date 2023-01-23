@@ -17,6 +17,10 @@ from spellchecker import SpellChecker
 import requests
 from bs4 import BeautifulSoup
 import re
+# api formatting
+from jinja2 import evalcontextfilter
+from markupsafe import Markup, escape
+
 lat = 30.2672
 lon = -97.7431
 
@@ -51,34 +55,48 @@ def choice_query():
     return City.query.distinct()
 
 mispelt = ''
-def spellcheck(size=2):
+def spellcheck(size=2, topic=None):
     if size > 5:
         return ''
-    #Spell check implementation
+    # Spell check implementation
     spell = SpellChecker(distance=size)
-    # find those words that may be misspelled
-    carray = request.form['content_topic'].split()
+    # Finding those words that may be misspelled
+    if topic is None:
+        carray = request.form['content_topic'].split()
+    else:
+        carray = topic.split()
     print("HEY")
     print(carray)
     print("HEY2")
     misspelled = spell.unknown(carray)
     tofix = []
     for word in misspelled:
-        # Get the one `most likely` answer
+        # Getting the one `most likely` answer
         print(spell.correction(word))
-        # add to mispell fix list
+        # Adding to mispell fix list
         tofix.append(spell.correction(word))
-        # replace the word in mispelled array with the corrected word
+        # Lowercasing the word and all elements in the array (for comparison)
+        word = word.lower()
+        carray = [x.lower() for x in carray]
+        # Replacing the word in mispelled array with the corrected word
         carray[carray.index(word)] = spell.correction(word)
 
     #if carray is equal to request.form['content_topic'], set mispelt to ''
-    if carray == request.form['content_topic'].split():
-        mispelt = ''
-    #elif carray has None in it
-    elif None in carray:
-        return spellcheck(size+1)
+    if topic is None:
+        if carray == request.form['content_topic'].split():
+            mispelt = ''
+        #elif carray has None in it
+        elif None in carray:
+            return spellcheck(size+1)
+        else:
+            mispelt = ' '.join(carray)
     else:
-        mispelt = ' '.join(carray)
+        if carray == topic.split():
+            mispelt = ''
+        elif None in carray:
+            return spellcheck(size+1)
+        else:
+            mispelt = ' '.join(carray)
     #this will be the word we ask the user to confirm
     print("Did you mean " + mispelt + "?")
     return mispelt
@@ -93,12 +111,48 @@ class Form(FlaskForm):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     form = Form()
-
+    url_call = False
+    api_call = False
     form.city.choices = [(city.id, city.name)
                          for city in City.query.filter_by(state='TX').order_by(asc(City.name)).all()]
+    if request.method == 'GET':
+        # URL Redirection
+        url_args = request.args.get('s')
+        # URL args looks like <state>?c=<city>?t=<topic>?q=<query>, Django will elim the ?s
+        if url_args is not None:# and len(form.state.data) < 1:
+            #print("URL ARGS: " + url_args)
+            state = url_args.split('?')[0]
+            cityn = url_args.split('?')[1].split('=')[1]
+            topic = url_args.split('?')[2].split('=')[1]
+            
+            # Third ? is present and the query is not empty
+            if len(url_args.split('?')) > 3 and url_args.split('?')[3].split('=')[1] != '':
+                # SmartCityData API supports these current queries
+                # json
+                # csv
+                query = url_args.split('?')[3].split('=')[1]
+                if query == 'json' or query == 'csv' or query == 'html':
+                    print("QUERY: " + query)
+                    api_call = True
+            # Setting form values
+            if '_' in state:
+                state = state.replace('_', ' ')
+            if '_' in cityn:
+                cityn = cityn.replace('_', ' ')
+            form.state.data = list(states.keys())[list(states.values()).index(state)]
+            #print(form.state.data)
+            form.city.data = cityn
+            #print(form.city.data)
+            city = City()
+            city.name = cityn
+            url_call = True
+            request.method = 'POST'
 
     if request.method == 'POST':
-        city = City.query.filter_by(id=form.city.data).first()
+        if url_call is False:        
+            #Normal Execution        
+            city = City.query.filter_by(id=form.city.data).first()
+        #print("city is " + city.name)
         #state = form.state.data
         #topic = City.query.filter_by(id=city.topic).first()
         # Austin : 30.2672° N, 97.7431° W
@@ -106,8 +160,10 @@ def index():
         m = folium.Map(location=[lat, lon], zoom_start=14)
         m.save('templates/map.html')
         # returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
-
-        mispelt = spellcheck()
+        if url_call is False:
+            mispelt = spellcheck()
+        else:
+            mispelt = spellcheck(topic=topic)
 
         # if returnlist is None or returnlist.size == 0:
         #
@@ -118,27 +174,43 @@ def index():
         #     except TypeError:
         #         return render_template('index.html',form=form)
         # return render_template('dataresults.html', form = form, city = city.name, state = form.state.name, topic = request.form['content_topic'], tables=[returnlist.to_html(classes='data', index = False, header = True, justify='center', render_links=True)], titles=returnlist.columns.values)
+        
+        #Topic Set
+        if url_call is False:
+            topic = request.form['content_topic']
+        else:
+            topic = topic
+
+
         returnlist = mainprogram(
-            city.name, form.state.data, request.form['content_topic'])
+            city.name, form.state.data, topic, api_call)
+        if api_call:
+            return render_template('dataresults.html', form=form, city=city.name, state=form.state.data, topic=topic, api = returnlist)
         if returnlist is None or returnlist.size == 0:
             if returnlist is None:
                 print("REACH HERE INVALID RETURNLIST")
                 return render_template('index.html', form=form)
             if returnlist.size == 0:
                 print("REACH THE ZERO SIZE")
-                return render_template('dataresults.html', form=form, city=city.name, state=form.state.data, topic=request.form['content_topic'], tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values, citydetails=citydetails(city.name, form.state.data), lat=citydetails(city.name, form.state.data, True), ms = mispelt)
+                return render_template('dataresults.html', form=form, city=city.name, state=form.state.data, topic=topic, tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values, citydetails=citydetails(city.name, form.state.data), lat=citydetails(city.name, form.state.data, True), ms = mispelt, api="")
             return render_template('index.html', form=form)
-        return render_template('dataresults.html', form=form, city=city.name, state=form.state.data, topic=request.form['content_topic'], tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values, citydetails=citydetails(city.name, form.state.data), lat=citydetails(city.name, form.state.data, True), ms = mispelt)
+        return render_template('dataresults.html', form=form, city=city.name, state=form.state.data, topic=topic, tables=[returnlist.to_html(classes='data', index=False, header=True, justify='center', render_links=True)], titles=returnlist.columns.values, citydetails=citydetails(city.name, form.state.data), lat=citydetails(city.name, form.state.data, True), ms = mispelt, api="")
 
 
     # tables=[returnlist.to_html(classes='data')], titles=returnlist.columns.values
     # Set form class to "input-1"
     form.state.render_kw = {'class': 'input-1'}
     form.city.render_kw = {'class': 'input-1'}
+    
     return render_template('index.html', form=form)
     # tables=[returnlist.to_html(classes='data')], titles=returnlist.columns.values
 
     # return render_template('index.html', form=form)
+
+@app.route('/api/')
+@app.route('/api')
+def show_user_api():
+    return render_template('api.html')
 
 @app.route('/updateCoords')
 def updateCoords(city, state):
@@ -324,6 +396,16 @@ def city(state):
             cityArray.append(cityObj)
 
     return jsonify({'cities': cityArray})
+
+@evalcontextfilter
+def nl2br(eval_ctx, value):
+    """Converts newlines in text to HTML-tags"""
+    result = "<br>".join(re.split(r'(?:\r\n|\r|\n)', escape(value)))
+
+    if eval_ctx.autoescape:
+        result = Markup(result)
+    return result
+app.jinja_env.filters['api_format'] = nl2br
 
 
 if __name__ == "__main__":
