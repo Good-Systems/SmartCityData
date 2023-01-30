@@ -26,3 +26,4 @@ WTForms==3.0.0
 WTForms-SQLAlchemy==0.3
 pyspellchecker==0.7.1
 beautifulsoup4==4.11.1
+scrapy==2.7.1
