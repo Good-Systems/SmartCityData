@@ -13,7 +13,8 @@ try {
         defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath,
         //headless: chromium.headless
-        headless: true
+        headless: true,
+        cacheDirectory: "/tmp/puppeteer"
     });
 
     const page = await browser.newPage();
