@@ -221,7 +221,7 @@ def run_js_file():
     url = request.args.get('url')
     if not url:
         return "Bad request: 'url' param is missing!", 400
-    result = subprocess.run(['node', 'puppet.js', url], stdout=subprocess.PIPE, shell=True)
+    result = subprocess.run(['node', 'puppet.js', url], stdout=subprocess.PIPE)
     return result.stdout
 
 @app.route('/updateCoords')
