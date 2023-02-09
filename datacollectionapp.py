@@ -28,6 +28,7 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.spiders.init import InitSpider
 from twisted.internet import reactor
 import requests
+import re
 
 api_name = ''
 smartcitydata_api = {}
@@ -574,6 +575,12 @@ def mainprogram(a, b, c, scdapi):
         a['Name'] = results_df['resource.name']
         #a['More Info'] = results_df['permalink']
         #set a['Name'] as results_df['resource.name'] with an href link to the more info
+
+        #if results_df['resource.type'] = "chart", then we need to add "chart" to the permalink
+        for index, row in results_df.iterrows():
+            if row['resource.type'] == "chart":
+                results_df.at[index, 'permalink'] = results_df.at[index, 'link'] + "?type=chart"
+
         a['Name'] = '<a href="javascript:;" onclick="socrata_preview(\'' + results_df['permalink'] + '\')">' + results_df['resource.name'] + '</a>'
         #a['Name'] = results_df['permalink']
         #a['Desc'] = "Description"
@@ -681,7 +688,7 @@ def mainprogram(a, b, c, scdapi):
         #soup = BeautifulSoup(url.content, 'html.parser')
         #a['Desc'] = soup
         #a['Desc'] = soup.find('meta', attrs={'name': 'description'})['content']
-
+        
         return a
     if api_name == 'ckan':
         results_df['Index'] = range(1, len(results_df)+1)
@@ -696,6 +703,12 @@ def mainprogram(a, b, c, scdapi):
         #print(results_df['resources']['0-100'])
         pdframe = []
         for i in (results_df['resources']):
+            #Debugging
+            print("i is", i)
+            #if i is [], then we remove it from the dataframe
+            if i == []:
+                pdframe.append("#")
+                continue
             pdframe.append(i[0]['url'])
         #Convert array to pandas dataframe
         results_df['url'] = pdframe
@@ -766,7 +779,21 @@ def mainprogram(a, b, c, scdapi):
                     index = results_df['url'][results_df['url'] == i].index[0]
                     results_df['url'][index] = "ARCGIS" + arcgis_dict[i]
                     print("URL AFTER", results_df['url'][index])
-        
+
+        #Fixing OPENGOV CORS -> Might want to use Scrapy instead of requests in the future
+        while results_df['url'].str.contains("ogopendata.com").any():
+            index = results_df['url'][results_df['url'].str.contains("ogopendata.com")].index[0]
+            package_id = results_df['resources'][index][0]['package_id']
+            resource_id = results_df['resources'][index][0]['id']
+            if 'ckan_url' not in results_df['resources'][index][0]:
+                results_df = results_df.drop(index)
+                continue
+            ckan_url = results_df['resources'][index][0]['ckan_url']
+            ogopendata_url = ckan_url + "/dataset/" + package_id + "/resource/" + resource_id #+ "/view/613072a4-e3cb-4af5-95c5-8781a09bfe60"
+            ogopendata_html = requests.get(ogopendata_url).text
+            id = re.search('data-id="(.*)"', ogopendata_html).group(1)
+            ogopendata_url += "/view/" + id            
+            results_df['url'][index] = ogopendata_url
 
      #   Final displayed data frame Name & More Infor
         a['Name'] = results_df['title']
@@ -1136,7 +1163,15 @@ def mainprogram(a, b, c, scdapi):
         # ['resource.name']
         a = pd.DataFrame(data, columns=['Name'], index=None)
 
-        a['Name'] = '<a href="' + results_df['links.itemPage'] + '">' + results_df['attributes.name'] + '</a>'
+        #Getting ArcGIS ID
+        id = results_df['id']
+        #while & is in the id, remove it
+        while '&' in id:
+            id = id.str.split('&', expand=True)[0]
+                
+        print("ID:")
+        print(id)
+        a['Name'] = '<a href="javascript:;" onclick="arcgis_preview(\'' + id + '\')">' + results_df['attributes.name'] + '</a>'
 
         #strip the tags from the description
         results_df['attributes.searchDescription'] = results_df['attributes.searchDescription'].str.replace(r'\r', '', regex=True)

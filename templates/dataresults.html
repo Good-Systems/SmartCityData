@@ -9,11 +9,11 @@
     <!-- import jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- import datatables js -->
-    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <!-- import aws-cli-js -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.48.min.js"></script>
     <!-- import datatables css -->
-    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <!-- why would u overwrite my stylesheet with datatables stylesheet? -->
     <!-- stylesheets are cumulative. not replacement. -->
     <title>Smart City Data Collection</title>
@@ -406,10 +406,40 @@
                 }
             }, 500)
 
+            //if id="outerContainer" is present, set the element to display:none
+            setTimeout(function() {
+                console.log("Checking in 5 seconds")
+                if (map[0].contentWindow.getElementById("outerContainer") != null) {
+                    console.log("Found outerContainer")
+                    console.log(map[0].contentWindow.getElementById("outerContainer"))
+                    //the element is inside the iframe, so we need to access the iframe's document
+                    map[0].contentWindow.getElementById("outerContainer").style.display = "none"
+                }
+                else {
+                    console.log("outerContainer not found")
+                }
+            }, 5000)
+
         }
 
+        async function getContent(url) {
+            try {
+                
+                console.log('Request succeeded with response')
 
+            } catch (error) {
+                console.log('Request failed', error);
+            }
+        }
+
+        temp = ""
+        prev = ""
         function socrata_preview(url) {
+            if (url == prev) {
+                console.log("Socrata preview has already been called!")
+                return
+            }
+            prev = url
             console.log("Socrata preview has been called!")
             console.log("ORIGINAL LINK: ", url)
             //get the URL of the dataset up to the first "/"
@@ -426,10 +456,143 @@
             
             console.log("We will use https://" + cityurl + "/w/" + id)
             wurl = "https://" + cityurl + "/w/" + id
-
-            //get element with class map and set src=to the wurl
-            map[0].src = wurl
             
+            //Fixing the Socrata Stories CORS issue
+            //My solution is to actually recreate the Socrata Stories page
+            //So I downloaded their CSS and JS files and put them in a folder called "socrata-style"
+            //We just have to lead the document's hrefs and srcs which point to css/js files to the local files
+
+            //Return the html contents of the url into a variable
+            if (url.indexOf("stories") != -1 || url.indexOf("chart") != -1) {
+                if (url.indexOf("chart") != -1) {
+                    url = url.replace("?type=chart", "")
+                }
+                //map[0].src = "https://smartcity.tacc.utexas.edu/CityData/puppet?url=" + url + "?preview=true"
+                map[0].src = "http://localhost:5000/puppet?url=" + url + "?preview=true"
+                //Old Method of Integrating HTML into the page
+                // fetch(url)
+                //     .then(response => response.text())
+                //     .then(data =>
+                //     {
+                //         console.log("DATA")
+                //         console.log(data)
+                //         //map[0].outerHTML = data
+                //         console.log("Replaced map with Socrata Stories")
+                //         //instead of setting map[0]'s outerhtml to data, which would remove map[0]
+                //         //We will set map[0] from an iframe to a div
+                //         //if map is an iframe, set temp
+                //         if (map[0].tagName == "IFRAME") {
+                //             temp = map[0].outerHTML
+                //         }
+                //         map[0].outerHTML = "<div id='map' class='map'></div>"
+                //         map[0].innerHTML = data
+
+                //         //Cleaning up the Socrata page
+                // if (mapDoc.getElementsByClassName("banner")[0] != null) {
+                //     mapDoc.getElementsByClassName("banner")[0].style.display = "none"
+                // }
+                // if (mapDoc.getElementsByClassName("mobile-menu")[0] != null) {
+                //     mapDoc.getElementsByClassName("mobile-menu")[0].style.display = "none"
+                // }
+                // if (mapDoc.getElementsByTagName("footer")[0] != null) {
+                //     mapDoc.getElementsByTagName("footer")[0].style.display = "none"
+                // }
+                // if (mapDoc.getElementsByClassName("skip-links")[0] != null) {
+                //     mapDoc.getElementsByClassName("skip-links")[0].style.display = "none"
+                // }
+
+
+                //         //You should be able to scroll the map as well
+                //         //So we need to set the map's height to 100%
+                //         map[0].style.height = "100vh"
+                //         map[0].style.width = "105%"
+                //         map[0].style.marginTop = "0px"
+                //         //set map[0] overflow-y:auto;
+                //         map[0].style.overflowY = "auto"
+
+                //         //redo the css and js links
+                //         //point "/stories/assets/application-35d8e167f090a9f78b9767c1a60a4a2a8fcb96bfc2bee915907aebf122162b98.css" to static\socrata-css\application.css
+                //         //find href with "/stories/assets/application-35d8e167f090a9f78b9767c1a60a4a2a8fcb96bfc2bee915907aebf122162b98.css"
+                //         //replace with "static/socrata-css/application.css"
+                        
+                //         //delete all the link rel="stylesheet" tags
+                //         for (var i = 0; i < document.getElementsByTagName("link").length; i++) {
+                //             //if parent is map[0], delete the link tag
+                //             if (document.getElementsByTagName("link")[i].parentElement == map[0]) {
+                //                 document.getElementsByTagName("link")[i].remove()
+                //             }
+                //         }
+
+                //         //remove any <a> tag with "Return to previous page" as the text
+                //         for (var i = 0; i < document.getElementsByTagName("a").length; i++) {
+                //             if (document.getElementsByTagName("a")[i].innerText.indexOf("previous page") != -1) {
+                //                 document.getElementsByTagName("a")[i].remove()
+                //             }
+                //         }
+
+                //         //add a link tag with rel="stylesheet" href="static/socrata-css/application.css"
+                //         var link = document.createElement('link');
+                //         link.rel = 'stylesheet';
+                //         link.type = 'text/css';
+                //         link.href = 'static/socrata-css/themes.css';
+                //         //document.getElementsByTagName('head')[0].appendChild(link);
+                //         //add a link tag with rel="stylesheet" href="static/socrata-css/application.css"
+                //         var link2 = document.createElement('link');
+                //         link2.rel = 'stylesheet';
+                //         link2.type = 'text/css';
+                //         link2.href = 'static/socrata-css/application.css';
+                //         //document.getElementsByTagName('head')[0].appendChild(link2);
+                //         //link.href = 'static/socrata-css/application.css';
+                //         //document.getElementsByTagName('head')[0].appendChild(link);
+                //         //css should only affect the map
+                //         //so we will append the link tag to the map
+                //         //map[0].appendChild(link)
+                //         //
+
+                //     })
+                }
+                else {
+                    //get element with class map and set src=to the wurl
+                    // if (temp != "")
+                    //     {
+                    //     map[0].outerHTML = temp
+                    //     temp = ""
+                    //     }
+                    map[0].src = wurl
+                }
+                        
+            
+            // $.ajax({
+            //     url: "https://data.mesaaz.gov/resource/t5eh-v34z",
+            //     method: "GET",
+            //     dataType: "html",
+            //     success: function( data, status, jqxhr ){
+            //         //console.log( "Request received:", data );
+            //     },
+            //     error: function( jqxhr, status, error ){
+            //         console.log( "Something went wrong!" );
+            //     }
+            //     });
+            //iframe the above ajax request
+            //AJAX can access the contents of the page normally, but iframe cannot
+            //so use AJAX to get the contents of the page and then iframe it
+            // $.ajax({
+            //     url: "https://data.austintexas.gov/resource/68h3-vepv",
+            //     method: "GET",
+            //     dataType: "html",
+            //     success: function( data, status, jqxhr ){
+            //         //console.log( "Request received:", data );
+            //         console.log("SETTING INNER HTML")
+            //         //iframe the data
+            //         map[0].outerHTML = data
+            //     },
+            //     error: function( jqxhr, status, error ){
+            //         console.log( "Something went wrong!" );
+            //     }
+            //     });
+
+
+
             //getting the correct Socrata data type
             // data_url = "https://" + cityurl + "/views/" + id
             // console.log("data_url is", data_url)
@@ -577,6 +740,10 @@
             console.log(data)
             console.log(data.type)
             map_id = data.id
+            //if data.id is undefined, set map_id to arcgis_id
+            if (map_id == undefined) {
+                map_id = arcgis_id
+            }
             //if the type is a webmap
             // if (data.type == "Web Map") {
             //     map_url = "https://www.arcgis.com/apps/Embed/index.html?webmap=" + map_id

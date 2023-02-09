@@ -20,6 +20,8 @@ import re
 # api formatting
 from jinja2 import evalcontextfilter
 from markupsafe import Markup, escape
+# for puppeteer
+import subprocess
 
 lat = 30.2672
 lon = -97.7431
@@ -162,6 +164,8 @@ def index():
         # returnlist = mainprogram(city.name,form.state.data, request.form['content_topic'])
         if url_call is False:
             mispelt = spellcheck()
+        elif api_call:
+            mispelt = ""
         else:
             mispelt = spellcheck(topic=topic)
 
@@ -211,6 +215,14 @@ def index():
 @app.route('/api')
 def show_user_api():
     return render_template('api.html')
+
+@app.route('/puppet')
+def run_js_file():
+    url = request.args.get('url')
+    if not url:
+        return "Bad request: 'url' param is missing!", 400
+    result = subprocess.run(['node', 'puppet.js', url], capture_output=True)
+    return result.stdout
 
 @app.route('/updateCoords')
 def updateCoords(city, state):
